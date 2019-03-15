@@ -118,7 +118,7 @@ public class TPSIServer {
                 byte[] byteStr = randStr.getBytes();
 
                 exchange.getResponseHeaders().set("Content-Type", "application/json");
-                exchange.getResponseHeaders().set("Set-Cookie", randStr);
+                exchange.getResponseHeaders().set("Set-Cookie", randStr+"ciasteczko");
                 exchange.sendResponseHeaders(200,randStr.length());
 
                 OutputStream os = exchange.getResponseBody();
@@ -150,7 +150,7 @@ public class TPSIServer {
 
                    String[] data = decoded.split(":");
                    //System.out.println(data.length);
-                   if(data.length>0 )
+                   if(data.length>1 )
                    if(data[0].equals("user") && data[1].equals("password")){
                        err = 200;
                        text = "Hello World /auth/!";
