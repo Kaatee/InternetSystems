@@ -83,6 +83,12 @@ public class NewServer {
                 os.close();
 
             } catch (Exception e) {
+                String msg = "Nie ma takiego pliku";
+                byte[] toDisplay= msg.getBytes();
+                exchange.sendResponseHeaders(404, toDisplay.length);
+                OutputStream os = exchange.getResponseBody();
+                os.write(toDisplay);
+                os.close();
                 e.printStackTrace();
             }
         }
