@@ -1,3 +1,8 @@
+package model;
+
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Course {
     private int id;
     private String name;

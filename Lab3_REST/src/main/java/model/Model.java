@@ -1,4 +1,5 @@
-import javax.ws.rs.Path;
+package model;
+
 import java.util.ArrayList;
 
 public class Model { //singleton

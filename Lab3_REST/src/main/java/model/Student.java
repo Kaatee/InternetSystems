@@ -1,8 +1,14 @@
+package model;
+
+import model.Grade;
+
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Date;
 
+@XmlRootElement
 public class Student {
-    private int index;
+    private int index; //uniq
     private String name;
     private String surname;
     private Date birthdate;

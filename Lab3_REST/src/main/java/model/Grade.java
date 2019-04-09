@@ -1,10 +1,17 @@
+package model;
+
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
+
+@XmlRootElement
 public class Grade {
     private int id;
-    private float value;
+    private float value; //2.0-5.0 step = 0.5 (can be 2.5)
     private Date date;
     private Course course;
+
+    public Grade(){}
 
     public Grade(int id, float value, Date date, Course course){
         this.id = id;
