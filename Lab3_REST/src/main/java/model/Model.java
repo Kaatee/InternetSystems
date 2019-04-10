@@ -2,6 +2,9 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import static java.lang.System.in;
 
 public class Model { //singleton
     HashMap<Integer, Student> students = new HashMap<>();
@@ -47,4 +50,28 @@ public class Model { //singleton
     public HashMap getGrades() { return grades; }
 
     public void setGrades(HashMap grades) { this.grades = grades; }
+
+    public void deleteCourse(int courseID){
+        this.getCourses().remove(courseID);
+
+        //for each student participated course delete grade
+        for(Student s : students.values()){
+            Grade[] studentsGrades = s.getGradesList();
+            List<Grade> newGrades = new ArrayList<>();
+            for(Grade g: studentsGrades){
+                if(g.getCourse().getId()==courseID){
+                    this.grades.remove(g.getCourse().getId());
+                }
+                else{
+                    newGrades.add(g);
+                }
+            }
+            s.setGradesList(newGrades.toArray(new Grade[newGrades.size()]));
+        }
+
+
+
+
+
+    }
 }

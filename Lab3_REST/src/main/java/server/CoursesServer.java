@@ -4,12 +4,11 @@ import app.Constants;
 import app.Deserializer;
 import app.Main;
 import model.Course;
+import model.Grade;
 import model.Model;
+import model.Student;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 
@@ -55,6 +54,28 @@ public class CoursesServer {
             return response;
         }
         Response response = Response.status(200).entity(result).build();
+        return response;
+    }
+
+
+    @DELETE
+    @Path("/{courseId}") //delete course with all course's grades
+    public Response deleteCourse(@PathParam("courseId") String courseId) {
+        Response response;
+        try {
+            deserializer = Deserializer.getInstance(Main.PATH);
+            model = deserializer.getModel();
+            if(model.getCourses().containsKey(Integer.parseInt(courseId))) {
+
+                model.deleteCourse(Integer.parseInt(courseId));
+                System.out.println("Jestem tu");
+                response = Response.status(200).type(Constants.PLAIN_TEXT).entity(Constants.DELETED_SUCCESSFULY).build();
+                return response;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
         return response;
     }
 }
