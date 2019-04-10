@@ -1,13 +1,18 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Model { //singleton
-
-    private ArrayList<Student> students;
-    private ArrayList<Course> courses;
-    private ArrayList<Grade> grades;
+    HashMap<Integer, Student> students = new HashMap<>();
+    HashMap<Integer, Course> courses = new HashMap<>();
+    HashMap<Integer, Grade> grades = new HashMap<>();
     private static volatile Model instance = null;
+
+    //private ArrayList<Student> students;
+    //private ArrayList<Course> courses;
+    //private ArrayList<Grade> grades;
+
 
     private Model(){}
 
@@ -23,27 +28,23 @@ public class Model { //singleton
     }
 
 
-    public ArrayList<Student> getStudents() {
+    public HashMap getStudents() {
         return students;
     }
 
-    public void setStudents(ArrayList<Student> students) {
+    public void setStudents(HashMap students) {
         this.students = students;
     }
 
-    public ArrayList<Course> getCourses() {
+    public HashMap getCourses() {
         return courses;
     }
 
-    public void setCourses(ArrayList<Course> courses) {
+    public void setCourses(HashMap courses) {
         this.courses = courses;
     }
 
-    public ArrayList<Grade> getGrades() {
-        return grades;
-    }
+    public HashMap getGrades() { return grades; }
 
-    public void setGrades(ArrayList<Grade> grades) {
-        this.grades = grades;
-    }
+    public void setGrades(HashMap grades) { this.grades = grades; }
 }

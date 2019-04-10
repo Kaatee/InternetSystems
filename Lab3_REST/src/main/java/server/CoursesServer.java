@@ -36,17 +36,13 @@ public class CoursesServer {
     @Path("/{courseId}")
     @Produces("application/json")
     public Response getCourseById(@PathParam("courseId") String courseId){
-        int courseIdInt = Integer.parseInt(courseId);
         String result = "";
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
-            for(Course course: model.getCourses()){
-                if(course.getId()==courseIdInt){
-                    result = deserializer.getMapper().writeValueAsString(course);
-                    break;
-                }
-            }
+            Course course = (Course) model.getCourses().get(Integer.parseInt(courseId));
+            result = deserializer.getMapper().writeValueAsString(course);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,7 +51,6 @@ public class CoursesServer {
             Response response = Response.status(404).type("text/plain").entity("No results fount").build();
             return response;
         }
-
         Response response = Response.status(200).entity(result).build();
         return response;
     }

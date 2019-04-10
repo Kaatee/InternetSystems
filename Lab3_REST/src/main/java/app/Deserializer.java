@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class Deserializer {
     private static Deserializer instance;
@@ -30,15 +31,18 @@ public class Deserializer {
 
             //construct model object
             model = Model.getInstance();
-            ArrayList<Student> studentsList= new ArrayList<>(Arrays.asList(instance.studentsList.getStudents()));
+            HashMap<Integer, Student> studentsList = new HashMap<>();
+            for(Student s: instance.studentsList.getStudents()){
+                studentsList.put(s.getIndex(), s);
+            }
 
-            ArrayList<Grade> gradesList = new ArrayList<>();
-            ArrayList<Course> coursesList = new ArrayList<>();
+            HashMap gradesList = new HashMap();
+            HashMap coursesList = new HashMap();
 
-            for(Student student: studentsList){
-                gradesList.addAll(Arrays.asList(student.getGradesList()));
-                for(int i=0; i<student.getGradesList().length; i++){
-                    coursesList.add(student.getGradesList()[i].getCourse());
+            for(Student student: studentsList.values()){
+                for(Grade g: student.getGradesList()) {
+                    gradesList.put(g.getId(), g);
+                    coursesList.put(g.getCourse().getId(), g.getCourse());
                 }
             }
 
