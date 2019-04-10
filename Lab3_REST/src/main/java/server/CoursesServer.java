@@ -1,5 +1,6 @@
 package server;
 
+import app.Constants;
 import app.Deserializer;
 import app.Main;
 import model.Course;
@@ -18,7 +19,7 @@ public class CoursesServer {
     private Model model;
 
     @GET
-    @Produces("application/json")
+    @Produces(Constants.APPLICATION_JSON)
     public String getCoursesList(){
         String result = "";
         try {
@@ -34,21 +35,23 @@ public class CoursesServer {
 
     @GET
     @Path("/{courseId}")
-    @Produces("application/json")
+    @Produces(Constants.APPLICATION_JSON)
     public Response getCourseById(@PathParam("courseId") String courseId){
         String result = "";
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
-            Course course = (Course) model.getCourses().get(Integer.parseInt(courseId));
-            result = deserializer.getMapper().writeValueAsString(course);
+            if(model.getCourses().containsKey(Integer.parseInt(courseId))) {
+                Course course = (Course) model.getCourses().get(Integer.parseInt(courseId));
+                result = deserializer.getMapper().writeValueAsString(course);
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         if(result.equals("")){
-            Response response = Response.status(404).type("text/plain").entity("No results fount").build();
+            Response response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
             return response;
         }
         Response response = Response.status(200).entity(result).build();

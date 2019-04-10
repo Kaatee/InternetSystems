@@ -63,7 +63,7 @@ public class Deserializer {
     }
 
     public static Model getModel() {
-        return model;
+        return model.getInstance();
     }
 
     public static void setModel(Model model) {

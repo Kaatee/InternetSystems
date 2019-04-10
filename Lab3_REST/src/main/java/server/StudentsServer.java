@@ -1,5 +1,6 @@
 package server;
 
+import app.Constants;
 import app.Deserializer;
 import app.Main;
 import model.Grade;
@@ -7,10 +8,7 @@ import model.Model;
 import model.Student;
 import model.StudentsListToDeserialize;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,7 +19,7 @@ public class StudentsServer {
     private Model model;
 
     @GET
-    @Produces("application/json")
+    @Produces(Constants.APPLICATION_JSON)
     public String getStudentsList() {
         String result = "";
         try {
@@ -37,7 +35,7 @@ public class StudentsServer {
 
     @GET
     @Path("/{indexNumber}")
-    @Produces("application/json")
+    @Produces(Constants.APPLICATION_JSON)
     public Response getStudentByIndex(@PathParam("indexNumber") String indexNumber) {
         String result = "";
         int indexNumberInt = Integer.parseInt(indexNumber);
@@ -45,21 +43,16 @@ public class StudentsServer {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
 
-            StudentsListToDeserialize stResult = new StudentsListToDeserialize();
-            Student[] students = new Student[1];
             HashMap<Integer, Student> studentsList = model.getStudents();
             Student student = studentsList.get(indexNumberInt);
-
-            students[0] = student;
-            stResult.setStudents(students);
-            result = deserializer.getMapper().writeValueAsString(stResult);
+            result = deserializer.getMapper().writeValueAsString(student);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         if(result.equals("")){
-            Response response = Response.status(404).type("text/plain").entity("No results fount").build();
+            Response response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
             return response;
         }
         Response response = Response.status(200).entity(result).build();
@@ -69,7 +62,7 @@ public class StudentsServer {
 
     @GET
     @Path("/{indexNumber}/grades/{gradeId}")
-    @Produces("application/json")
+    @Produces(Constants.APPLICATION_JSON)
     public Response getStudentGradeById(@PathParam("indexNumber") String indexNumber, @PathParam("gradeId") String gradeId) {
         String result = "";
         try {
@@ -90,7 +83,7 @@ public class StudentsServer {
         }
 
         if(result.equals("")){
-            Response response = Response.status(404).type("text/plain").entity("No results fount").build();
+            Response response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
             return response;
         }
 
@@ -101,7 +94,7 @@ public class StudentsServer {
 
     @GET
     @Path("/{indexNumber}/grades")
-    @Produces("application/json")
+    @Produces(Constants.APPLICATION_JSON)
     public Response getStudentGrades(@PathParam("indexNumber") String indexNumber) {
         String result = "";
         try {
@@ -116,10 +109,72 @@ public class StudentsServer {
         }
 
         if(result.equals("")){
-            Response response = Response.status(404).type("text/plain").entity("No results fount").build();
+            Response response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
             return response;
         }
         Response response = Response.status(200).entity(result).build();
+        return response;
+    }
+
+
+    @DELETE
+    @Path("/{indexNumber}") //delete student
+    public Response deleteStudent(@PathParam("indexNumber") String indexNumber) {
+        Response response;
+        try {
+            deserializer = Deserializer.getInstance(Main.PATH);
+            model = deserializer.getModel();
+            if(model.getStudents().containsKey(Integer.parseInt(indexNumber))) {
+                //Delete student's grades
+                Student student = (Student) model.getStudents().get(Integer.parseInt(indexNumber));
+                Grade[] grades = student.getGradesList();
+                for(Grade g: grades){
+                    model.getGrades().remove(g.getId());
+                }
+
+                //delete student
+                model.getStudents().remove(Integer.parseInt(indexNumber));
+                response = Response.status(200).type(Constants.PLAIN_TEXT).entity(Constants.DELETED_SUCCESSFULY).build();
+                return response;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
+        return response;
+    }
+
+    @DELETE
+    @Path("/{indexNumber}/grades/{gradeId}") //delete student's grade
+    public Response deleteStudentGrade(@PathParam("indexNumber") String indexNumber, @PathParam("gradeId") String gradeId) {
+        Response response;
+        try {
+            deserializer = Deserializer.getInstance(Main.PATH);
+            model = deserializer.getModel();
+            if(model.getStudents().containsKey(Integer.parseInt(indexNumber))) {
+                //Delete student's grades
+                Student student = (Student) model.getStudents().get(Integer.parseInt(indexNumber));
+                Grade[] grades = student.getGradesList();
+                Grade[] newGrades = new Grade[grades.length];
+                int i=0;
+                for(Grade g: grades){
+                    if(g.getId() == Integer.parseInt(gradeId) ) {
+                        model.getGrades().remove(g.getId());
+                    }
+                    else{
+                        newGrades[i] = g;
+                        i++;
+                    }
+                }
+                student.setGradesList(newGrades);
+
+                response = Response.status(200).type(Constants.PLAIN_TEXT).entity(Constants.DELETED_SUCCESSFULY).build();
+                return response;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
         return response;
     }
 }
