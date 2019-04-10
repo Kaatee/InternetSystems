@@ -19,7 +19,6 @@ import java.util.ArrayList;
 public class StudentsServer {
     private Deserializer deserializer;
     private Model model;
-    private StudentsListToDeserialize studentsList;
 
     @GET
     @Produces("application/json")
@@ -27,9 +26,7 @@ public class StudentsServer {
         String result = "";
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
-            studentsList = deserializer.getStudentsList();
             model = deserializer.getModel();
-
 
             result = deserializer.getMapper().writeValueAsString(model.getStudents());
 
@@ -47,7 +44,6 @@ public class StudentsServer {
         int indexNumberInt = Integer.parseInt(indexNumber);
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
-            studentsList = deserializer.getStudentsList();
             model = deserializer.getModel();
 
             StudentsListToDeserialize stResult = new StudentsListToDeserialize();
@@ -64,17 +60,15 @@ public class StudentsServer {
                     break;
                 }
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         if(result.equals("")){
-            Response response = Response.status(404).type("text/plain").entity("No results fount").header("headerName", "headerValue").build();
+            Response response = Response.status(404).type("text/plain").entity("No results fount").build();
             return response;
         }
-
-        Response response = Response.status(200).entity(result).header("yourHeaderName", "yourHeaderValue").build();
+        Response response = Response.status(200).entity(result).build();
         return response;
     }
 
@@ -88,7 +82,6 @@ public class StudentsServer {
         int gradeIdInt = Integer.parseInt(gradeId);
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
-            studentsList = deserializer.getStudentsList();
             model = deserializer.getModel();
             Student st;
 
@@ -107,17 +100,16 @@ public class StudentsServer {
                     break;
                 }
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         if(result.equals("")){
-            Response response = Response.status(404).type("text/plain").entity("No results fount").header("headerName", "headerValue").build();
+            Response response = Response.status(404).type("text/plain").entity("No results fount").build();
             return response;
         }
 
-        Response response = Response.status(200).entity(result).header("yourHeaderName", "yourHeaderValue").build();
+        Response response = Response.status(200).entity(result).build();
         return response;
     }
 
@@ -130,12 +122,10 @@ public class StudentsServer {
         int indexNumberInt = Integer.parseInt(indexNumber);
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
-            studentsList = deserializer.getStudentsList();
             model = deserializer.getModel();
             Student st;
 
             ArrayList<Student> studentsList = model.getStudents();
-
 
             for(Student student: studentsList){
                 if(student.getIndex()==indexNumberInt){
@@ -151,11 +141,11 @@ public class StudentsServer {
         }
 
         if(result.equals("")){
-            Response response = Response.status(404).type("text/plain").entity("No results fount").header("headerName", "headerValue").build();
+            Response response = Response.status(404).type("text/plain").entity("No results fount").build();
             return response;
         }
 
-        Response response = Response.status(200).entity(result).header("yourHeaderName", "yourHeaderValue").build();
+        Response response = Response.status(200).entity(result).build();
         return response;
     }
 

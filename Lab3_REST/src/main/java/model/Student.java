@@ -2,6 +2,7 @@ package model;
 
 import model.Grade;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,7 +10,10 @@ import java.util.Date;
 
 @XmlRootElement
 public class Student {
+
+    @XmlElement(name="surname")
     private int index; //uniq
+
     private String name;
     private String surname;
     private String birthdate; ///TODO change to Date
