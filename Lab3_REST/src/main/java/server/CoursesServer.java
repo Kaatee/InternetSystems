@@ -66,9 +66,7 @@ public class CoursesServer {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
             if(model.getCourses().containsKey(Integer.parseInt(courseId))) {
-
                 model.deleteCourse(Integer.parseInt(courseId));
-                System.out.println("Jestem tu");
                 response = Response.status(200).type(Constants.PLAIN_TEXT).entity(Constants.DELETED_SUCCESSFULY).build();
                 return response;
             }
@@ -76,6 +74,29 @@ public class CoursesServer {
             e.printStackTrace();
         }
         response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
+        return response;
+    }
+
+    @POST
+    @Consumes(Constants.APPLICATION_JSON)
+    public Response addCourse(Course course) {
+        Response response = null;
+        try {
+            deserializer = Deserializer.getInstance(Main.PATH);
+            model = deserializer.getModel();
+            if (model.getCourses().containsKey(course.getId())) {
+                response = Response.status(404).type("Course with given id exists").entity(Constants.RESULT_NOT_FOUND).build();
+            } else {
+                if (course == null) {
+                    response = Response.status(404).type("You cannot add empty course").entity(Constants.RESULT_NOT_FOUND).build();
+                } else {
+                    model.getCourses().put(course.getId(), course);
+                    response = Response.status(201).type(Constants.PLAIN_TEXT).entity(Constants.ADDED_SUCCESSFULY).build();
+                }
+            }
+        } catch (Exception e) {
+        }
+
         return response;
     }
 }

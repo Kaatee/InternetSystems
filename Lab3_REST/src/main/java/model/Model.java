@@ -10,6 +10,7 @@ public class Model { //singleton
     HashMap<Integer, Student> students = new HashMap<>();
     HashMap<Integer, Course> courses = new HashMap<>();
     HashMap<Integer, Grade> grades = new HashMap<>();
+
     private static volatile Model instance = null;
 
     //private ArrayList<Student> students;
@@ -68,10 +69,20 @@ public class Model { //singleton
             }
             s.setGradesList(newGrades.toArray(new Grade[newGrades.size()]));
         }
+    }
 
+    public void addStudent(Student student){
+        this.students.put(student.getIndex(), student);
 
+        if(student.getGradesList()!=null) {
+            for (Grade grade : student.getGradesList()) {
+                this.grades.put(grade.getId(), grade);
+                this.courses.put(grade.getCourse().getId(), grade.getCourse());
+            }
+        }
+    }
 
-
-
+    public void addGradeToStudent(Grade grade, int studentId){
+        students.get(studentId).addGrade(grade);
     }
 }

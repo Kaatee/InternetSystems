@@ -23,6 +23,7 @@ public class StudentsServer {
     public String getStudentsList() {
         String result = "";
         try {
+            System.out.println("Jestem tu");
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
             result = deserializer.getMapper().writeValueAsString(model.getStudents());
@@ -51,7 +52,7 @@ public class StudentsServer {
             e.printStackTrace();
         }
 
-        if(result.equals("")){
+        if (result.equals("")) {
             Response response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
             return response;
         }
@@ -72,8 +73,8 @@ public class StudentsServer {
             HashMap<Integer, Student> studentsList = model.getStudents();
             Student student = studentsList.get(Integer.parseInt(indexNumber));
 
-            for(Grade g: student.getGradesList()) {
-                if(g.getId()==Integer.parseInt(gradeId)) {
+            for (Grade g : student.getGradesList()) {
+                if (g.getId() == Integer.parseInt(gradeId)) {
                     result = deserializer.getMapper().writeValueAsString(g);
                     break;
                 }
@@ -82,7 +83,7 @@ public class StudentsServer {
             e.printStackTrace();
         }
 
-        if(result.equals("")){
+        if (result.equals("")) {
             Response response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
             return response;
         }
@@ -108,7 +109,7 @@ public class StudentsServer {
             e.printStackTrace();
         }
 
-        if(result.equals("")){
+        if (result.equals("")) {
             Response response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
             return response;
         }
@@ -124,11 +125,11 @@ public class StudentsServer {
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
-            if(model.getStudents().containsKey(Integer.parseInt(indexNumber))) {
+            if (model.getStudents().containsKey(Integer.parseInt(indexNumber))) {
                 //Delete student's grades
                 Student student = (Student) model.getStudents().get(Integer.parseInt(indexNumber));
                 Grade[] grades = student.getGradesList();
-                for(Grade g: grades){
+                for (Grade g : grades) {
                     model.getGrades().remove(g.getId());
                 }
 
@@ -151,17 +152,16 @@ public class StudentsServer {
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
-            if(model.getStudents().containsKey(Integer.parseInt(indexNumber))) {
+            if (model.getStudents().containsKey(Integer.parseInt(indexNumber))) {
                 //Delete student's grades
                 Student student = (Student) model.getStudents().get(Integer.parseInt(indexNumber));
                 Grade[] grades = student.getGradesList();
                 Grade[] newGrades = new Grade[grades.length];
-                int i=0;
-                for(Grade g: grades){
-                    if(g.getId() == Integer.parseInt(gradeId) ) {
+                int i = 0;
+                for (Grade g : grades) {
+                    if (g.getId() == Integer.parseInt(gradeId)) {
                         model.getGrades().remove(g.getId());
-                    }
-                    else{
+                    } else {
                         newGrades[i] = g;
                         i++;
                     }
@@ -175,6 +175,65 @@ public class StudentsServer {
             e.printStackTrace();
         }
         response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
+        return response;
+    }
+
+    @POST
+    @Consumes(Constants.APPLICATION_JSON)
+    @Produces(Constants.APPLICATION_JSON)
+    public Response addStudent(Student student) {
+        Response response = null;
+        try {
+            deserializer = Deserializer.getInstance(Main.PATH);
+            model = deserializer.getModel();
+            if (model.getStudents().containsKey(student.getIndex())) {
+                response = Response.status(404).type("Student with given index exists").entity(Constants.RESULT_NOT_FOUND).build();
+            } else {
+                if (student == null) {
+                    response = Response.status(404).type("You cannot add empty student").entity(Constants.RESULT_NOT_FOUND).build();
+                } else {
+                    model.addStudent(student);
+                    response = Response.status(201).type(Constants.PLAIN_TEXT).entity(Constants.ADDED_SUCCESSFULY).build();
+
+                }
+            }
+        } catch (Exception e) {
+        }
+
+        return response;
+    }
+
+
+    @POST
+    @Consumes(Constants.APPLICATION_JSON)
+    @Produces(Constants.APPLICATION_JSON)
+    @Path("/{indexNumber}/grades")
+    public Response addSStudentGrade(@PathParam("indexNumber") String indexNumber, Grade grade) {
+        Response response = null;
+        try {
+            deserializer = Deserializer.getInstance(Main.PATH);
+            model = deserializer.getModel();
+
+            deserializer = Deserializer.getInstance(Main.PATH);
+            model = deserializer.getModel();
+            if (model.getGrades().containsKey(grade.getId())) {
+                response = Response.status(404).type("Grade with given id exists").entity(Constants.RESULT_NOT_FOUND).build();
+            } else {
+                if (grade == null) {
+                    response = Response.status(404).type("You cannot add empty grade").entity(Constants.RESULT_NOT_FOUND).build();
+                } else {
+                    model.getGrades().put(grade.getId(), grade);
+                    model.addGradeToStudent(grade, Integer.parseInt(indexNumber));
+                    if(!model.getCourses().containsKey(grade.getCourse().getId())) {
+                        model.getCourses().put(grade.getCourse().getId(), grade.getCourse());
+                    }
+                    response = Response.status(201).type(Constants.PLAIN_TEXT).entity(Constants.ADDED_SUCCESSFULY).build();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return response;
     }
 }

@@ -11,12 +11,18 @@ import java.util.Date;
 @XmlRootElement
 public class Student {
 
-    @XmlElement(name="surname")
+    @XmlElement(name="index")
     private int index; //uniq
 
+    @XmlElement(name="name")
     private String name;
+
+    @XmlElement(name="surname")
     private String surname;
+
+    @XmlElement(name="birthdate")
     private String birthdate; ///TODO change to Date
+
     private Grade[] gradesList;
 
     public Student(){}
@@ -68,6 +74,15 @@ public class Student {
 
     public void setGradesList(Grade[] gradesList) {
         this.gradesList = gradesList;
+    }
+
+    public void addGrade(Grade grade){
+        Grade[] newGrades = new Grade[gradesList.length + 1];
+        for (int i=0 ;  i< gradesList.length; i++){
+            newGrades[i] = gradesList[i];
+        }
+        newGrades[gradesList.length] = grade;
+        this.setGradesList(newGrades);
     }
 }
 
