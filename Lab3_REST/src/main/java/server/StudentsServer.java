@@ -2,6 +2,7 @@ package server;
 
 import app.Deserializer;
 import app.Main;
+import model.Grade;
 import model.Model;
 import model.Student;
 import model.StudentsListToDeserialize;
@@ -77,6 +78,86 @@ public class StudentsServer {
         return response;
     }
 
+
+    @GET
+    @Path("/{indexNumber}/grades/{gradeId}")
+    @Produces("application/json")
+    public Response getStudentGradeById(@PathParam("indexNumber") String indexNumber, @PathParam("gradeId") String gradeId) {
+        String result = "";
+        int indexNumberInt = Integer.parseInt(indexNumber);
+        int gradeIdInt = Integer.parseInt(gradeId);
+        try {
+            deserializer = Deserializer.getInstance(Main.PATH);
+            studentsList = deserializer.getStudentsList();
+            model = deserializer.getModel();
+            Student st;
+
+            ArrayList<Student> studentsList = model.getStudents();
+
+            for(Student student: studentsList){
+                if(student.getIndex()==indexNumberInt){
+                    st = student;
+
+                    for(Grade grade: st.getGradesList()) {
+                        if(grade.getId()==gradeIdInt) {
+                            result = deserializer.getMapper().writeValueAsString(grade);
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(result.equals("")){
+            Response response = Response.status(404).type("text/plain").entity("No results fount").header("headerName", "headerValue").build();
+            return response;
+        }
+
+        Response response = Response.status(200).entity(result).header("yourHeaderName", "yourHeaderValue").build();
+        return response;
+    }
+
+
+    @GET
+    @Path("/{indexNumber}/grades")
+    @Produces("application/json")
+    public Response getStudentGrades(@PathParam("indexNumber") String indexNumber) {
+        String result = "";
+        int indexNumberInt = Integer.parseInt(indexNumber);
+        try {
+            deserializer = Deserializer.getInstance(Main.PATH);
+            studentsList = deserializer.getStudentsList();
+            model = deserializer.getModel();
+            Student st;
+
+            ArrayList<Student> studentsList = model.getStudents();
+
+
+            for(Student student: studentsList){
+                if(student.getIndex()==indexNumberInt){
+                    st = student;
+                    Grade[] grades = st.getGradesList();
+                    result = deserializer.getMapper().writeValueAsString(grades);
+                    break;
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(result.equals("")){
+            Response response = Response.status(404).type("text/plain").entity("No results fount").header("headerName", "headerValue").build();
+            return response;
+        }
+
+        Response response = Response.status(200).entity(result).header("yourHeaderName", "yourHeaderValue").build();
+        return response;
+    }
 
 
 }

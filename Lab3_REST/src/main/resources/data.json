@@ -16,6 +16,17 @@
               "name": "informatyka",
               "teacherName": "Jan Kowalski"
             }
+        },
+        {
+          "id": "2",
+          "value": "5.0",
+          "date": "2016-10-01",
+          "course":
+          {
+            "id": "3",
+            "name": "matematyka",
+            "teacherName": "Jan Nowak"
+          }
         }
       ]
     },
