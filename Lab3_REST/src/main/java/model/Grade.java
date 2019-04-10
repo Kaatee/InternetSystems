@@ -3,17 +3,16 @@ package model;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
-
 @XmlRootElement
 public class Grade {
     private int id;
     private float value; //2.0-5.0 step = 0.5 (can be 2.5)
-    private Date date;
+    private String date; ///TODO change to date
     private Course course;
 
     public Grade(){}
 
-    public Grade(int id, float value, Date date, Course course){
+    public Grade(int id, float value, String date, Course course){
         this.id = id;
         this.value = value;
         this.date = date;
@@ -36,11 +35,11 @@ public class Grade {
         this.value = value;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

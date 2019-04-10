@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Model { //singleton
 
-    private ArrayList<Student> studentsList;
-    private ArrayList<Course> coursesList;
+    private ArrayList<Student> students;
+    private ArrayList<Course> courses;
     private static volatile Model instance = null;
 
     private Model(){}
@@ -22,8 +22,19 @@ public class Model { //singleton
     }
 
 
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
 
+    public void setStudents(ArrayList<Student> students) {
+        this.students = students;
+    }
 
+    public ArrayList<Course> getCourses() {
+        return courses;
+    }
 
-
+    public void setCourses(ArrayList<Course> courses) {
+        this.courses = courses;
+    }
 }

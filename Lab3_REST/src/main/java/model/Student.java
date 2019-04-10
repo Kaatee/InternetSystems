@@ -11,10 +11,12 @@ public class Student {
     private int index; //uniq
     private String name;
     private String surname;
-    private Date birthdate;
+    private String birthdate; ///TODO change to Date
     private ArrayList<Grade> gradesList;
 
-    public Student(int index, String name, String surname, Date birthdate, ArrayList<Grade> gradesList){
+    public Student(){}
+
+    public Student(int index, String name, String surname, String birthdate, ArrayList<Grade> gradesList){
         this.index = index;
         this.name = name;
         this.surname = surname;
@@ -47,11 +49,11 @@ public class Student {
         this.surname = surname;
     }
 
-    public Date getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
 
