@@ -2,11 +2,12 @@ package app;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import model.Model;
-import model.StudentsListToDeserialize;
+import model.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Deserializer {
     private static Deserializer instance;
@@ -26,6 +27,24 @@ public class Deserializer {
 
             instance.mapper = new ObjectMapper();
             instance.studentsList = mapper.readValue(new File(instance.path), StudentsListToDeserialize.class);
+
+            //construct model object
+            model = Model.getInstance();
+            ArrayList<Student> studentsList= new ArrayList<>(Arrays.asList(instance.studentsList.getStudents()));
+
+            ArrayList<Grade> gradesList = new ArrayList<>();
+            ArrayList<Course> coursesList = new ArrayList<>();
+
+            for(Student student: studentsList){
+                gradesList.addAll(Arrays.asList(student.getGradesList()));
+                for(int i=0; i<student.getGradesList().length; i++){
+                    coursesList.add(student.getGradesList()[i].getCourse());
+                }
+            }
+
+            model.setCourses(coursesList);
+            model.setGrades(gradesList);
+            model.setStudents(studentsList);
         }
 
         return instance;

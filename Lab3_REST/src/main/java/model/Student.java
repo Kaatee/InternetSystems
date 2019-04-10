@@ -4,6 +4,7 @@ import model.Grade;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 @XmlRootElement
@@ -12,16 +13,16 @@ public class Student {
     private String name;
     private String surname;
     private String birthdate; ///TODO change to Date
-    private ArrayList<Grade> gradesList;
+    private Grade[] gradesList;
 
     public Student(){}
 
-    public Student(int index, String name, String surname, String birthdate, ArrayList<Grade> gradesList){
+    public Student(int index, String name, String surname, String birthdate, Grade[] gradesList){
         this.index = index;
         this.name = name;
         this.surname = surname;
         this.birthdate = birthdate;
-        this.gradesList = new ArrayList<>(gradesList);
+        this.gradesList = gradesList;
     }
 
 
@@ -57,11 +58,11 @@ public class Student {
         this.birthdate = birthdate;
     }
 
-    public ArrayList getGradesList() {
+    public Grade[] getGradesList() {
         return gradesList;
     }
 
-    public void setGradesList(ArrayList gradesList) {
+    public void setGradesList(Grade[] gradesList) {
         this.gradesList = gradesList;
     }
 }

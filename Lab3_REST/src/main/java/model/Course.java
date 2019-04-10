@@ -8,6 +8,8 @@ public class Course {
     private String name;
     private String teacherName;
 
+    public Course(){}
+
     public Course(int id, String name, String teacherName){
         this.id = id;
         this.name = name;

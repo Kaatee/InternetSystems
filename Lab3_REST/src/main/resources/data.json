@@ -1,6 +1,7 @@
 {
   "students": [
     {
+      "index": "127237",
       "name": "Katarzyna",
       "surname": "Jozwiak",
       "birthdate": "2015-10-01",
@@ -9,17 +10,17 @@
           "id": "1",
           "value": "4.5",
           "date": "2015-10-01",
-          "course": [
+          "course":
             {
-              "id": "5",
+              "id": "1",
               "name": "informatyka",
-              "teacherName ": "Jan Kowalski"
+              "teacherName": "Jan Kowalski"
             }
-          ]
         }
       ]
     },
     {
+      "index": "127245",
       "name": "Piotr",
       "surname": "Pawlaczyk",
       "birthdate": "21-10-1995",
@@ -28,13 +29,12 @@
           "id": "2",
           "value": "5.0",
           "date": "2013-12-09",
-          "course": [
+          "course":
             {
               "id": "5",
               "name": "wf",
-              "teacherName ": "Janina Nowak"
+              "teacherName": "Janina Nowak"
             }
-          ]
         }
       ]
     }

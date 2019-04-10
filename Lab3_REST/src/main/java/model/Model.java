@@ -6,6 +6,7 @@ public class Model { //singleton
 
     private ArrayList<Student> students;
     private ArrayList<Course> courses;
+    private ArrayList<Grade> grades;
     private static volatile Model instance = null;
 
     private Model(){}
@@ -36,5 +37,13 @@ public class Model { //singleton
 
     public void setCourses(ArrayList<Course> courses) {
         this.courses = courses;
+    }
+
+    public ArrayList<Grade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(ArrayList<Grade> grades) {
+        this.grades = grades;
     }
 }
