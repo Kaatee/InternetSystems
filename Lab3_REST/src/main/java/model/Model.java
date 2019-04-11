@@ -72,6 +72,7 @@ public class Model { //singleton
     }
 
     public void addStudent(Student student){
+        student.setIndex(this.students.values().size() + 127001);
         this.students.put(student.getIndex(), student);
 
         if(student.getGradesList()!=null) {

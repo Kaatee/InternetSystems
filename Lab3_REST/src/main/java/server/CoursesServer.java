@@ -9,7 +9,10 @@ import model.Model;
 import model.Student;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
 
 @Path("/courses")
@@ -79,7 +82,7 @@ public class CoursesServer {
 
     @POST
     @Consumes(Constants.APPLICATION_JSON)
-    public Response addCourse(Course course) {
+    public Response addCourse(Course course, @Context UriInfo uriInfo) {
         Response response = null;
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
@@ -90,8 +93,12 @@ public class CoursesServer {
                 if (course == null) {
                     response = Response.status(404).type("You cannot add empty course").entity(Constants.RESULT_NOT_FOUND).build();
                 } else {
+                    course.setId(model.getCourses().size()+1);
                     model.getCourses().put(course.getId(), course);
-                    response = Response.status(201).type(Constants.PLAIN_TEXT).entity(Constants.ADDED_SUCCESSFULY).build();
+
+                    UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+                    builder.path(Integer.toString(course.getId()));
+                    response = Response.created(builder.build()).status(201).type(Constants.PLAIN_TEXT).entity(Constants.ADDED_SUCCESSFULY).build();
                 }
             }
         } catch (Exception e) {

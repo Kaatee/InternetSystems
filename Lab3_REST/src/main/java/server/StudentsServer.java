@@ -9,7 +9,10 @@ import model.Student;
 import model.StudentsListToDeserialize;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -180,7 +183,7 @@ public class StudentsServer {
     @POST
     @Consumes(Constants.APPLICATION_JSON)
     @Produces(Constants.APPLICATION_JSON)
-    public Response addStudent(Student student) {
+    public Response addStudent(Student student, @Context UriInfo uriInfo) {
         Response response = null;
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
@@ -192,10 +195,14 @@ public class StudentsServer {
                     response = Response.status(404).type("You cannot add empty student").entity(Constants.RESULT_NOT_FOUND).build();
                 } else {
                     model.addStudent(student);
-                    response = Response.status(201).type(Constants.PLAIN_TEXT).entity(Constants.ADDED_SUCCESSFULY).build();
+
+                    UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+                    builder.path(Integer.toString(student.getIndex()));
+                    response = Response.created(builder.build()).status(201).type(Constants.PLAIN_TEXT).entity(Constants.ADDED_SUCCESSFULY).build();
 
                 }
             }
+
         } catch (Exception e) {
         }
 
@@ -207,7 +214,7 @@ public class StudentsServer {
     @Consumes(Constants.APPLICATION_JSON)
     @Produces(Constants.APPLICATION_JSON)
     @Path("/{indexNumber}/grades")
-    public Response addSStudentGrade(@PathParam("indexNumber") String indexNumber, Grade grade) {
+    public Response addSStudentGrade(@PathParam("indexNumber") String indexNumber, Grade grade, @Context UriInfo uriInfo) {
         Response response = null;
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
@@ -221,12 +228,16 @@ public class StudentsServer {
                 if (grade == null) {
                     response = Response.status(404).type("You cannot add empty grade").entity(Constants.RESULT_NOT_FOUND).build();
                 } else {
+                    grade.setId(model.getGrades().size()+1);
                     model.getGrades().put(grade.getId(), grade);
                     model.addGradeToStudent(grade, Integer.parseInt(indexNumber));
                     if(!model.getCourses().containsKey(grade.getCourse().getId())) {
                         model.getCourses().put(grade.getCourse().getId(), grade.getCourse());
                     }
-                    response = Response.status(201).type(Constants.PLAIN_TEXT).entity(Constants.ADDED_SUCCESSFULY).build();
+
+                    UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+                    builder.path(Integer.toString(grade.getId()));
+                    response = Response.created(builder.build()).status(201).type(Constants.PLAIN_TEXT).entity(Constants.ADDED_SUCCESSFULY).build();
                 }
             }
         } catch (Exception e) {
