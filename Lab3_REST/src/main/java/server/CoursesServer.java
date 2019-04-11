@@ -99,4 +99,34 @@ public class CoursesServer {
 
         return response;
     }
+
+
+    @PUT
+    @Consumes(Constants.APPLICATION_JSON)
+    @Produces(Constants.APPLICATION_JSON)
+    @Path("/{courseID}")
+    public Response editCourse(Course course, @PathParam("courseID") String courseID) {
+        Response response = null;
+        try {
+            deserializer = Deserializer.getInstance(Main.PATH);
+            model = deserializer.getModel();
+
+            deserializer = Deserializer.getInstance(Main.PATH);
+            model = deserializer.getModel();
+            if (!model.getCourses().containsKey(Integer.parseInt(courseID))) {
+                response = Response.status(404).type(Constants.PLAIN_TEXT).entity("Course with given id doesn't esists").build();
+            } else {
+                if(!course.getName().isEmpty())
+                    ((Course) model.getCourses().get(Integer.parseInt(courseID))).setName(course.getName());
+
+                if(!course.getTeacherName().isEmpty())
+                    ((Course) model.getCourses().get(Integer.parseInt(courseID))).setTeacherName(course.getTeacherName());
+
+                response = Response.status(201).type(Constants.PLAIN_TEXT).entity(Constants.EDITED_SUCCESSFULY).build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
 }

@@ -41,5 +41,4 @@ public class GradesServer {
         return response;
     }
 
-
 }

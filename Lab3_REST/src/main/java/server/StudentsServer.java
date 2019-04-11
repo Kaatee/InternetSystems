@@ -23,7 +23,6 @@ public class StudentsServer {
     public String getStudentsList() {
         String result = "";
         try {
-            System.out.println("Jestem tu");
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
             result = deserializer.getMapper().writeValueAsString(model.getStudents());
@@ -234,6 +233,75 @@ public class StudentsServer {
             e.printStackTrace();
         }
 
+        return response;
+    }
+
+    @PUT
+    @Consumes(Constants.APPLICATION_JSON)
+    @Produces(Constants.APPLICATION_JSON)
+    @Path("/{indexNumber}")
+    public Response editStudent(Student student, @PathParam("indexNumber") String indexNumber) {
+        Response response = null;
+        try {
+            deserializer = Deserializer.getInstance(Main.PATH);
+            model = deserializer.getModel();
+
+            deserializer = Deserializer.getInstance(Main.PATH);
+            model = deserializer.getModel();
+            if (!model.getStudents().containsKey(Integer.parseInt(indexNumber))) {
+                response = Response.status(404).type(Constants.PLAIN_TEXT).entity("Student with given index doesn't esists").build();
+            } else {
+                try {
+                    if (!student.getName().isEmpty())
+                        ((Student) model.getStudents().get(Integer.parseInt(indexNumber))).setName(student.getName());
+                }catch (Exception e){}
+
+                try {
+                if(!student.getSurname().isEmpty())
+                    ((Student) model.getStudents().get(Integer.parseInt(indexNumber))).setSurname(student.getSurname());
+                }catch (Exception e){}
+
+                try {
+                if(!student.getBirthdate().isEmpty())
+                    ((Student) model.getStudents().get(Integer.parseInt(indexNumber))).setBirthdate(student.getBirthdate());
+                }catch (Exception e){}
+
+                response = Response.status(201).type(Constants.PLAIN_TEXT).entity(Constants.EDITED_SUCCESSFULY).build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+
+    @PUT
+    @Consumes(Constants.APPLICATION_JSON)
+    @Produces(Constants.APPLICATION_JSON)
+    @Path("/{indexNumber}/grades/{gradeID}")
+    public Response editGrade(Grade grade, @PathParam("indexNumber") String indexNumber, @PathParam("gradeID") String gradeID) {
+        Response response = null;
+        try {
+            deserializer = Deserializer.getInstance(Main.PATH);
+            model = deserializer.getModel();
+
+            deserializer = Deserializer.getInstance(Main.PATH);
+            model = deserializer.getModel();
+            if (!model.getStudents().containsKey(Integer.parseInt(indexNumber))) {
+                response = Response.status(404).type(Constants.PLAIN_TEXT).entity("Student with given index doesn't esists").build();
+            } else {
+                if(grade.getValue()!=0.0)
+                    ((Grade) model.getGrades().get(Integer.parseInt(gradeID))).setValue(grade.getValue());
+
+                if(!grade.getDate().isEmpty())
+                    ((Grade) model.getGrades().get(Integer.parseInt(gradeID))).setDate(grade.getDate());
+
+               model.updateStudentGrade(Integer.parseInt(gradeID),Integer.parseInt(indexNumber), grade);
+                response = Response.status(201).type(Constants.PLAIN_TEXT).entity(Constants.EDITED_SUCCESSFULY).build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return response;
     }
 }

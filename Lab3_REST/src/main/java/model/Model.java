@@ -85,4 +85,17 @@ public class Model { //singleton
     public void addGradeToStudent(Grade grade, int studentId){
         students.get(studentId).addGrade(grade);
     }
+
+    public void updateStudentGrade(int gradeId, int studentIndex , Grade grade){
+        int len = this.students.get(studentIndex).getGradesList().length;
+        Grade[] gr = this.students.get(studentIndex).getGradesList();
+        for(int i=0; i<len; i++){
+            if(gr[i].getId()==gradeId){
+                gr[i].setValue(grade.getValue());
+                gr[i].setDate(grade.getDate());
+                break;
+            }
+        }
+        this.students.get(studentIndex).setGradesList(gr);
+    }
 }

@@ -7,5 +7,6 @@ public class Constants {
     public static final String PLAIN_TEXT = "text/plain";
     public static final String DELETED_SUCCESSFULY = "Deleted succesfully";
     public static final String ADDED_SUCCESSFULY = "Added succesfully";
+    public static final String EDITED_SUCCESSFULY = "Edited succesfully";
 
 }
