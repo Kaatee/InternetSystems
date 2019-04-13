@@ -28,10 +28,6 @@ public class Student {
     private Grade[] gradesList;
 
     public Student(){
-        Model model = Model.getInstance();
-        int idx = model.getStudents().size() + 127000 + 1;
-        this.index = idx;
-        model.getStudents().put(idx, this);
     }
 
     public Student(int index, String name, String surname, String birthdate, Grade[] gradesList){

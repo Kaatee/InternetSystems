@@ -20,15 +20,15 @@ public class CoursesServer {
 
     @GET
     @Produces({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
-    public Response getCoursesList(){
+    public Response getCoursesList() {
         Response response = null;
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
 
             Course[] courses = new Course[model.getCourses().size()];
-            int i=0;
-            for(Object o: model.getCourses().values()) {
+            int i = 0;
+            for (Object o : model.getCourses().values()) {
                 courses[i] = (Course) o;
                 i++;
             }
@@ -43,12 +43,12 @@ public class CoursesServer {
     @GET
     @Path("/{courseId}")
     @Produces({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
-    public Response getCourseById(@PathParam("courseId") String courseId){
+    public Response getCourseById(@PathParam("courseId") String courseId) {
         Response response = null;
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
-            if(model.getCourses().containsKey(Integer.parseInt(courseId))) {
+            if (model.getCourses().containsKey(Integer.parseInt(courseId))) {
                 Course course = (Course) model.getCourses().get(Integer.parseInt(courseId));
                 response = Response.status(200).entity(course).build();
             }
@@ -56,7 +56,7 @@ public class CoursesServer {
             e.printStackTrace();
         }
 
-        if(response == null){
+        if (response == null) {
             response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
             return response;
         }
@@ -71,7 +71,7 @@ public class CoursesServer {
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
-            if(model.getCourses().containsKey(Integer.parseInt(courseId))) {
+            if (model.getCourses().containsKey(Integer.parseInt(courseId))) {
                 model.deleteCourse(Integer.parseInt(courseId));
                 response = Response.status(200).type(Constants.PLAIN_TEXT).entity(Constants.DELETED_SUCCESSFULY).build();
                 return response;
@@ -84,28 +84,23 @@ public class CoursesServer {
     }
 
     @POST
-    @Consumes(Constants.APPLICATION_JSON)
+    @Consumes({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
     public Response addCourse(Course course, @Context UriInfo uriInfo) {
         Response response = null;
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
-            if (model.getCourses().containsKey(course.getId())) {
-                response = Response.status(404).type("Course with given id exists").entity(Constants.RESULT_NOT_FOUND).build();
+            if (course == null) {
+                response = Response.status(404).type("You cannot add empty course").entity(Constants.RESULT_NOT_FOUND).build();
             } else {
-                if (course == null) {
-                    response = Response.status(404).type("You cannot add empty course").entity(Constants.RESULT_NOT_FOUND).build();
-                } else {
-                    course.setId(model.getCourses().size()+1);
-                    model.getCourses().put(course.getId(), course);
+                course.setId(model.getCourses().size() + 1);
+                model.getCourses().put(course.getId(), course);
 
-                    UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-                    builder.path(Integer.toString(course.getId()));
-                    response = Response.created(builder.build()).status(201).type(Constants.PLAIN_TEXT).entity(Constants.ADDED_SUCCESSFULY).build();
-                }
+                UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+                builder.path(Integer.toString(course.getId()));
+                response = Response.created(builder.build()).status(201).type(Constants.PLAIN_TEXT).entity(Constants.ADDED_SUCCESSFULY).build();
             }
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
 
         return response;
     }
@@ -126,10 +121,10 @@ public class CoursesServer {
             if (!model.getCourses().containsKey(Integer.parseInt(courseID))) {
                 response = Response.status(404).type(Constants.PLAIN_TEXT).entity("Course with given id doesn't esists").build();
             } else {
-                if(!course.getName().isEmpty())
+                if (!course.getName().isEmpty())
                     ((Course) model.getCourses().get(Integer.parseInt(courseID))).setName(course.getName());
 
-                if(!course.getTeacherName().isEmpty())
+                if (!course.getTeacherName().isEmpty())
                     ((Course) model.getCourses().get(Integer.parseInt(courseID))).setTeacherName(course.getTeacherName());
 
                 response = Response.status(201).type(Constants.PLAIN_TEXT).entity(Constants.EDITED_SUCCESSFULY).build();

@@ -28,8 +28,8 @@ public class StudentsServer {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
             Student[] students = new Student[model.getStudents().size()];
-            int i=0;
-            for(Object o: model.getStudents().values()) {
+            int i = 0;
+            for (Object o : model.getStudents().values()) {
                 students[i] = (Student) o;
                 i++;
             }
@@ -44,17 +44,17 @@ public class StudentsServer {
     @Path("/{indexNumber}")
     @Produces({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
     public Response getStudentByIndex(@PathParam("indexNumber") String indexNumber) {
-        Response response= null;
+        Response response = null;
         int indexNumberInt = Integer.parseInt(indexNumber);
         Student student;
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
 
-            Map<Integer, Student> studentsList = model.getStudents();
-            student = studentsList.get(indexNumberInt);
-            response = Response.status(200).entity(student).build();
-
+            if (model.getStudents().containsKey(indexNumberInt)) {
+                student = (Student) model.getStudents().get(indexNumberInt);
+                response = Response.status(200).entity(student).build();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -72,7 +72,7 @@ public class StudentsServer {
     @Path("/{indexNumber}/grades/{gradeId}")
     @Produces({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
     public Response getStudentGradeById(@PathParam("indexNumber") String indexNumber, @PathParam("gradeId") String gradeId) {
-        Response response= null;
+        Response response = null;
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
@@ -103,7 +103,7 @@ public class StudentsServer {
     @Path("/{indexNumber}/grades")
     @Produces({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
     public Response getStudentGrades(@PathParam("indexNumber") String indexNumber) {
-        Response response= null;
+        Response response = null;
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
@@ -184,28 +184,22 @@ public class StudentsServer {
     }
 
     @POST
-    @Consumes(Constants.APPLICATION_JSON)
-    @Produces(Constants.APPLICATION_JSON)
+    @Consumes({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
+    @Produces({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
     public Response addStudent(Student student, @Context UriInfo uriInfo) {
         Response response = null;
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
-            if (model.getStudents().containsKey(student.getIndex())) {
-                response = Response.status(404).type("Student with given index exists").entity(Constants.RESULT_NOT_FOUND).build();
+            if (student == null) {
+                response = Response.status(404).type("You cannot add empty student").entity(Constants.RESULT_NOT_FOUND).build();
             } else {
-                if (student == null) {
-                    response = Response.status(404).type("You cannot add empty student").entity(Constants.RESULT_NOT_FOUND).build();
-                } else {
-                    model.addStudent(student);
+                model.addStudent(student);
 
-                    UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-                    builder.path(Integer.toString(student.getIndex()));
-                    response = Response.created(builder.build()).status(201).type(Constants.PLAIN_TEXT).entity(Constants.ADDED_SUCCESSFULY).build();
-
-                }
+                UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+                builder.path(Integer.toString(student.getIndex()));
+                response = Response.created(builder.build()).status(201).type(Constants.PLAIN_TEXT).entity(Constants.ADDED_SUCCESSFULY).build();
             }
-
         } catch (Exception e) {
         }
 
@@ -214,34 +208,29 @@ public class StudentsServer {
 
 
     @POST
-    @Consumes(Constants.APPLICATION_JSON)
-    @Produces(Constants.APPLICATION_JSON)
+    @Consumes({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
+    @Produces({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
     @Path("/{indexNumber}/grades")
-    public Response addSStudentGrade(@PathParam("indexNumber") String indexNumber, Grade grade, @Context UriInfo uriInfo) {
+    public Response addStudentGrade(@PathParam("indexNumber") String indexNumber, Grade grade, @Context UriInfo uriInfo) {
         Response response = null;
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
 
-            deserializer = Deserializer.getInstance(Main.PATH);
-            model = deserializer.getModel();
-            if (model.getGrades().containsKey(grade.getId())) {
-                response = Response.status(404).type("Grade with given id exists").entity(Constants.RESULT_NOT_FOUND).build();
+            if (grade == null) {
+                response = Response.status(404).type("You cannot add empty grade").entity(Constants.RESULT_NOT_FOUND).build();
             } else {
-                if (grade == null) {
-                    response = Response.status(404).type("You cannot add empty grade").entity(Constants.RESULT_NOT_FOUND).build();
-                } else {
-                    grade.setId(model.getGrades().size()+1);
-                    model.getGrades().put(grade.getId(), grade);
-                    model.addGradeToStudent(grade, Integer.parseInt(indexNumber));
-                    if(!model.getCourses().containsKey(grade.getCourse().getId())) {
-                        model.getCourses().put(grade.getCourse().getId(), grade.getCourse());
-                    }
+                grade.setId(model.getGrades().size() + 1);
+                model.getGrades().put(grade.getId(), grade);
+                model.addGradeToStudent(grade, Integer.parseInt(indexNumber));
 
-                    UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-                    builder.path(Integer.toString(grade.getId()));
-                    response = Response.created(builder.build()).status(201).type(Constants.PLAIN_TEXT).entity(Constants.ADDED_SUCCESSFULY).build();
+                if (!model.getCourses().containsKey(grade.getCourse().getId())) {
+                    model.getCourses().put(grade.getCourse().getId(), grade.getCourse());
                 }
+
+                UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+                builder.path(Integer.toString(grade.getId()));
+                response = Response.created(builder.build()).status(201).type(Constants.PLAIN_TEXT).entity(Constants.ADDED_SUCCESSFULY).build();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -268,17 +257,20 @@ public class StudentsServer {
                 try {
                     if (!student.getName().isEmpty())
                         ((Student) model.getStudents().get(Integer.parseInt(indexNumber))).setName(student.getName());
-                }catch (Exception e){}
+                } catch (Exception e) {
+                }
 
                 try {
-                if(!student.getSurname().isEmpty())
-                    ((Student) model.getStudents().get(Integer.parseInt(indexNumber))).setSurname(student.getSurname());
-                }catch (Exception e){}
+                    if (!student.getSurname().isEmpty())
+                        ((Student) model.getStudents().get(Integer.parseInt(indexNumber))).setSurname(student.getSurname());
+                } catch (Exception e) {
+                }
 
                 try {
-                if(!student.getBirthdate().isEmpty())
-                    ((Student) model.getStudents().get(Integer.parseInt(indexNumber))).setBirthdate(student.getBirthdate());
-                }catch (Exception e){}
+                    if (!student.getBirthdate().isEmpty())
+                        ((Student) model.getStudents().get(Integer.parseInt(indexNumber))).setBirthdate(student.getBirthdate());
+                } catch (Exception e) {
+                }
 
                 response = Response.status(201).type(Constants.PLAIN_TEXT).entity(Constants.EDITED_SUCCESSFULY).build();
             }
@@ -304,13 +296,13 @@ public class StudentsServer {
             if (!model.getStudents().containsKey(Integer.parseInt(indexNumber))) {
                 response = Response.status(404).type(Constants.PLAIN_TEXT).entity("Student with given index doesn't esists").build();
             } else {
-                if(grade.getValue()!=0.0)
+                if (grade.getValue() != 0.0)
                     ((Grade) model.getGrades().get(Integer.parseInt(gradeID))).setValue(grade.getValue());
 
-                if(!grade.getDate().isEmpty())
+                if (!grade.getDate().isEmpty())
                     ((Grade) model.getGrades().get(Integer.parseInt(gradeID))).setDate(grade.getDate());
 
-               model.updateStudentGrade(Integer.parseInt(gradeID),Integer.parseInt(indexNumber), grade);
+                model.updateStudentGrade(Integer.parseInt(gradeID), Integer.parseInt(indexNumber), grade);
                 response = Response.status(201).type(Constants.PLAIN_TEXT).entity(Constants.EDITED_SUCCESSFULY).build();
             }
         } catch (Exception e) {
