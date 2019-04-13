@@ -4,9 +4,7 @@ import app.Constants;
 import app.Deserializer;
 import app.Main;
 import model.Course;
-import model.Grade;
 import model.Model;
-import model.Student;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -21,42 +19,47 @@ public class CoursesServer {
     private Model model;
 
     @GET
-    @Produces(Constants.APPLICATION_JSON)
-    public String getCoursesList(){
-        String result = "";
+    @Produces({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
+    public Response getCoursesList(){
+        Response response = null;
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
-            result = deserializer.getMapper().writeValueAsString(model.getCourses());
+
+            Course[] courses = new Course[model.getCourses().size()];
+            int i=0;
+            for(Object o: model.getCourses().values()) {
+                courses[i] = (Course) o;
+                i++;
+            }
+            response = Response.status(200).entity(courses).build();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return result;
+        return response;
     }
 
 
     @GET
     @Path("/{courseId}")
-    @Produces(Constants.APPLICATION_JSON)
+    @Produces({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
     public Response getCourseById(@PathParam("courseId") String courseId){
-        String result = "";
+        Response response = null;
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
             if(model.getCourses().containsKey(Integer.parseInt(courseId))) {
                 Course course = (Course) model.getCourses().get(Integer.parseInt(courseId));
-                result = deserializer.getMapper().writeValueAsString(course);
+                response = Response.status(200).entity(course).build();
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        if(result.equals("")){
-            Response response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
+        if(response == null){
+            response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
             return response;
         }
-        Response response = Response.status(200).entity(result).build();
         return response;
     }
 

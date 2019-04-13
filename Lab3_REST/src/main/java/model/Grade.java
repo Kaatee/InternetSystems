@@ -1,13 +1,24 @@
 package model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Grade {
+    @XmlElement
     private int id;
+
+    @XmlElement
     private float value; //2.0-5.0 step = 0.5 (can be 2.5)
+
+    @XmlElement
     private String date; ///TODO change to date
+
+    @XmlElement
     private Course course;
 
     public Grade(){}

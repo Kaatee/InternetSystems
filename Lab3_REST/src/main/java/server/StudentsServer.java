@@ -6,7 +6,6 @@ import app.Main;
 import model.Grade;
 import model.Model;
 import model.Student;
-import model.StudentsListToDeserialize;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -14,7 +13,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Map;
 
 @Path("/students")
 public class StudentsServer {
@@ -22,62 +21,68 @@ public class StudentsServer {
     private Model model;
 
     @GET
-    @Produces(Constants.APPLICATION_JSON)
-    public String getStudentsList() {
-        String result = "";
+    @Produces({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
+    public Response getStudentsList() {
+        Response response = null;
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
-            result = deserializer.getMapper().writeValueAsString(model.getStudents());
-
+            Student[] students = new Student[model.getStudents().size()];
+            int i=0;
+            for(Object o: model.getStudents().values()) {
+                students[i] = (Student) o;
+                i++;
+            }
+            response = Response.status(200).entity(students).build();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return result;
+        return response;
     }
 
     @GET
     @Path("/{indexNumber}")
-    @Produces(Constants.APPLICATION_JSON)
+    @Produces({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
     public Response getStudentByIndex(@PathParam("indexNumber") String indexNumber) {
-        String result = "";
+        Response response= null;
         int indexNumberInt = Integer.parseInt(indexNumber);
+        Student student;
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
 
-            HashMap<Integer, Student> studentsList = model.getStudents();
-            Student student = studentsList.get(indexNumberInt);
-            result = deserializer.getMapper().writeValueAsString(student);
+            Map<Integer, Student> studentsList = model.getStudents();
+            student = studentsList.get(indexNumberInt);
+            response = Response.status(200).entity(student).build();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        if (result.equals("")) {
-            Response response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
+        if (response == null) {
+            response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
             return response;
         }
-        Response response = Response.status(200).entity(result).build();
+
         return response;
     }
 
 
     @GET
     @Path("/{indexNumber}/grades/{gradeId}")
-    @Produces(Constants.APPLICATION_JSON)
+    @Produces({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
     public Response getStudentGradeById(@PathParam("indexNumber") String indexNumber, @PathParam("gradeId") String gradeId) {
-        String result = "";
+        Response response= null;
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
 
-            HashMap<Integer, Student> studentsList = model.getStudents();
+            Map<Integer, Student> studentsList = model.getStudents();
             Student student = studentsList.get(Integer.parseInt(indexNumber));
 
             for (Grade g : student.getGradesList()) {
                 if (g.getId() == Integer.parseInt(gradeId)) {
-                    result = deserializer.getMapper().writeValueAsString(g);
+                    response = Response.status(200).entity(g).build();
                     break;
                 }
             }
@@ -85,37 +90,35 @@ public class StudentsServer {
             e.printStackTrace();
         }
 
-        if (result.equals("")) {
-            Response response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
+        if (response == null) {
+            response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
             return response;
         }
 
-        Response response = Response.status(200).entity(result).build();
         return response;
     }
 
 
     @GET
     @Path("/{indexNumber}/grades")
-    @Produces(Constants.APPLICATION_JSON)
+    @Produces({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
     public Response getStudentGrades(@PathParam("indexNumber") String indexNumber) {
-        String result = "";
+        Response response= null;
         try {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
 
             Student student = (Student) model.getStudents().get(Integer.parseInt(indexNumber));
             Grade[] grades = student.getGradesList();
-            result = deserializer.getMapper().writeValueAsString(grades);
+            response = Response.status(200).entity(grades).build();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        if (result.equals("")) {
-            Response response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
+        if (response == null) {
+            response = Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
             return response;
         }
-        Response response = Response.status(200).entity(result).build();
         return response;
     }
 

@@ -3,13 +3,14 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.lang.System.in;
 
 public class Model { //singleton
-    HashMap<Integer, Student> students = new HashMap<>();
-    HashMap<Integer, Course> courses = new HashMap<>();
-    HashMap<Integer, Grade> grades = new HashMap<>();
+    Map<Integer, Student> students = new HashMap<>();
+    Map<Integer, Course> courses = new HashMap<>();
+    Map<Integer, Grade> grades = new HashMap<>();
 
     private static volatile Model instance = null;
 
@@ -32,25 +33,25 @@ public class Model { //singleton
     }
 
 
-    public HashMap getStudents() {
+    public Map getStudents() {
         return students;
     }
 
-    public void setStudents(HashMap students) {
+    public void setStudents(Map students) {
         this.students = students;
     }
 
-    public HashMap getCourses() {
+    public Map getCourses() {
         return courses;
     }
 
-    public void setCourses(HashMap courses) {
+    public void setCourses(Map courses) {
         this.courses = courses;
     }
 
-    public HashMap getGrades() { return grades; }
+    public Map getGrades() { return grades; }
 
-    public void setGrades(HashMap grades) { this.grades = grades; }
+    public void setGrades(Map grades) { this.grades = grades; }
 
     public void deleteCourse(int courseID){
         this.getCourses().remove(courseID);

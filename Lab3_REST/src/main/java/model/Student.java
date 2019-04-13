@@ -2,30 +2,37 @@ package model;
 
 import model.Grade;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
-@XmlRootElement
+@XmlRootElement(name="student")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Student {
 
-    @XmlElement(name="index")
+    @XmlElement
     private int index; //uniq
 
-    @XmlElement(name="name")
+    @XmlElement
     private String name;
 
-    @XmlElement(name="surname")
+    @XmlElement
     private String surname;
 
-    @XmlElement(name="birthdate")
+    @XmlElement
     private String birthdate; ///TODO change to Date
 
+    @XmlElementWrapper(name="grades")
+    @XmlElement(name="grade")
     private Grade[] gradesList;
 
-    public Student(){}
+    public Student(){
+        Model model = Model.getInstance();
+        int idx = model.getStudents().size() + 127000 + 1;
+        this.index = idx;
+        model.getStudents().put(idx, this);
+    }
 
     public Student(int index, String name, String surname, String birthdate, Grade[] gradesList){
         this.index = index;
