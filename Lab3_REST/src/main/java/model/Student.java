@@ -1,11 +1,17 @@
 package model;
 
 import model.Grade;
+import org.glassfish.jersey.linking.Binding;
+import org.glassfish.jersey.linking.InjectLink;
+import org.glassfish.jersey.linking.InjectLinks;
+import org.glassfish.jersey.server.Uri;
+import server.GradesServer;
+import server.StudentsServer;
 
+import javax.ws.rs.core.Link;
 import javax.xml.bind.annotation.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.util.*;
 
 @XmlRootElement(name="student")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -26,6 +32,19 @@ public class Student {
     @XmlElementWrapper(name="grades")
     @XmlElement(name="grade")
     private Grade[] gradesList;
+
+
+    @InjectLinks({
+            @InjectLink(resource = StudentsServer.class, rel = "self",bindings = @Binding(name = "indexNumber",
+                    value = "${instance.index}"), method = "getStudentByIndex"),
+            @InjectLink(rel = "parent",method = "getStudentsList", resource = StudentsServer.class),
+            @InjectLink( rel = "grades",method = "getStudentGrades", resource = StudentsServer.class,
+                    bindings = @Binding(name = "indexNumber", value = "${instance.index}"))
+    })
+    @XmlElement(name="link")
+    @XmlElementWrapper(name = "links")
+    @XmlJavaTypeAdapter(Link.JaxbAdapter.class)
+    List<Link> links;
 
     public Student(){
     }

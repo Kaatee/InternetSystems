@@ -2,6 +2,7 @@ package app;
 
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.linking.DeclarativeLinkingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import server.AppExceptionMapper;
 import server.CoursesServer;
@@ -17,7 +18,8 @@ public class Main {
 
     public static void main(String[] args){
         URI baseUri = UriBuilder.fromUri("http://localhost/").port(8000).build();
-        ResourceConfig config = new ResourceConfig(StudentsServer.class, CoursesServer.class, GradesServer.class);
+        ResourceConfig config = new ResourceConfig(StudentsServer.class, CoursesServer.class, GradesServer.class,
+                DeclarativeLinkingFeature.class);
         HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(baseUri, config);
         try {
             httpServer.start();

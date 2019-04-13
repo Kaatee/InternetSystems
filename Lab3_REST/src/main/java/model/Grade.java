@@ -1,10 +1,16 @@
 package model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import org.glassfish.jersey.linking.Binding;
+import org.glassfish.jersey.linking.InjectLink;
+import org.glassfish.jersey.linking.InjectLinks;
+import server.GradesServer;
+import server.StudentsServer;
+
+import javax.ws.rs.core.Link;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.Date;
+import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -20,6 +26,17 @@ public class Grade {
 
     @XmlElement
     private Course course;
+
+    @InjectLinks({
+            @InjectLink(resource = GradesServer.class, rel = "parent"),
+            //@InjectLink(resource = GradesServer.class, rel = "parent")
+            //@InjectLink( rel = "self",method = "getStudentGradeById", resource = StudentsServer.class),//
+                  //  bindings = @Binding(name = "gradeId", value = "${instance.id}"))
+    })
+    @XmlElement(name="link")
+    @XmlElementWrapper(name = "links")
+    @XmlJavaTypeAdapter(Link.JaxbAdapter.class)
+    List<Link> links;
 
     public Grade(){}
 
