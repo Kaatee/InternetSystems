@@ -3,6 +3,7 @@ package server;
 import app.Constants;
 import app.Deserializer;
 import app.Main;
+import model.Course;
 import model.Grade;
 import model.Model;
 import model.Student;
@@ -220,11 +221,16 @@ public class StudentsServer {
             if (grade == null) {
                 response = Response.status(404).type("You cannot add empty grade").entity(Constants.RESULT_NOT_FOUND).build();
             } else {
+                if(model.getCourses().containsKey(grade.getCourse().getId())){
+                    grade.setCourse((Course) model.getCourses().get(grade.getCourse().getId()));
+                }
+
                 grade.setId(model.getGrades().size() + 1);
                 model.getGrades().put(grade.getId(), grade);
                 model.addGradeToStudent(grade, Integer.parseInt(indexNumber));
 
                 if (!model.getCourses().containsKey(grade.getCourse().getId())) {
+                    System.out.println("Here I am");
                     model.getCourses().put(grade.getCourse().getId(), grade.getCourse());
                 }
 
@@ -240,15 +246,12 @@ public class StudentsServer {
     }
 
     @PUT
-    @Consumes(Constants.APPLICATION_JSON)
-    @Produces(Constants.APPLICATION_JSON)
+    @Consumes({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
+    @Produces({Constants.APPLICATION_JSON,Constants.APPLICATION_XML})
     @Path("/{indexNumber}")
     public Response editStudent(Student student, @PathParam("indexNumber") String indexNumber) {
         Response response = null;
         try {
-            deserializer = Deserializer.getInstance(Main.PATH);
-            model = deserializer.getModel();
-
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
             if (!model.getStudents().containsKey(Integer.parseInt(indexNumber))) {
@@ -282,8 +285,8 @@ public class StudentsServer {
 
 
     @PUT
-    @Consumes(Constants.APPLICATION_JSON)
-    @Produces(Constants.APPLICATION_JSON)
+    @Consumes({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
+    @Produces({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
     @Path("/{indexNumber}/grades/{gradeID}")
     public Response editGrade(Grade grade, @PathParam("indexNumber") String indexNumber, @PathParam("gradeID") String gradeID) {
         Response response = null;

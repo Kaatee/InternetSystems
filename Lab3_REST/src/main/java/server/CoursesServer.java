@@ -107,8 +107,8 @@ public class CoursesServer {
 
 
     @PUT
-    @Consumes(Constants.APPLICATION_JSON)
-    @Produces(Constants.APPLICATION_JSON)
+    @Consumes({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
+    @Produces({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
     @Path("/{courseID}")
     public Response editCourse(Course course, @PathParam("courseID") String courseID) {
         Response response = null;
@@ -116,8 +116,6 @@ public class CoursesServer {
             deserializer = Deserializer.getInstance(Main.PATH);
             model = deserializer.getModel();
 
-            deserializer = Deserializer.getInstance(Main.PATH);
-            model = deserializer.getModel();
             if (!model.getCourses().containsKey(Integer.parseInt(courseID))) {
                 response = Response.status(404).type(Constants.PLAIN_TEXT).entity("Course with given id doesn't esists").build();
             } else {

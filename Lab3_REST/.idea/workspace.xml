@@ -51,27 +51,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CoursesServer.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/server/CoursesServer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38">
-              <caret line="87" column="71" selection-start-line="87" selection-start-column="71" selection-end-line="87" selection-end-column="71" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#getCoursesList#0;class#CoursesServer#0" />
-                <element signature="method#getCourseById#0;class#CoursesServer#0" />
-                <element signature="method#deleteCourse#0;class#CoursesServer#0" />
-                <element signature="method#addCourse#0;class#CoursesServer#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StudentsServer.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="StudentsServer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/server/StudentsServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
-              <caret line="213" column="23" selection-start-line="213" selection-start-column="23" selection-end-line="213" selection-end-column="23" />
+            <state relative-caret-position="229">
+              <caret line="226" column="16" selection-start-line="226" selection-start-column="16" selection-end-line="226" selection-end-column="16" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#getStudentsList#0;class#StudentsServer#0" />
@@ -81,7 +65,8 @@
                 <element signature="method#deleteStudent#0;class#StudentsServer#0" />
                 <element signature="method#deleteStudentGrade#0;class#StudentsServer#0" />
                 <element signature="method#addStudent#0;class#StudentsServer#0" />
-                <element signature="method#addSStudentGrade#0;class#StudentsServer#0" />
+                <element signature="method#editStudent#0;class#StudentsServer#0" />
+                <element signature="method#editGrade#0;class#StudentsServer#0" />
               </folding>
             </state>
           </provider>
@@ -90,8 +75,8 @@
       <file leaf-file-name="Student.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/model/Student.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="29" column="21" selection-start-line="29" selection-start-column="21" selection-end-line="29" selection-end-column="21" />
+            <state relative-caret-position="442">
+              <caret line="26" column="29" lean-forward="true" selection-start-line="26" selection-start-column="29" selection-end-line="26" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -133,11 +118,11 @@
         <option value="$PROJECT_DIR$/src/main/java/model/Grade.java" />
         <option value="$PROJECT_DIR$/src/main/java/app/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/app/Deserializer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/server/CoursesServer.java" />
         <option value="$PROJECT_DIR$/src/main/java/server/GradesServer.java" />
         <option value="$PROJECT_DIR$/src/main/java/model/Model.java" />
         <option value="$PROJECT_DIR$/src/main/java/model/Student.java" />
         <option value="$PROJECT_DIR$/src/main/resources/data.json" />
+        <option value="$PROJECT_DIR$/src/main/java/server/CoursesServer.java" />
         <option value="$PROJECT_DIR$/src/main/java/server/StudentsServer.java" />
       </list>
     </option>
@@ -333,12 +318,12 @@
       <workItem from="1554963774790" duration="3415000" />
       <workItem from="1554968884884" duration="4963000" />
       <workItem from="1555007577105" duration="597000" />
-      <workItem from="1555139937067" duration="7419000" />
+      <workItem from="1555139937067" duration="9882000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51184000" />
+    <option name="totallyTimeSpent" value="53647000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
@@ -446,7 +431,8 @@
             <element signature="method#deleteStudent#0;class#StudentsServer#0" />
             <element signature="method#deleteStudentGrade#0;class#StudentsServer#0" />
             <element signature="method#addStudent#0;class#StudentsServer#0" />
-            <element signature="method#addSStudentGrade#0;class#StudentsServer#0" />
+            <element signature="method#editStudent#0;class#StudentsServer#0" />
+            <element signature="method#editGrade#0;class#StudentsServer#0" />
           </folding>
         </state>
       </provider>
@@ -497,7 +483,8 @@
             <element signature="method#deleteStudent#0;class#StudentsServer#0" />
             <element signature="method#deleteStudentGrade#0;class#StudentsServer#0" />
             <element signature="method#addStudent#0;class#StudentsServer#0" />
-            <element signature="method#addSStudentGrade#0;class#StudentsServer#0" />
+            <element signature="method#editStudent#0;class#StudentsServer#0" />
+            <element signature="method#editGrade#0;class#StudentsServer#0" />
           </folding>
         </state>
       </provider>
@@ -525,10 +512,6 @@
           <caret line="25" column="44" lean-forward="true" selection-start-line="25" selection-start-column="44" selection-end-line="25" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#getCoursesList#0;class#CoursesServer#0" />
-            <element signature="method#getCourseById#0;class#CoursesServer#0" />
-            <element signature="method#deleteCourse#0;class#CoursesServer#0" />
-            <element signature="method#addCourse#0;class#CoursesServer#0" />
           </folding>
         </state>
       </provider>
@@ -587,7 +570,8 @@
             <element signature="method#deleteStudent#0;class#StudentsServer#0" />
             <element signature="method#deleteStudentGrade#0;class#StudentsServer#0" />
             <element signature="method#addStudent#0;class#StudentsServer#0" />
-            <element signature="method#addSStudentGrade#0;class#StudentsServer#0" />
+            <element signature="method#editStudent#0;class#StudentsServer#0" />
+            <element signature="method#editGrade#0;class#StudentsServer#0" />
           </folding>
         </state>
       </provider>
@@ -807,23 +791,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/data.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="21" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/model/Student.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="29" column="21" selection-start-line="29" selection-start-column="21" selection-end-line="29" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/server/GradesServer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="262">
@@ -835,10 +802,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/model/Student.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="29" lean-forward="true" selection-start-line="26" selection-start-column="29" selection-end-line="26" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/server/CoursesServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-47">
+          <caret line="116" column="44" lean-forward="true" selection-start-line="116" selection-start-column="44" selection-end-line="116" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/data.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="21" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/server/StudentsServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="213" column="23" selection-start-line="213" selection-start-column="23" selection-end-line="213" selection-end-column="23" />
+        <state relative-caret-position="229">
+          <caret line="226" column="16" selection-start-line="226" selection-start-column="16" selection-end-line="226" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#getStudentsList#0;class#StudentsServer#0" />
@@ -848,21 +842,8 @@
             <element signature="method#deleteStudent#0;class#StudentsServer#0" />
             <element signature="method#deleteStudentGrade#0;class#StudentsServer#0" />
             <element signature="method#addStudent#0;class#StudentsServer#0" />
-            <element signature="method#addSStudentGrade#0;class#StudentsServer#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/server/CoursesServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="87" column="71" selection-start-line="87" selection-start-column="71" selection-end-line="87" selection-end-column="71" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getCoursesList#0;class#CoursesServer#0" />
-            <element signature="method#getCourseById#0;class#CoursesServer#0" />
-            <element signature="method#deleteCourse#0;class#CoursesServer#0" />
-            <element signature="method#addCourse#0;class#CoursesServer#0" />
+            <element signature="method#editStudent#0;class#StudentsServer#0" />
+            <element signature="method#editGrade#0;class#StudentsServer#0" />
           </folding>
         </state>
       </provider>
