@@ -5,10 +5,8 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.jaxb.internal.XmlJaxbElementProvider;
 import org.glassfish.jersey.linking.DeclarativeLinkingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
-import server.AppExceptionMapper;
-import server.CoursesServer;
-import server.GradesServer;
-import server.StudentsServer;
+import providers.DataParamConverterProvider;
+import server.*;
 
 import javax.ws.rs.core.UriBuilder;
 import java.io.IOException;
@@ -20,7 +18,8 @@ public class Main {
     public static void main(String[] args){
         URI baseUri = UriBuilder.fromUri("http://localhost/").port(8000).build();
         ResourceConfig config = new ResourceConfig(StudentsServer.class, CoursesServer.class, GradesServer.class,
-                DeclarativeLinkingFeature.class, AppExceptionMapper.class);
+               DeclarativeLinkingFeature.class, AppExceptionMapper.class, DebugExceptionMapper.class);
+        config.register(new DataParamConverterProvider("yyyy-MM-dd"));
         HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(baseUri, config);
         try {
             httpServer.start();

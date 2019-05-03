@@ -1,9 +1,11 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.glassfish.jersey.linking.Binding;
 import org.glassfish.jersey.linking.InjectLink;
 import org.glassfish.jersey.linking.InjectLinks;
-import server.GradesServer;
+import org.mongodb.morphia.annotations.Embedded;
+import org.mongodb.morphia.annotations.Reference;
 import server.StudentsServer;
 
 import javax.ws.rs.core.Link;
@@ -13,8 +15,10 @@ import java.util.Date;
 import java.util.List;
 
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.NONE)
+@Embedded
 public class Grade {
+
     @XmlElement
     private int id;
 
@@ -22,9 +26,11 @@ public class Grade {
     private float value; //2.0-5.0 step = 0.5 (can be 2.5)
 
     @XmlElement
-    private String date; ///TODO change to date
+    @JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd", timezone="CET")
+    private Date date;
 
     @XmlElement
+    @Reference
     private Course course;
 
     @XmlTransient
@@ -32,20 +38,13 @@ public class Grade {
 
     @InjectLinks({
             @InjectLink(resource = StudentsServer.class, rel = "parent",
-                    bindings = @Binding(name = "indexNumber",value = "${instance.studentId}"), method = "getStudentGrades"),
+                    bindings = @Binding(name = "indexNumber",value = "${instance.studentId}"), method = "findStudentGrades"),
 
 
             @InjectLink(resource = StudentsServer.class, rel = "self",
                     bindings = {@Binding(name = "indexNumber",value = "${instance.studentId}"),
                             @Binding(name = "gradeId",value = "${instance.id}")},
                     method = "getStudentGradeById")
-            ///{indexNumber}/grades/{gradeId}
-            /*
-
-             bindings = {@Binding(name = "offset", value="${instance.offset}"),
-                @Binding(name = "limit", value="${instance.limit}")
-            },
-             */
     })
     @XmlElement(name="link")
     @XmlElementWrapper(name = "links")
@@ -54,7 +53,7 @@ public class Grade {
 
     public Grade(){}
 
-    public Grade(int id, float value, String date, Course course){
+    public Grade(int id, float value, Date date, Course course){
         this.id = id;
         this.value = value;
         this.date = date;
@@ -77,11 +76,11 @@ public class Grade {
         this.value = value;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -100,4 +99,5 @@ public class Grade {
     public void setStudentId(int studentId) {
         this.studentId = studentId;
     }
+
 }
