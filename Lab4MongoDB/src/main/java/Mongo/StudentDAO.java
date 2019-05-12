@@ -2,6 +2,7 @@ package Mongo;
 
 import model.Grade;
 import model.Student;
+import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 
@@ -48,15 +49,15 @@ public class StudentDAO {
         return studentsList;
     }
 
-    public Grade[] findStudentGrades(Student student, String courseNameParam, Float valueParam, String typeParam) {
-        Optional<String> courseName = Optional.ofNullable(courseNameParam);
+    public Grade[] findStudentGrades(Student student, ObjectId courseIdParam, Float valueParam, String typeParam) {
+        Optional<ObjectId> courseId = Optional.ofNullable(courseIdParam);
         Optional<Float> value = Optional.ofNullable(valueParam);
         Optional<String> type = Optional.ofNullable(typeParam);
 
-        List<Grade> gradesList;
         if (student.getGradesList() != null) {
-            List<Grade> gradesTmp = Arrays.asList(student.getGradesList());
-            courseName.ifPresent(n -> gradesTmp.removeIf(grade -> !grade.getCourse().getName().contains(n)));
+
+            Collection<Grade> gradesTmp = new ArrayList(Arrays.asList(student.getGradesList()));
+            courseId.ifPresent(n -> gradesTmp.removeIf(grade -> !(grade.getCourse().getId().toString().contains(n.toString()))));
             List<Grade> gradesNew = new ArrayList<>();
 
             if(value.isPresent()){
@@ -85,6 +86,12 @@ public class StudentDAO {
                         }
 
                     }
+                }
+            }
+
+            if(!type.isPresent()){
+                for(Grade g: gradesTmp) {
+                    gradesNew.add(g);
                 }
             }
 

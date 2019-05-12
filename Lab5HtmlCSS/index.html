@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pl" dir="ltr">
+<head>
+	<meta charset="utf-8">
+	<title>system ocen</title>
+    <style>
+      article {
+        display: none;
+      }
+      article:target {
+        display: block;
+      }
+    </style>
+</head>
+
+<header>
+	<h1>System zarządzania ocenami studentów</h1>
+	<img src="lama.jpg" alt="Italian Trulli">
+</header>
+
+<nav>
+	<ul>
+		<li> <a class="navlink" href="#students">Lista studentów</a> </li>
+		<li> <a class="navlink" href="#grades">Lista ocen</a></li>
+		<li> <a class="navlink" href="#courses">Lista przedmiotów</a></li>
+	</ul>
+</nav>
+
+
+
+<article id="students">
+	<h2>Lista studentów</h2>
+	<form id="StudentsForm">
+		<table>
+			<tr>
+				<th>Index</th>
+				<th>Imię</th>
+				<th>Nazwisko</th>
+				<th>Data urodzenia</th>
+			</tr>
+			<tr> <!--do filtrowanie -->
+				<td><input type="number" id="studentsIndex" placeholder="Index"></td>
+                <td><input type="text" id="studentsName" placeholder="Name"></td>
+                <td><input type="text" id="studentsSurname" placeholder="Surname"></td>
+                <td><input type="date" min="1950-01-01" max="2010-01-01" id="studentsBrithdate"></td>
+			</tr>
+			<tr>
+				<td> <input type="number" value="127001" placeholder="Index" readonly>  </td>
+				<td> <input type="text" value="Katarzyna" required> </td>
+				<td> <input type="text" value="Jóźwiak" required> </td>
+				<td> <input type="date" value="1996-01-05" min="1950-01-01" max="2010-01-01" required> </td>
+				<td> <a href="#grades">Wyświetl oceny</a> </td>
+				<td><button type="button">Usuń</button></td>
+				<td><button type="button" >Edytuj</button></td>
+			</tr>
+			<tr>
+			<td> 
+				<input type="number" value="127002" placeholder="Index" readonly>  </td>
+				<td> <input type="text" value="Jan" required> </td>
+				<td> <input type="text" value="Kowalski" required> </td>
+				<td> <input type="date" value="1995-11-15" min="1950-01-01" max="2010-01-01" required> </td>
+				<td> <a href="#grades">Wyświetl oceny</a> </td>
+				<td><button type="button">Usuń</button></td>
+				<td><button type="button">Edytuj</button></td>
+			</tr>
+			<tr> <!--do dodania -->
+				<td>Dodaj studenta</td>
+                <td><input type="text" id="studentsNameToAdd" placeholder="Name" required></td>
+                <td><input type="text" id="studentsSurnameToAdd" placeholder="Surname" required></td>
+                <td><input type="date" min="1950-01-01" max="2010-01-01" id="studentsBrithdateToAdd" required></td>
+				<td><button type="button" id="addStudent">Dodaj</button></td>
+			</tr>
+		</table>
+	</form>
+</article>
+
+
+<article id="grades">
+	<h2>Lista ocen studenta</h2>
+	<form id="GradesForm">
+		<table>
+			<tr>
+				<th>Wartość</th>
+				<th>Data</th>
+				<th>Przedmiot</th>
+			</tr>
+			<tr> <!--do filtrowanie -->
+				<td>
+					<select>
+						<option value="" disabled selected hidden>Wybierz...</option>
+						<option value="2">2.0</option>
+						<option value="3">3.0</option>
+						<option value="35">3.5</option>
+						<option value="4">4.0</option>
+						<option value="45">4.5</option>
+						<option value="5">5.0</option>
+					</select>
+				</td>
+                <td><input type="date" min="1950-01-01" max="2010-01-01" id="gradeDate"></td>
+				<td>
+					<select>
+						<option value="" disabled selected hidden>Wybierz...</option>
+						<option value="1">Informatyka</option>
+						<option value="2">Matematyka</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td> 
+					<select>
+						<option value="2">2.0</option>
+						<option value="3">3.0</option>
+						<option value="35">3.5</option>
+						<option value="4" selected>4.0</option>
+						<option value="45">4.5</option>
+						<option value="5">5.0</option>
+					</select>
+				</td>
+				<td> <input type="date" value="1996-01-05" min="1950-01-01" max="2010-01-01" required> </td>
+				<td> 
+					<select>
+
+						<option value="1">Informatyka</option>
+						<option value="2" selected>Matematyka</option>
+					</select>
+				</td>
+				<td> <a href="#courses">Wyświetl przedmiot</a> </td>
+				<td><button type="button">Usuń</button></td>
+				<td><button type="button">Edytuj</button></td>
+				
+			</tr>
+			<tr>
+				<td> 
+				<select>
+						<option value="2">2.0</option>
+						<option value="3" selected>3.0</option>
+						<option value="35">3.5</option>
+						<option value="4">4.0</option>
+						<option value="45">4.5</option>
+						<option value="5">5.0</option>
+					</select>
+				</td>
+				<td> <input type="date" value="2019-11-25" min="1950-01-01" max="2020-01-01" required> </td>
+				<td> 
+					<select>
+						<option value="1" selected>Informatyka</option>
+						<option value="2">Matematyka</option>
+					</select>
+				</td>
+				<td> <a href="#courses">Wyświetl przedmiot</a> </td>
+				<td><button type="button">Usuń</button></td>
+				<td><button type="button">Edytuj</button></td>
+			</tr>
+			<tr> <!--do dodawania -->
+				<td>
+					<select>
+						<option value="" disabled selected hidden>Wybierz...</option>
+						<option value="2">2.0</option>
+						<option value="3">3.0</option>
+						<option value="35">3.5</option>
+						<option value="4">4.0</option>
+						<option value="45">4.5</option>
+						<option value="5">5.0</option>
+					</select>
+				</td>
+                <td><input type="date" id="gradeDateToAdd" required></td>
+				<td>
+					<select>
+						 <option value="" disabled selected hidden>Wybierz...</option>
+						<option value="1">Informatyka</option>
+						<option value="2">Matematyka</option>
+					</select>
+				</td>
+				<td><button type="button" id="addGrade">Dodaj</button></td>
+			</tr>
+		</table>
+	</form>
+</article>
+
+
+
+<article id="courses">
+	<h2>Lista przedmiotów</h2>
+	<form id="CoursesForm">
+		<table>
+			<tr>
+				<th>Nazwa</th>
+				<th>Prowadzący</th>
+			</tr>
+			<tr> <!--do filtrowanie -->
+                <td><input type="text" id="courseName" placeholder="Name"></td>
+                <td><input type="text" id="teacherName" placeholder="TeacherName"></td>
+			</tr>
+			<tr>
+				<td> <input type="text" value="Matematyka" required> </td>
+				<td> <input type="text" value="Jan Kowslaki" required>  </td>
+				<td><button type="button">Usuń</button></td>
+				<td><button type="button">Edytuj</button></td>
+			</tr>
+			<tr>
+				<td> <input type="text" value="Informatyka" required> </td>
+				<td> <input type="text" value="Grażyna Nowak" required>  </td>
+				<td><button type="button">Usuń</button></td>
+				<td><button type="button">Edytuj</button></td>
+			</tr>
+			<tr> <!--do dodania -->
+                <td><input type="text" id="courseNameToAdd" placeholder="Name" required></td>
+                <td><input type="text" id="teacherNameToAdd" placeholder="Surname" required></td>
+				<td><button type="button" id="addCourse">Dodaj</button></td>
+			</tr>
+		</table>
+	</form>
+</article>
+
+
+
+
+<footer>
+	Autor: <address>Katarzyna Jóźwiak (abc@wp.pl)</address>
+	<a href="url">https://www.put.poznan.pl/</a>
+</footer>
+</html>

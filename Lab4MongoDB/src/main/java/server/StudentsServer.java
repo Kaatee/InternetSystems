@@ -7,6 +7,7 @@ import model.Course;
 import model.Grade;
 import model.Student;
 import model.StudentIndex;
+import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 
@@ -80,17 +81,16 @@ public class StudentsServer {
     @Path("/{indexNumber}/grades")
     @Produces({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
     public Response getStudentGrades(@PathParam("indexNumber") int indexNumber,
-                                     @QueryParam("courseName") String courseName,
+                                     @QueryParam("courseId") ObjectId courseId,
                                      @QueryParam("value") float value,
                                      @QueryParam("type") String type) {
-
 
 
         datastore = DatabaseHandler.getInstance().getDatastore();
         Student student = datastore.find(Student.class, "index", indexNumber).get();
 
         if (student != null) {
-            Grade[] gradesList = studentDAO.findStudentGrades(student, courseName, value, type);
+            Grade[] gradesList = studentDAO.findStudentGrades(student, courseId, value, type);
             return Response.status(200).entity(gradesList).build();
         } else
             return Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
