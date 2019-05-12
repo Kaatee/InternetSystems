@@ -1,6 +1,17 @@
-article {
+	article {
         display: none;
       }
       article:target {
         display: block;
       }
+
+header{
+	background-color:#3161F0;
+	color:white;
+	  
+}
+
+footer{
+	background: linear-gradient(#FDFAFB, #BFD6FF);
+	  
+}
