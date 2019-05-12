@@ -8,10 +8,105 @@
 header{
 	background-color:#3161F0;
 	color:white;
+	font-family: "Verdana";
+	font-size: 1.5em;
+	padding:5px;
 	  
 }
 
 footer{
 	background: linear-gradient(#FDFAFB, #BFD6FF);
+	padding:15px;
 	  
 }
+
+a:hover{
+    text-decoration: underline;
+	font-size: 1.2em;
+}
+a{
+    text-decoration: none;
+	font-size: 1.2em;
+}
+
+h1{
+	font-family: "Lucida Console";
+}
+
+tr:nth-child(even) {
+    background-color: #D9E6FF;
+}
+
+tr {
+   align-items: center;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+th {
+  height: 2em;
+  background-color:#C0D0FF;
+}
+
+
+tr:hover {
+	background-color: #96A6FF;
+	}
+	
+input:invalid {
+    color : red;
+}
+
+
+@media print {
+article {
+        display: block;
+}
+ 
+ 
+body{
+        background-color: white;
+        color: black;
+}
+
+
+
+tr:nth-child(2), tr:last-child, button, nav, footer, header,a{
+        display: none;
+}
+
+td {
+        border-bottom: 1px solid #000000;
+}
+
+tr,td{
+	font-size: 1em;
+}
+
+table{
+	border:0;
+}
+
+table, th, td {
+  border: 0;
+  background-color:white;
+}
+
+th, td {
+  border-bottom: 1px solid #ddd;
+}
+
+input
+{
+border-style: none;
+}
+	
+	
+}
+
