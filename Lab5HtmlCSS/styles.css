@@ -1,0 +1,6 @@
+article {
+        display: none;
+      }
+      article:target {
+        display: block;
+      }
