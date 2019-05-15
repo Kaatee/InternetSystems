@@ -10,7 +10,7 @@ article {
 article:target {
 	padding:20px;
 	flex: 80%;
-       display: block;
+    display: block;
 }
 
 
@@ -90,24 +90,28 @@ input:invalid {
     color : red;
 }
 
+input, select{
+	background-color: transparent;
+}
+
 
 @media print {
-article{
-        display: block;
+article:target{
+    display: block;
 }
  
  
 body{
-        background-color: white;
-        color: black;
+    background-color: white;
+    color: black;
 }
 
 tr:nth-child(2), tr:last-child, button, nav, footer, header,a{
-        display: none;
+    display: none;
 }
 
 td {
-        border-bottom: 1px solid #000000;
+    border-bottom: 1px solid #000000;
 }
 
 tr,td{
@@ -128,11 +132,20 @@ th, td {
 }
 
 input, textarea {
-        border: 0 !important;
-        border-style: none !important;
+        border: none;
 		-webkit-appearance: none;
-		-moz-appearance:textfield;
+		 -moz-appearance:textfield;
 
+}
+
+button.datetime-reset-button {
+	display: none;
+}
+
+select{
+	border:none;
+	-webkit-appearance: none;
+	-moz-appearance:textfield;
 }
 	
 	
