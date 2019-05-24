@@ -1,24 +1,30 @@
-"use strict";
+'use strict';
 
-console.log("aaa")
-$(document).ready(function() {
+var URL = 'http://localhost:8000/'
 
-    ko.applyBindings({
-        student: [
-            { index: '123', name: "Abc", surname: "fgbdv", birthdate: "2019-04-13" },
-            { index: '234', name: "rtef", surname: "hgfbvd", birthdate: "2019-04-03" },
-            { index: '654', name: "gbfd", surname: "gfbvd", birthdate: "2019-04-23" }
-        ],
-        course: [
-            { name: 'Bert', teacher: "name"},
-            { name: 'Bert', teacher: "name"}
-        ],
-        grade: [
-            { grade: 3.5, course: [
-                    { name: 'Bert', teacher: "name"},
-                    { name: 'aa', teacher: "name"}
-                ]}
-        ]
-    });
-
+$(document).ready(function(){
+    console.log("Abc")
+    ko.applyBindings(new studentsViewModel());
 });
+
+function studentsViewModel() {
+    var self = this;
+    self.studentsList = ko.observableArray();
+
+    $.ajax({
+        type: 'GET',
+        url: URL + 'students',
+        contentType: "application/json",
+        dataType: "json",
+        success: function(data) {
+            console.log(data)
+            var observableData = ko.mapping.fromJS(data);
+            var array = observableData();
+            self.studentsList(array);
+         },
+        error:function(jq, st, error){
+            alert(error);
+        }
+    });
+}
+

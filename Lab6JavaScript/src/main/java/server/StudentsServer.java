@@ -35,6 +35,7 @@ public class StudentsServer {
 
         List<Student> studentsList = studentDAO.findStudents(name, surname, dateFrom, dateTo, index, dateExacly);
         Student[] students = studentsList.toArray(new Student[studentsList.size()]);
+        System.out.println("Get Students");
         return Response.status(200).entity(students).build();
     }
 
