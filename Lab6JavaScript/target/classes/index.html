@@ -51,25 +51,16 @@
 				<td></td>
 			</tr>
 			<!--<tbody data-bind="foreach: student">-->
-			<!--<tbody data-bind="foreach: studentsList">-->
-				<!--<tr >-->
-					<!--<td> <input type="number" data-bind="value: index" name="index" readonly>  </td>-->
-					<!--<td> <input type="text" data-bind="value: name" name="name"required> </td>-->
-					<!--<td> <input type="text" data-bind="value: surname" name="surname"required> </td>-->
-					<!--<td> <input type="date" data-bind="value: birthdate" name="birthdate" min="1950-01-01" max="2050-01-01" required> </td>-->
-					<!--<td> <a href="#grades">Wyświetl oceny</a> </td>-->
-					<!--<td><button type="button" >Usuń</button></td>-->
-					<!--<td><button type="button" >Edytuj</button></td>-->
-				<!--</tr>-->
-			<!--</tbody>-->
-			<tbody data-bind="foreach: students">
-			<tr>
-				<td> <input type="number" data-bind="value: index" name="index" readonly> </td>
-				<td> <input type="text" data-bind="value: name" name="name" required> </td>
-				<td> <input type="text" data-bind="value: surname" name="surname" required> </td>
-				<td> <input type="date" data-bind="value: birthdate" name="birthdate" min="1950-01-01" max="2050-01-01" required> </td>
-				<td><button type="button">Edit</button></td>
-			</tr>
+			<tbody data-bind="foreach: studentsList">
+				<tr >
+					<td> <input type="number" data-bind="value: index" name="index" readonly>  </td>
+					<td> <input type="text" data-bind="value: name" name="name"required> </td>
+					<td> <input type="text" data-bind="value: surname" name="surname"required> </td>
+					<td> <input type="date" data-bind="value: birthdate" name="birthdate" min="1950-01-01" max="2050-01-01" required> </td>
+					<td> <a href="#grades">Wyświetl oceny</a> </td>
+					<td><button type="button" >Usuń</button></td>
+					<td><button type="button" >Edytuj</button></td>
+				</tr>
 			</tbody>
 			<tr> <!--do dodania -->
 				<td>Dodaj studenta</td>

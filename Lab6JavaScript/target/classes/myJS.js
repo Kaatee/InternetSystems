@@ -1,31 +1,29 @@
 'use strict';
 
-var URL = 'http://localhost:8000/';
-var sampleData = [{
-    "index": 127001,
-    "name": "John",
-    "surname": "Smith",
-    "birthdate": "1996-11-11"
-},
-    {
-        "index": 127002,
-        "name": "Abcd",
-        "surname": "Xyz",
-        "birthdate": "1996-11-01"
-    }
-];
+var URL = 'http://localhost:8000/'
 
+$(document).ready(function(){
+    console.log("Abc")
+    ko.applyBindings(new studentsViewModel());
+});
 
-var StateViewModel = function() {
+function studentsViewModel() {
     var self = this;
-    self.students = ko.observableArray();
+    self.studentsList = ko.observableArray();
 
-    setTimeout(function() {
-        //console.log(sampleData)
-        ko.mapping.fromJS(sampleData, {}, self.students);
-    }, 1000);
+    $.ajax({
+        type: 'GET',
+        url: URL + 'students',
+        contentType: "application/json",
+        dataType: "json",
+        success: function(data) {
+            var observableData = ko.mapping.fromJS(data);
+            var array = observableData();
+            self.studentsList(array);
+         },
+        error:function(jq, st, error){
+            alert(error);
+        }
+    });
 }
-
-var model = new StateViewModel();
-ko.applyBindings(model);
 

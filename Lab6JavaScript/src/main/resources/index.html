@@ -147,12 +147,14 @@
                 <td><input type="text" id="teacherName" placeholder="TeacherName"></td>
 				<td></td><td></td>
 			</tr>
-			<tr>
-				<td> <input type="text" value="Informatyka" required> </td>
-				<td> <input type="text" value="Grażyna Nowak" required>  </td>
-				<td><button type="button">Usuń</button></td>
-				<td><button type="button">Edytuj</button></td>
-			</tr>
+			<tbody data-bind="foreach: coursesList">
+				<tr>
+					<td> <input type="text" data-bind="value: name" name="name" required> </td>
+					<td> <input type="text" data-bind="value: teacherName" name="teacherName" required>  </td>
+					<td><button type="button">Usuń</button></td>
+					<td><button type="button">Edytuj</button></td>
+				</tr>
+			</tbody>
 			<tr> <!--do dodania -->
                 <td><input type="text" id="courseNameToAdd" placeholder="Name" required></td>
                 <td><input type="text" id="teacherNameToAdd" placeholder="Surname" required></td>
