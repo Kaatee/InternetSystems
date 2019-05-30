@@ -15,8 +15,10 @@ function studentsViewModel() {
         contentType: "application/json",
         dataType: "json",
         success: function(data) {
+            //console.log(data["link"])
             var observableData = ko.mapping.fromJS(data);
             var array = observableData();
+            console.log(array['link'])
             self.studentsList(array);
          },
         error:function(jq, st, error){

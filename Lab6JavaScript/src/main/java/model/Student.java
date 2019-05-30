@@ -47,12 +47,13 @@ public class Student {
 
 
     @InjectLinks({
-            @InjectLink(resource = StudentsServer.class, rel = "self",bindings = @Binding(name = "indexNumber",
+            @InjectLink(resource = StudentsServer.class, rel = "self", bindings = @Binding(name = "indexNumber",
                     value = "${instance.index}"), method = "getStudentByIndex"),
-            @InjectLink(rel = "parent",method = "findStudents", resource = StudentsServer.class),
-            @InjectLink( rel = "grades",method = "findStudentGrades", resource = StudentsServer.class,
+            @InjectLink(rel = "parent", method = "findStudents", resource = StudentsServer.class),
+            @InjectLink(rel = "grades", method = "findStudentGrades", resource = StudentsServer.class,
                     bindings = @Binding(name = "indexNumber", value = "${instance.index}"))
     })
+
     @XmlElement(name="link")
     @XmlElementWrapper(name = "links")
     @XmlJavaTypeAdapter(Link.JaxbAdapter.class)
