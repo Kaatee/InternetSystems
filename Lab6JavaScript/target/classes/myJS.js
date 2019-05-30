@@ -1,10 +1,18 @@
 'use strict';
 
 var URL = 'http://localhost:8000/'
+var viewModel= {
+    students: new studentsViewModel(),
+    courses: new coursesViewModel()
+}
+
 
 $(document).ready(function(){
-    ko.applyBindings(new studentsViewModel());
+    ko.applyBindings(viewModel.students);
+    ko.applyBindings(viewModel.courses);
 });
+
+
 
 function studentsViewModel() {
     var self = this;
@@ -14,18 +22,19 @@ function studentsViewModel() {
         url: URL + 'students',
         contentType: "application/json",
         dataType: "json",
-        success: function(data) {
+        success: function (data) {
             //console.log(data["link"])
             var observableData = ko.mapping.fromJS(data);
             var array = observableData();
-            console.log(array['link'])
             self.studentsList(array);
-         },
-        error:function(jq, st, error){
+        },
+        error: function (jq, st, error) {
             alert(error);
         }
     });
+}
 
+function coursesViewModel(){
     self.coursesList = ko.observableArray();
     $.ajax({
         type: 'GET',

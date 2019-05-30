@@ -88,8 +88,8 @@
 				<th></th>
 			</tr>
 			<tr> <!--do filtrowanie -->
-				<td><input type="number" name="value" min="2.0" max="5.0" step="0.5" placeholder="value"></td>
-                <td><input type="date" min="1950-01-01" max="2010-01-01" id="gradeDate"></td>
+				<td><input type="number" name="value" min="2.0" max="5.0" step="0.5" id="gradeValueFiltringplaceholder="value"></td>
+                <td><input type="date" min="1950-01-01" max="2010-01-01" id="gradeDateFiltring"></td>
 				<td>
 					<select>
 						<option value="" disabled selected hidden>Wybierz...</option>
@@ -99,21 +99,21 @@
 				</td>
 				<td></td><td></td><td></td>
 			</tr>
-			<tr>
-				<td><input type="number" name="value" value="2.0" min="2.0" max="5.0" step="0.5"></td>
-				<td> <input type="date" value="1996-01-05" min="1950-01-01" max="2010-01-01" required> </td>
-				<td> 
-					<select>
-
-						<option value="1">Informatyka</option>
-						<option value="2" selected>Matematyka</option>
-					</select>
-				</td>
-				<td> <a href="#courses">Wyświetl przedmiot</a> </td>
-				<td><button type="button">Usuń</button></td>
-				<td><button type="button">Edytuj</button></td>
-				
+			<tbody data-bind="">
+				<tr>
+					<td><input type="number" id="gradeValue" name="value" min="2.0" max="5.0" step="0.5"></td>
+					<td> <input type="date" id="gradeDate" min="1950-01-01" max="2010-01-01" required> </td>
+					<td>
+						<select>
+							<option value="1">Informatyka</option>
+							<option value="2" selected>Matematyka</option>
+						</select>
+					</td>
+					<td> <a href="#grades">Wyświetl przedmiot</a> </td>
+					<td><button type="button">Usuń</button></td>
+					<td><button type="button">Edytuj</button></td>
 			</tr>
+			</tbody>
 			<tr> <!--do dodawania -->
 				<td><input type="number" name="value" min="2.0" max="5.0" step="0.5" placeholder="value"></td>
                 <td><input type="date" id="gradeDateToAdd" required></td>
