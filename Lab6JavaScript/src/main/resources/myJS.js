@@ -75,7 +75,18 @@ var viewModel = function () {
             dataType : "json",
             contentType: "application/json",
         }).done(function(data) {
-            self.students.studentsList.push(new ObservableObject(data));
+        });
+    };
+
+    self.deleteCourse = function(course) {
+        var jsonCourse = ko.toJS(course);
+        var id = jsonCourse["id"];
+        $.ajax({
+            url: URL + 'courses/'+ id,
+            type: 'DELETE',
+            dataType : "json",
+            contentType: "application/json",
+        }).done(function(data) {
         });
     };
 }
@@ -136,6 +147,5 @@ function coursesViewModel(){
 
 //dodawanie oceny studenciakowi
 //usuwanie oceny studenciakowi
-//usuwanie przedmiotu
 //edycja studenciaka
 //edycja przedmiotu
