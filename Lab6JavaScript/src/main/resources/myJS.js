@@ -37,6 +37,11 @@ var viewModel = function () {
         birthdate: ko.observable()
     };
 
+    self.newCourse = {
+        name: ko.observable(),
+        teacherName: ko.observable()
+    };
+
     self.addNewStudent = function() {
         $.ajax({
             url: URL + 'students',
@@ -46,6 +51,18 @@ var viewModel = function () {
             data: ko.mapping.toJSON(self.newStudent)
         }).done(function(data) {
             self.students.studentsList.push(new ObservableObject(data));
+        });
+    };
+
+    self.addNewCourse = function() {
+        $.ajax({
+            url: URL + 'courses',
+            type: 'POST',
+            dataType : "json",
+            contentType: "application/json",
+            data: ko.mapping.toJSON(self.newCourse)
+        }).done(function(data) {
+            self.courses.coursesList.push(new ObservableObject(data));
         });
     };
 
@@ -115,3 +132,10 @@ function coursesViewModel(){
 
 //refresh po dodaniu studenta
 //dobry przedmiot w selecie
+//subskrybowanie
+
+//dodawanie oceny studenciakowi
+//usuwanie oceny studenciakowi
+//usuwanie przedmiotu
+//edycja studenciaka
+//edycja przedmiotu

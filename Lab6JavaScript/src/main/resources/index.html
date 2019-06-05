@@ -139,7 +139,7 @@
 
 <article id="courses">
 	<h2>Lista przedmiotów</h2>
-	<form id="CoursesForm">
+	<form id="CoursesForm" data-bind="submit: addNewCourse">
 		<table>
 			<tr>
 				<th>Nazwa</th>
@@ -159,9 +159,9 @@
 			</tr>
 			</tbody>
 			<tr> <!--do dodania -->
-				<td><input type="text" id="courseNameToAdd" placeholder="Name" required></td>
-				<td><input type="text" id="teacherNameToAdd" placeholder="Surname" required></td>
-				<td><button type="button" id="addCourse">Dodaj</button></td>
+				<td><input type="text" data-bind="value: newCourse.name" id="courseNameToAdd" placeholder="Name" required></td>
+				<td><input type="text" data-bind="value: newCourse.teacherName" id="teacherNameToAdd" placeholder="Surname" required></td>
+				<td><button type="submit" id="addCourse">Dodaj</button></td>
 
 			</tr>
 		</table>
