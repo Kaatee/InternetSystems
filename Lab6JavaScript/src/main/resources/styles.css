@@ -93,6 +93,7 @@ input:invalid {
 
 input, select{
 	background-color: transparent;
+	border:none;
 }
 
 

@@ -29,7 +29,7 @@
 
 <article id="students">
 	<h2>Lista studentów</h2>
-	<form id="StudentsForm">
+	<form id="StudentsForm" data-bind="submit: addNewStudent">
 		<table>
 			<tr>
 				<th>Index</th>
@@ -61,10 +61,10 @@
 			</tbody>
 			<tr> <!--do dodania -->
 				<td>Dodaj studenta</td>
-				<td><input type="text" id="studentsNameToAdd" placeholder="Name" required></td>
-				<td><input type="text" id="studentsSurnameToAdd" placeholder="Surname" required></td>
-				<td><input type="date" min="1950-01-01" max="2010-01-01" id="studentsBrithdateToAdd" required></td>
-				<td><button type="button" id="addStudent">Dodaj</button></td>
+				<td><input type="text" data-bind="value: newStudent.name" id="studentsNameToAdd" placeholder="Name" required></td>
+				<td><input type="text" data-bind="value: newStudent.surname" id="studentsSurnameToAdd" placeholder="Surname" required></td>
+				<td><input type="date" data-bind="value: newStudent.birthdate" min="1950-01-01" max="2020-01-01" id="studentsBrithdateToAdd" required></td>
+				<td><button type="submit" id="addStudent">Dodaj</button></td>
 				<td></td>
 			</tr>
 		</table>

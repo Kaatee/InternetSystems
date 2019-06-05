@@ -30,6 +30,24 @@ var viewModel = function () {
 
             window.location.href = '#grades';
         }
+
+    self.newStudent = {
+        name: ko.observable(),
+        surname: ko.observable(),
+        birthdate: ko.observable()
+    };
+
+    self.addNewStudent = function() {
+        $.ajax({
+            url: URL + 'students',
+            type: 'POST',
+            dataType : "json",
+            contentType: "application/json",
+            data: ko.mapping.toJSON(self.newStudent)
+        }).done(function(data) {
+            self.students.push(new ObservableObject(data));
+        });
+    };
 }
 
 
@@ -80,3 +98,6 @@ function coursesViewModel(){
         }
     });
 }
+
+//refresh po dodaniu studenta
+//dobry przedmiot w selecie
