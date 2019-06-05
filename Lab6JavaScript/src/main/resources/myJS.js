@@ -89,6 +89,19 @@ var viewModel = function () {
         }).done(function(data) {
         });
     };
+
+    self.deleteGrade = function(grade) {
+        var jsonGrade = ko.toJS(grade);
+        var id = jsonGrade["id"];
+        var studentId = jsonGrade["studentId"];
+        $.ajax({
+            url: URL + 'students/'+ studentId + '/grades/' + id,
+            type: 'DELETE',
+            dataType : "json",
+            contentType: "application/json",
+        }).done(function(data) {
+        });
+    };
 }
 
 
@@ -146,6 +159,5 @@ function coursesViewModel(){
 //subskrybowanie
 
 //dodawanie oceny studenciakowi
-//usuwanie oceny studenciakowi
 //edycja studenciaka
 //edycja przedmiotu
