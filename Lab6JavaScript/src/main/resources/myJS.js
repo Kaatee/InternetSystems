@@ -7,10 +7,8 @@ var viewModel = function () {
     self.students = new studentsViewModel(),
         self.courses = new coursesViewModel(),
         self.getStudentsGrades = function(student) {
-        console.log("Dziala klikania")
             var jsonStudent = ko.toJS(student);
             var index = jsonStudent["index"];
-            console.log(index)
             $.ajax({
                 type: 'GET',
                 url: URL + 'students/' + index + '/grades',
@@ -37,7 +35,9 @@ var viewModel = function () {
 
 $(document).ready(function(){
     ko.applyBindings(new viewModel());
+
 });
+
 
 function studentsViewModel() {
     var self = this;
@@ -59,6 +59,8 @@ function studentsViewModel() {
         }
     });
 }
+
+//$root - zawsze z VM
 
 function coursesViewModel(){
     var self = this;

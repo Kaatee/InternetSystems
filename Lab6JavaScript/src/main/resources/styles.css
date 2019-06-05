@@ -43,7 +43,7 @@ footer{
 	flex:100%;
 	background: linear-gradient(#FDFAFB, #BFD6FF);
 	position: fixed;
-	bottom: 0;
+	/*bottom: 0;*/
 	width: 100%;
 	
 	  
