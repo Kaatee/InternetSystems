@@ -1,18 +1,23 @@
 'use strict';
 
 var URL = 'http://localhost:8000/'
-var viewModel= {
-    students: new studentsViewModel(),
-    courses: new coursesViewModel()
+var viewModel= function() {
+    self.students = new studentsViewModel(),
+    self.courses = new coursesViewModel(),
+    self.getStudentsGrades = function(student) {
+        console.log("abc");
+        console.log(student["grade"]);
+
+
+
+        window.location.href = '#grades';
+    }
 }
 
 
 $(document).ready(function(){
-    ko.applyBindings(viewModel.students);
-    ko.applyBindings(viewModel.courses);
+    ko.applyBindings(viewModel);
 });
-
-
 
 function studentsViewModel() {
     var self = this;
@@ -35,6 +40,7 @@ function studentsViewModel() {
 }
 
 function coursesViewModel(){
+    var self = this;
     self.coursesList = ko.observableArray();
     $.ajax({
         type: 'GET',
@@ -51,4 +57,6 @@ function coursesViewModel(){
         }
     });
 }
+
+
 

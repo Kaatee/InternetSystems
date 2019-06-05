@@ -1,22 +1,42 @@
 'use strict';
 
 var URL = 'http://localhost:8000/'
-var viewModel= function() {
+var viewModel = function () {
+    var self = this;
+    self.gradesList = ko.observableArray();
     self.students = new studentsViewModel(),
-    self.courses = new coursesViewModel(),
-    self.getStudentsGrades = function(student) {
-        console.log("abc");
-        console.log(student["grade"]);
+        self.courses = new coursesViewModel(),
+        self.getStudentsGrades = function(student) {
+        console.log("Dziala klikania")
+            var jsonStudent = ko.toJS(student);
+            var index = jsonStudent["index"];
+            console.log(index)
+            $.ajax({
+                type: 'GET',
+                url: URL + 'students/' + index + '/grades',
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
+                    console.log("Oceny: ")
+                    console.log(data)
 
+                    var observableData = ko.mapping.fromJS(data);
+                    var array = observableData();
+                    console.log(array)
+                    self.gradesList(array);
+                },
+                error: function (jq, st, error) {
+                    alert(error);
+                }
+            });
 
-
-        window.location.href = '#grades';
-    }
+            window.location.href = '#grades';
+        }
 }
 
 
 $(document).ready(function(){
-    ko.applyBindings(viewModel);
+    ko.applyBindings(new viewModel());
 });
 
 function studentsViewModel() {
@@ -28,9 +48,10 @@ function studentsViewModel() {
         contentType: "application/json",
         dataType: "json",
         success: function (data) {
-            //console.log(data["link"])
+            //console.log(data)
             var observableData = ko.mapping.fromJS(data);
             var array = observableData();
+            //console.log(array)
             self.studentsList(array);
         },
         error: function (jq, st, error) {
@@ -57,6 +78,3 @@ function coursesViewModel(){
         }
     });
 }
-
-
-
