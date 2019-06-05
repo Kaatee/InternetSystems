@@ -45,10 +45,24 @@ var viewModel = function () {
             contentType: "application/json",
             data: ko.mapping.toJSON(self.newStudent)
         }).done(function(data) {
-            self.students.push(new ObservableObject(data));
+            self.students.studentsList.push(new ObservableObject(data));
+        });
+    };
+
+    self.deleteStudent = function(student) {
+        var jsonStudent = ko.toJS(student);
+        var idx = jsonStudent["index"];
+        $.ajax({
+            url: URL + 'students/'+ idx,
+            type: 'DELETE',
+            dataType : "json",
+            contentType: "application/json",
+        }).done(function(data) {
+            self.students.studentsList.push(new ObservableObject(data));
         });
     };
 }
+
 
 
 $(document).ready(function(){
