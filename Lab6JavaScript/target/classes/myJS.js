@@ -3,14 +3,14 @@
 var URL = 'http://localhost:8000/'
 var viewModel = function () {
     var self = this;
+    self.currentIdx = 0;
     self.gradesList = ko.observableArray();
     self.students = new studentsViewModel(),
         self.courses = new coursesViewModel(),
         self.getStudentsGrades = function(student) {
-        console.log("Dziala klikania")
             var jsonStudent = ko.toJS(student);
             var index = jsonStudent["index"];
-            console.log(index)
+            self.currentIdx = index;
             $.ajax({
                 type: 'GET',
                 url: URL + 'students/' + index + '/grades',
@@ -32,7 +32,98 @@ var viewModel = function () {
 
             window.location.href = '#grades';
         }
+
+    self.newStudent = {
+        name: ko.observable(),
+        surname: ko.observable(),
+        birthdate: ko.observable()
+    };
+
+    self.newCourse = {
+        name: ko.observable(),
+        teacherName: ko.observable()
+    };
+
+    self.newGrade = {
+        date: ko.observable(),
+        value: ko.observable(),
+
+    };
+
+    self.addNewStudent = function() {
+        $.ajax({
+            url: URL + 'students',
+            type: 'POST',
+            dataType : "json",
+            contentType: "application/json",
+            data: ko.mapping.toJSON(self.newStudent)
+        }).done(function(data) {
+            self.students.studentsList.push(new ObservableObject(data));
+        });
+    };
+
+    self.addNewCourse = function() {
+        $.ajax({
+            url: URL + 'courses',
+            type: 'POST',
+            dataType : "json",
+            contentType: "application/json",
+            data: ko.mapping.toJSON(self.newCourse)
+        }).done(function(data) {
+            self.courses.coursesList.push(new ObservableObject(data));
+        });
+    };
+
+    self.deleteStudent = function(student) {
+        var jsonStudent = ko.toJS(student);
+        var idx = jsonStudent["index"];
+        $.ajax({
+            url: URL + 'students/'+ idx,
+            type: 'DELETE',
+            dataType : "json",
+            contentType: "application/json",
+        }).done(function(data) {
+        });
+    };
+
+    self.deleteCourse = function(course) {
+        var jsonCourse = ko.toJS(course);
+        var id = jsonCourse["id"];
+        $.ajax({
+            url: URL + 'courses/'+ id,
+            type: 'DELETE',
+            dataType : "json",
+            contentType: "application/json",
+        }).done(function(data) {
+        });
+    };
+
+    self.deleteGrade = function(grade) {
+        var jsonGrade = ko.toJS(grade);
+        var id = jsonGrade["id"];
+        var studentId = jsonGrade["studentId"];
+        $.ajax({
+            url: URL + 'students/'+ studentId + '/grades/' + id,
+            type: 'DELETE',
+            dataType : "json",
+            contentType: "application/json",
+        }).done(function(data) {
+        });
+    };
+
+    self.addNewGrade = function() {
+        $.ajax({
+            url: URL + 'students/' + self.currentIdx + '/grades',
+            type: 'POST',
+            dataType : "json",
+            contentType: "application/json",
+            data: ko.mapping.toJSON(self.newGrade)
+        }).done(function(data) {
+            self.getStudentsGrades.gradesList.push(new ObservableObject(data));
+        });
+    };
 }
+
 
 
 $(document).ready(function(){
@@ -40,21 +131,6 @@ $(document).ready(function(){
 
 });
 
-function loadCourses(model) {
-    var jsonData = ko.toJS(model.courseFilters);
-
-    $.ajax({
-        url: URL + 'courses',
-        type: 'GET',
-        dataType : "json",
-        data: jsonData,
-        contentType: "application/json"
-    }).done(function(result) {
-        result.forEach(function (record) {
-            model.courses.push(new ObservableObject(record));
-        });
-    });
-}
 
 function studentsViewModel() {
     var self = this;
@@ -77,6 +153,8 @@ function studentsViewModel() {
     });
 }
 
+//$root - zawsze z VM
+
 function coursesViewModel(){
     var self = this;
     self.coursesList = ko.observableArray();
@@ -95,3 +173,11 @@ function coursesViewModel(){
         }
     });
 }
+
+//refresh po dodaniu studenta
+//dobry przedmiot w selecie
+//subskrybowanie
+
+//dodawanie oceny studenciakowi
+//edycja studenciaka
+//edycja przedmiotu

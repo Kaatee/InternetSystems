@@ -3,24 +3,22 @@
 var URL = 'http://localhost:8000/'
 var viewModel = function () {
     var self = this;
+    self.currentIdx = 0;
     self.gradesList = ko.observableArray();
     self.students = new studentsViewModel(),
         self.courses = new coursesViewModel(),
         self.getStudentsGrades = function(student) {
             var jsonStudent = ko.toJS(student);
             var index = jsonStudent["index"];
+            self.currentIdx = index;
             $.ajax({
                 type: 'GET',
                 url: URL + 'students/' + index + '/grades',
                 contentType: "application/json",
                 dataType: "json",
                 success: function (data) {
-                    console.log("Oceny: ")
-                    console.log(data)
-
                     var observableData = ko.mapping.fromJS(data);
                     var array = observableData();
-                    console.log(array)
                     self.gradesList(array);
                 },
                 error: function (jq, st, error) {
@@ -40,6 +38,14 @@ var viewModel = function () {
     self.newCourse = {
         name: ko.observable(),
         teacherName: ko.observable()
+    };
+
+    self.newGrade = {
+        date: ko.observable(),
+        value: ko.observable(),
+        course: {
+            id: ko.observable()
+        }
     };
 
     self.addNewStudent = function() {
@@ -102,6 +108,28 @@ var viewModel = function () {
         }).done(function(data) {
         });
     };
+
+/*
+  <grade>
+        <id>3</id>
+        <value>3.0</value>
+        <date>1996-11-01T00:00:00+01:00</date>
+        <course id="5cf7f917c20940463203c438"></course>
+    </grade>
+ */
+
+    self.addNewGrade = function() {
+        console.log(self.newGrade);
+        $.ajax({
+            url: URL + 'students/' + self.currentIdx + '/grades',
+            type: 'POST',
+            dataType : "json",
+            contentType: "application/json",
+            data: ko.mapping.toJSON(self.newGrade)
+        }).done(function(data) {
+            self.getStudentsGrades.gradesList.push(new ObservableObject(data));
+        });
+    };
 }
 
 
@@ -155,9 +183,9 @@ function coursesViewModel(){
 }
 
 //refresh po dodaniu studenta
-//dobry przedmiot w selecie
+//'-Wybierz-' w selekcie niewybranych
 //subskrybowanie
 
-//dodawanie oceny studenciakowi
+
 //edycja studenciaka
 //edycja przedmiotu

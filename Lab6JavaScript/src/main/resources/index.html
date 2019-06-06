@@ -72,7 +72,7 @@
 
 <article id="grades">
 	<h2>Lista ocen studenta</h2>
-	<form id="GradesForm">
+	<form id="GradesForm"  data-bind="submit: addNewGrade">
 		<table>
 			<tr>
 				<th>Wartość</th>
@@ -99,7 +99,7 @@
 			<tbody data-bind="foreach: gradesList">
 			<tr>
 				<td><input type="number" id="gradeValue" data-bind="value: value" name="value" min="2.0" max="5.0" step="0.5"></td>
-				<td> <input type="date" id="gradeDate" data-bind="value: date" name="date" min="1950-01-01" max="2010-01-01" required> </td>
+				<td> <input type="date" id="gradeDate" data-bind="value: date" name="date" min="1950-01-01" max="2020-01-01" required> </td>
 				<td>
 					<select data-bind="options: $parent.courses.coursesList,
                       optionsText: function(item) {
@@ -108,7 +108,6 @@
                       optionsValue: function(item) {
                         return item.value;
                       },
-                      optionsCaption: '- Wybierz -',
                       value: course.name()">
 					</select>
 				</td>
@@ -116,20 +115,21 @@
 			</tr>
 			</tbody>
 			<tr> <!--do dodawania -->
-				<td><input type="number" name="value" min="2.0" max="5.0" step="0.5" placeholder="value"></td>
-				<td><input type="date" id="gradeDateToAdd" required></td>
+				<td><input type="number" data-bind="value: newGrade.value" name="value" min="2.0" max="5.0" step="0.5" placeholder="value"></td>
+				<td><input type="date" data-bind="value: newGrade.date" id="gradeDateToAdd" required></td>
 				<td>
 					<select data-bind="options: courses.coursesList,
                       optionsText: function(item) {
                         return item.name;
                       },
                       optionsValue: function(item) {
-                        return item.value;
+                        return item.id;
                       },
-                      optionsCaption: '- Wybierz -'">
+                      optionsCaption: '- Wybierz -',
+					value: newGrade.course.id">
 					</select>
 				</td>
-				<td><button type="button" id="addGrade">Dodaj</button></td>
+				<td><button type="submit" id="addGrade">Dodaj</button></td>
 			</tr>
 		</table>
 	</form>

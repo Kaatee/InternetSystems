@@ -20,7 +20,6 @@
 <nav>
 	<ul>
 		<li> <a class="menu" href="#students">Lista studentów</a> </li>
-		<!--<li> <a class="menu" href="#grades">Lista ocen</a></li>-->
 		<li> <a class="menu" href="#courses">Lista przedmiotów</a></li>
 	</ul>
 </nav>
@@ -29,14 +28,13 @@
 
 <article id="students">
 	<h2>Lista studentów</h2>
-	<form id="StudentsForm">
+	<form id="StudentsForm" data-bind="submit: addNewStudent">
 		<table>
 			<tr>
 				<th>Index</th>
 				<th>Imię</th>
 				<th>Nazwisko</th>
 				<th>Data urodzenia</th>
-				<th></th>
 				<th></th>
 				<th></th>
 
@@ -48,7 +46,6 @@
 				<td><input type="date" min="1950-01-01" max="2010-01-01" id="studentsBrithdate"></td>
 				<td></td>
 				<td></td>
-				<td></td>
 			</tr>
 			<!--<tbody data-bind="foreach: student">-->
 			<tbody data-bind="foreach: students.studentsList">
@@ -58,16 +55,15 @@
 				<td> <input type="text" data-bind="value: surname" name="surname"required> </td>
 				<td> <input type="date" data-bind="value: birthdate" name="birthdate" min="1950-01-01" max="2050-01-01" required> </td>
 				<td><button type="button" data-bind="click: $parent.getStudentsGrades">Wyświetl oceny</button></td>
-				<td><button type="button" >Usuń</button></td>
+				<td><button type="button" data-bind="click: $parent.deleteStudent">Usuń</button></td>
 			</tr>
 			</tbody>
 			<tr> <!--do dodania -->
 				<td>Dodaj studenta</td>
-				<td><input type="text" id="studentsNameToAdd" placeholder="Name" required></td>
-				<td><input type="text" id="studentsSurnameToAdd" placeholder="Surname" required></td>
-				<td><input type="date" min="1950-01-01" max="2010-01-01" id="studentsBrithdateToAdd" required></td>
-				<td><button type="button" id="addStudent">Dodaj</button></td>
-				<td></td>
+				<td><input type="text" data-bind="value: newStudent.name" id="studentsNameToAdd" placeholder="Name" required></td>
+				<td><input type="text" data-bind="value: newStudent.surname" id="studentsSurnameToAdd" placeholder="Surname" required></td>
+				<td><input type="date" data-bind="value: newStudent.dateOfBirth" min="1950-01-01" max="2020-01-01" id="studentsBrithdateToAdd" required></td>
+				<td><button type="submit" id="addStudent">Dodaj</button></td>
 				<td></td>
 			</tr>
 		</table>
@@ -76,60 +72,63 @@
 
 <article id="grades">
 	<h2>Lista ocen studenta</h2>
-	<form id="GradesForm">
+	<form id="GradesForm"  data-bind="submit: addNewGrade">
 		<table>
 			<tr>
 				<th>Wartość</th>
 				<th>Data</th>
 				<th>Przedmiot</th>
 				<th></th>
-				<th></th>
-				<th></th>
 			</tr>
 			<tr> <!--do filtrowanie -->
 				<td><input type="number" name="value" min="2.0" max="5.0" step="0.5" id="gradeValueFiltringplaceholder="></td>
 				<td><input type="date" min="1950-01-01" max="2010-01-01" id="gradeDateFiltring"></td>
 				<td>
-					<select>
-						<option value="" disabled selected hidden>Wybierz...</option>
-						<option value="1">Informatyka</option>
-						<option value="2">Matematyka</option>
-					</select>
-				</td>
-				<td></td><td></td><td></td>
-			</tr>
-			<tbody data-bind="foreach: gradesList">
-			<tr>
-				<td><input type="number" id="gradeValue" data-bind="value: value" name="value" min="2.0" max="5.0" step="0.5"></td>
-				<td> <input type="date" id="gradeDate" data-bind="value: date" name="date" min="1950-01-01" max="2010-01-01" required> </td>
-				<td>
-					<select data-bind="options: courses,
+					<select data-bind="options: courses.coursesList,
                       optionsText: function(item) {
                         return item.name;
                       },
                       optionsValue: function(item) {
                         return item.value;
                       },
-                      optionsCaption: '- Wybierz -',
-                      value: course.name">
+                      optionsCaption: '- Wybierz -'">
 					</select>
 				</td>
-				<td> <a href="#grades">Wyświetl przedmiot</a> </td>
-				<td><button type="button">Usuń</button></td>
+				<td></td>
+			</tr>
+			<tbody data-bind="foreach: gradesList">
+			<tr>
+				<td><input type="number" id="gradeValue" data-bind="value: value" name="value" min="2.0" max="5.0" step="0.5"></td>
+				<td> <input type="date" id="gradeDate" data-bind="value: date" name="date" min="1950-01-01" max="2010-01-01" required> </td>
+				<td>
+					<select data-bind="options: $parent.courses.coursesList,
+                      optionsText: function(item) {
+                        return item.name;
+                      },
+                      optionsValue: function(item) {
+                        return item.value;
+                      },
+                      value: course.name()">
+					</select>
+				</td>
+				<td><button type="button" data-bind="click: $parent.deleteGrade">Usuń</button></td>
 			</tr>
 			</tbody>
 			<tr> <!--do dodawania -->
-				<td><input type="number" name="value" min="2.0" max="5.0" step="0.5" placeholder="value"></td>
-				<td><input type="date" id="gradeDateToAdd" required></td>
+				<td><input type="number" data-bind="value: newGrade.value" name="value" min="2.0" max="5.0" step="0.5" placeholder="value"></td>
+				<td><input type="date" data-bind="value: newGrade.date" id="gradeDateToAdd" required></td>
 				<td>
-					<select>
-						<option value="" disabled selected hidden>Wybierz...</option>
-						<option value="1">Informatyka</option>
-						<option value="2">Matematyka</option>
+					<select data-bind="options: courses.coursesList,
+                      optionsText: function(item) {
+                        return item.name;
+                      },
+                      optionsValue: function(item) {
+                        return item.value;
+                      },
+                      optionsCaption: '- Wybierz -'">
 					</select>
 				</td>
-				<td><button type="button" id="addGrade">Dodaj</button></td>
-				<td></td><td></td>
+				<td><button type="submit" id="addGrade">Dodaj</button></td>
 			</tr>
 		</table>
 	</form>
@@ -139,30 +138,29 @@
 
 <article id="courses">
 	<h2>Lista przedmiotów</h2>
-	<form id="CoursesForm">
+	<form id="CoursesForm" data-bind="submit: addNewCourse">
 		<table>
 			<tr>
 				<th>Nazwa</th>
 				<th>Prowadzący</th>
-				<th></th><th></th>
+				<th></th>
 			</tr>
 			<tr> <!--do filtrowanie -->
 				<td><input type="text" id="courseName" placeholder="Name"></td>
 				<td><input type="text" id="teacherName" placeholder="TeacherName"></td>
-				<td></td><td></td>
+				<td></td>
 			</tr>
 			<tbody data-bind="foreach: courses.coursesList">
 			<tr>
 				<td> <input type="text" data-bind="value: name" name="name" required> </td>
 				<td> <input type="text" data-bind="value: teacherName" name="teacherName" required>  </td>
-				<td><button type="button">Usuń</button></td>
+				<td><button type="button" data-bind="click: $parent.deleteCourse">Usuń</button></td>
 			</tr>
 			</tbody>
 			<tr> <!--do dodania -->
-				<td><input type="text" id="courseNameToAdd" placeholder="Name" required></td>
-				<td><input type="text" id="teacherNameToAdd" placeholder="Surname" required></td>
-				<td><button type="button" id="addCourse">Dodaj</button></td>
-				<td></td>
+				<td><input type="text" data-bind="value: newCourse.name" id="courseNameToAdd" placeholder="Name" required></td>
+				<td><input type="text" data-bind="value: newCourse.teacherName" id="teacherNameToAdd" placeholder="Surname" required></td>
+				<td><button type="submit" id="addCourse">Dodaj</button></td>
 
 			</tr>
 		</table>
