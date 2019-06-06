@@ -146,6 +146,7 @@ public class StudentsServer {
     @Consumes({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
     @Produces({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
     public Response addStudent(Student student, @Context UriInfo uriInfo) {
+        System.out.println("POST student");
         datastore = DatabaseHandler.getInstance().getDatastore();
         List<Student> studentsList = datastore.find(Student.class).asList();
         //int newIdx = studentsList.size() + 127000 + 1;
@@ -160,7 +161,7 @@ public class StudentsServer {
 
             UriBuilder builder = uriInfo.getAbsolutePathBuilder();
             builder.path(Integer.toString(student.getIndex()));
-            return Response.created(builder.build()).status(201).type(Constants.PLAIN_TEXT).entity(Constants.ADDED_SUCCESSFULY).build();
+            return Response.created(builder.build()).status(201).entity(student).build();
         }
     }
 

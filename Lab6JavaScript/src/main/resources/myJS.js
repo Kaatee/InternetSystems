@@ -25,7 +25,6 @@ var viewModel = function () {
                     alert(error);
                 }
             });
-
             window.location.href = '#grades';
         }
 
@@ -49,6 +48,8 @@ var viewModel = function () {
     };
 
     self.addNewStudent = function() {
+        console.log(self.newStudent);
+        console.log(URL+'students');
         $.ajax({
             url: URL + 'students',
             type: 'POST',
@@ -56,7 +57,11 @@ var viewModel = function () {
             contentType: "application/json",
             data: ko.mapping.toJSON(self.newStudent)
         }).done(function(data) {
+            console.log(data);
             self.students.studentsList.push(new ObservableObject(data));
+            self.newStudent.name("");
+            self.newStudent.surname("");
+            self.newStudent.birthdate("");
         });
     };
 
@@ -68,7 +73,10 @@ var viewModel = function () {
             contentType: "application/json",
             data: ko.mapping.toJSON(self.newCourse)
         }).done(function(data) {
+            console.log(data);
             self.courses.coursesList.push(new ObservableObject(data));
+            self.newCourse.name("");
+            self.newCourse.teacherName("");
         });
     };
 
@@ -81,6 +89,7 @@ var viewModel = function () {
             dataType : "json",
             contentType: "application/json",
         }).done(function(data) {
+            self.grades.remove(grade);
         });
     };
 
@@ -93,6 +102,7 @@ var viewModel = function () {
             dataType : "json",
             contentType: "application/json",
         }).done(function(data) {
+            self.courses.coursesList.remove(course);
         });
     };
 
@@ -161,6 +171,34 @@ function studentsViewModel() {
     });
 }
 
+function resourceUrl(record) {
+    var links = record.link();
+    var resourceUrl = links.find(function(link) {
+        return link.params.rel() === "self"
+    });
+    return resourceUrl.href();
+}
+
+function ObservableObject(data) {
+    var self = this;
+    ko.mapping.fromJS(data, {}, self);
+
+    ko.computed(function() {
+        return ko.mapping.toJSON(self);
+    }).subscribe(function(res) {
+        var resource = ko.mapping.fromJSON(res);
+        $.ajax({
+            url: resourceUrl(resource),
+            type: 'PUT',
+            dataType : "json",
+            contentType: "application/json",
+            data: ko.mapping.toJSON(self)
+        }).done(function(data) {
+            console.log('Record updated');
+        });
+    });
+}
+
 //$root - zawsze z VM
 
 function coursesViewModel(){
@@ -182,10 +220,14 @@ function coursesViewModel(){
     });
 }
 
-//refresh po dodaniu studenta
+//refresh po usunieciu studenta
+//refresh po dodaniu oceny
+//refresh po usunieciu oceny
+
 //'-Wybierz-' w selekcie niewybranych
 //subskrybowanie
 
-
 //edycja studenciaka
+    //edycja zeby przy dodawaniu bylo ObservableObject
 //edycja przedmiotu
+    //edycja zeby przy dodawaniu bylo ObservableObject

@@ -28,7 +28,7 @@
 
 <article id="students">
 	<h2>Lista studentów</h2>
-	<form id="StudentsForm" data-bind="submit: addNewStudent">
+	<form id="studentsForm" data-bind="submit: addNewStudent">
 		<table>
 			<tr>
 				<th>Index</th>
@@ -62,7 +62,7 @@
 				<td>Dodaj studenta</td>
 				<td><input type="text" data-bind="value: newStudent.name" id="studentsNameToAdd" placeholder="Name" required></td>
 				<td><input type="text" data-bind="value: newStudent.surname" id="studentsSurnameToAdd" placeholder="Surname" required></td>
-				<td><input type="date" data-bind="value: newStudent.dateOfBirth" min="1950-01-01" max="2020-01-01" id="studentsBrithdateToAdd" required></td>
+				<td><input type="date" data-bind="value: newStudent.birthdate" min="1950-01-01" max="2020-01-01" id="studentsBrithdateToAdd" required></td>
 				<td><button type="submit" id="addStudent">Dodaj</button></td>
 				<td></td>
 			</tr>
@@ -139,7 +139,7 @@
 
 <article id="courses">
 	<h2>Lista przedmiotów</h2>
-	<form id="CoursesForm" data-bind="submit: addNewCourse">
+	<form id="coursesForm" data-bind="submit: addNewCourse">
 		<table>
 			<tr>
 				<th>Nazwa</th>

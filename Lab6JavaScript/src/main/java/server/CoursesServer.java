@@ -84,7 +84,7 @@ public class CoursesServer {
             }
 
             datastore.delete(datastore.find(Course.class, "id", courseId));
-            return Response.status(200).type(Constants.PLAIN_TEXT).entity(Constants.DELETED_SUCCESSFULY).build();
+            return Response.status(204).build();
         }
 
         return Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
@@ -102,7 +102,7 @@ public class CoursesServer {
 
             UriBuilder builder = uriInfo.getAbsolutePathBuilder();
             builder.path(course.getId().toString());
-            return Response.created(builder.build()).status(201).type(Constants.PLAIN_TEXT).entity(Constants.ADDED_SUCCESSFULY).build();
+            return Response.created(builder.build()).status(201).entity(course).build();
         }
     }
 
@@ -143,7 +143,7 @@ public class CoursesServer {
 
             datastore.save(courseFromDB);
 
-            return Response.status(201).type(Constants.PLAIN_TEXT).entity(Constants.EDITED_SUCCESSFULY).build();
+            return Response.status(200).entity(courseFromDB).build();
         }
 
     }
