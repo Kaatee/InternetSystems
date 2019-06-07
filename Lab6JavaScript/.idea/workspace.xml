@@ -16,8 +16,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="117" column="67" selection-start-line="117" selection-start-column="59" selection-end-line="117" selection-end-column="67" />
+            <state relative-caret-position="221">
+              <caret line="109" column="25" lean-forward="true" selection-start-line="109" selection-start-column="25" selection-end-line="109" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -25,14 +25,13 @@
       <file leaf-file-name="myJS.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/myJS.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="109">
-              <caret line="229" column="1" lean-forward="true" selection-start-line="229" selection-start-column="1" selection-end-line="229" selection-end-column="1" />
+            <state relative-caret-position="232">
+              <caret line="238" column="19" lean-forward="true" selection-start-line="238" selection-start-column="19" selection-end-line="238" selection-end-column="19" />
               <folding>
                 <element signature="e#1456#2016#0" />
                 <element signature="e#2540#2925#0" />
                 <element signature="e#2969#3311#0" />
                 <element signature="n#!!block;n#resourceUrl#0" />
-                <element signature="n#!!block;n#ObservableObject#0" />
               </folding>
             </state>
           </provider>
@@ -41,8 +40,8 @@
       <file leaf-file-name="Grade.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/model/Grade.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="25" column="23" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="23" />
+            <state relative-caret-position="-102">
+              <caret line="36" column="25" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -72,6 +71,7 @@
       <find>userMapping</find>
       <find>findGr</find>
       <find>getStudentsGrades</find>
+      <find>reso</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -85,8 +85,8 @@
         <option value="$PROJECT_DIR$/src/main/java/model/Student.java" />
         <option value="$PROJECT_DIR$/src/main/resources/styles.css" />
         <option value="$PROJECT_DIR$/src/main/java/server/CoursesServer.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/index.html" />
         <option value="$PROJECT_DIR$/src/main/java/server/StudentsServer.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/index.html" />
         <option value="$PROJECT_DIR$/src/main/resources/myJS.js" />
       </list>
     </option>
@@ -286,12 +286,12 @@
       <workItem from="1559805333526" duration="6663000" />
       <workItem from="1559818415036" duration="1131000" />
       <workItem from="1559827959643" duration="1347000" />
-      <workItem from="1559890092214" duration="2048000" />
+      <workItem from="1559890092214" duration="2997000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="73225000" />
+    <option name="totallyTimeSpent" value="74174000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
@@ -308,11 +308,11 @@
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.30546623" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.30546623" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2700454" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2700454" />
       <window_info anchor="right" id="Bean Validation" order="3" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -380,7 +380,6 @@
             <element signature="e#2540#2925#0" />
             <element signature="e#2969#3311#0" />
             <element signature="n#!!block;n#resourceUrl#0" />
-            <element signature="n#!!block;n#ObservableObject#0" />
           </folding>
         </state>
       </provider>
@@ -415,7 +414,6 @@
             <element signature="e#2540#2925#0" />
             <element signature="e#2969#3311#0" />
             <element signature="n#!!block;n#resourceUrl#0" />
-            <element signature="n#!!block;n#ObservableObject#0" />
           </folding>
         </state>
       </provider>
@@ -436,7 +434,6 @@
             <element signature="e#2540#2925#0" />
             <element signature="e#2969#3311#0" />
             <element signature="n#!!block;n#resourceUrl#0" />
-            <element signature="n#!!block;n#ObservableObject#0" />
           </folding>
         </state>
       </provider>
@@ -678,20 +675,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/model/Grade.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="25" column="23" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="117" column="67" selection-start-line="117" selection-start-column="59" selection-end-line="117" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/server/StudentsServer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -699,16 +682,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/model/Grade.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-102">
+          <caret line="36" column="25" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="109" column="25" lean-forward="true" selection-start-line="109" selection-start-column="25" selection-end-line="109" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/myJS.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="229" column="1" lean-forward="true" selection-start-line="229" selection-start-column="1" selection-end-line="229" selection-end-column="1" />
+        <state relative-caret-position="232">
+          <caret line="238" column="19" lean-forward="true" selection-start-line="238" selection-start-column="19" selection-end-line="238" selection-end-column="19" />
           <folding>
             <element signature="e#1456#2016#0" />
             <element signature="e#2540#2925#0" />
             <element signature="e#2969#3311#0" />
             <element signature="n#!!block;n#resourceUrl#0" />
-            <element signature="n#!!block;n#ObservableObject#0" />
           </folding>
         </state>
       </provider>

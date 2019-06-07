@@ -107,12 +107,19 @@ var viewModel = function () {
         });
     };
 
+    /*
+     var resource = ko.mapping.fromJSON(res);
+        $.ajax({
+            url: resourceUrl(resource),
+     */
     self.deleteGrade = function(grade) {
         var jsonGrade = ko.toJS(grade);
         var id = jsonGrade["id"];
-        var studentId = jsonGrade["studentId"];
+        var urlTmp = resourceUrl(grade);
+        var url = urlTmp.substring(1);
+        console.log(url)
         $.ajax({
-            url: URL + 'students/'+ studentId + '/grades/' + id,
+            url: URL + url,
             type: 'DELETE',
             dataType : "json",
             contentType: "application/json",
@@ -139,14 +146,9 @@ var viewModel = function () {
             contentType: "application/json",
             data: ko.mapping.toJSON(self.newGrade)
         }).done(function(data) {
-            console.log("Dodaje ocene")
-            console.log(data.grade)
             self.gradesList.push(new ObservableObject(data));
-            console.log("abc");
             self.newGrade.value("");
-            console.log("xyz");
             self.newGrade.date("");
-            console.log("123");
         });
     };
 }
@@ -228,8 +230,6 @@ function coursesViewModel(){
         }
     });
 }
-
-//refresh po usunieciu oceny + naprawa usuniecia
 
 //'-Wybierz-' w selekcie niewybranych i dobre w selekcie dodanych
 //subskrybowanie
