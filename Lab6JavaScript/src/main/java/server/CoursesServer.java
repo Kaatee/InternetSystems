@@ -112,26 +112,29 @@ public class CoursesServer {
     @Produces({Constants.APPLICATION_JSON, Constants.APPLICATION_XML})
     @Path("/{courseID}")
     public Response editCourse(Course course, @PathParam("courseID") ObjectId courseID) {
+        System.out.println("Edytuję ocenę");
         datastore = DatabaseHandler.getInstance().getDatastore();
         Course courseFromDB = datastore.find(Course.class, "id", courseID).get();
 
         if (courseFromDB == null) {
-            return Response.status(404).type(Constants.PLAIN_TEXT).entity("Course with given id doesn't exists").build();
+            return Response.status(404).build();
         } else {
             //edit student's grades
             Query<Student> studentsQuery = datastore.find(Student.class);
             List<Student> studentsList = studentsQuery.asList();
             for(Student s: studentsList){
-                for(Grade g: s.getGradesList()){
-                    if(g.getCourse().getId().equals(courseFromDB.getId())){
-                        if (!course.getName().isEmpty())
-                            g.getCourse().setName(course.getName());
+                if(s.getGradesList()!=null) {
+                    for (Grade g : s.getGradesList()) {
+                        if (g.getCourse().getId().equals(courseFromDB.getId())) {
+                            if (!course.getName().isEmpty())
+                                g.getCourse().setName(course.getName());
 
-                        if (!course.getTeacherName().isEmpty())
-                            g.getCourse().setTeacherName(course.getTeacherName());
+                            if (!course.getTeacherName().isEmpty())
+                                g.getCourse().setTeacherName(course.getTeacherName());
+                        }
                     }
+                    datastore.save(s);
                 }
-                datastore.save(s);
             }
 
             //edit course

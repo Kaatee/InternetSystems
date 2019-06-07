@@ -107,12 +107,19 @@ var viewModel = function () {
         });
     };
 
+    /*
+     var resource = ko.mapping.fromJSON(res);
+        $.ajax({
+            url: resourceUrl(resource),
+     */
     self.deleteGrade = function(grade) {
         var jsonGrade = ko.toJS(grade);
         var id = jsonGrade["id"];
-        var studentId = jsonGrade["studentId"];
+        var urlTmp = resourceUrl(grade);
+        var url = urlTmp.substring(1);
+        console.log(url)
         $.ajax({
-            url: URL + 'students/'+ studentId + '/grades/' + id,
+            url: URL + url,
             type: 'DELETE',
             dataType : "json",
             contentType: "application/json",
@@ -120,15 +127,6 @@ var viewModel = function () {
             self.gradesList.remove(grade)
         });
     };
-
-/*
-  <grade>
-        <id>3</id>
-        <value>3.0</value>
-        <date>1996-11-01T00:00:00+01:00</date>
-        <course id="5cf7f917c20940463203c438"></course>
-    </grade>
- */
 
     self.addNewGrade = function() {
         console.log(self.newGrade);
@@ -139,14 +137,9 @@ var viewModel = function () {
             contentType: "application/json",
             data: ko.mapping.toJSON(self.newGrade)
         }).done(function(data) {
-            console.log("Dodaje ocene")
-            console.log(data.grade)
-            self.gradesList.push(new ObservableObject(data.grade));
-            console.log("abc");
+            self.gradesList.push(new ObservableObject(data));
             self.newGrade.value("");
-            console.log("xyz");
             self.newGrade.date("");
-            console.log("123");
         });
     };
 }
@@ -219,9 +212,13 @@ function coursesViewModel(){
         contentType: "application/json",
         dataType: "json",
         success: function(data) {
-            var observableData = ko.mapping.fromJS(data);
-            var array = observableData();
-            self.coursesList(array);
+            //var observableData = ko.mapping.fromJS(data);
+            //var array = observableData();
+            //self.coursesList(array);
+
+            data.forEach(function (record) {
+                self.coursesList.push(new ObservableObject(record));
+            });
         },
         error:function(jq, st, error){
             alert(error);
@@ -229,13 +226,13 @@ function coursesViewModel(){
     });
 }
 
-//refresh po dodaniu oceny
-//refresh po usunieciu oceny + naprawa usuniecia
-
-//'-Wybierz-' w selekcie niewybranych i dobre w selekcie dodanych
-//subskrybowanie
+//subskrybowanie - https://knockoutjs.com/documentation/observables.html#explicitly-subscribing-to-observables
 
 //edycja studenciaka
     //edycja zeby przy dodawaniu bylo ObservableObject
 //edycja przedmiotu
     //edycja zeby przy dodawaniu bylo ObservableObject
+//edycja oceny
+    //edycja zeby przy dodawaniu bylo ObservableObject
+
+//filtrowanie - ignorowanie wielkosci liter
