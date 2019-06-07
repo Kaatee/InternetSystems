@@ -59,6 +59,9 @@ var viewModel = function () {
         }).done(function(data) {
             console.log(data);
             self.students.studentsList.push(new ObservableObject(data));
+            self.newStudent.name("");
+            self.newStudent.surname("");
+            self.newStudent.birthdate("");
         });
     };
 
@@ -86,7 +89,8 @@ var viewModel = function () {
             dataType : "json",
             contentType: "application/json",
         }).done(function(data) {
-            self.grades.remove(grade);
+            console.log("abc")
+            self.students.studentsList.remove(student);
         });
     };
 
@@ -113,6 +117,7 @@ var viewModel = function () {
             dataType : "json",
             contentType: "application/json",
         }).done(function(data) {
+            self.gradesList.remove(grade)
         });
     };
 
@@ -134,7 +139,14 @@ var viewModel = function () {
             contentType: "application/json",
             data: ko.mapping.toJSON(self.newGrade)
         }).done(function(data) {
-            self.getStudentsGrades.gradesList.push(new ObservableObject(data));
+            console.log("Dodaje ocene")
+            console.log(data.grade)
+            self.gradesList.push(new ObservableObject(data.grade));
+            console.log("abc");
+            self.newGrade.value("");
+            console.log("xyz");
+            self.newGrade.date("");
+            console.log("123");
         });
     };
 }
@@ -217,12 +229,10 @@ function coursesViewModel(){
     });
 }
 
-//refresh po dodaniu studenta
-//refresh po usunieciu studenta
 //refresh po dodaniu oceny
-//refresh po usunieciu oceny
+//refresh po usunieciu oceny + naprawa usuniecia
 
-//'-Wybierz-' w selekcie niewybranych
+//'-Wybierz-' w selekcie niewybranych i dobre w selekcie dodanych
 //subskrybowanie
 
 //edycja studenciaka

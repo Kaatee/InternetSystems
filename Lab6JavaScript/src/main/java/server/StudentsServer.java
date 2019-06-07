@@ -105,11 +105,11 @@ public class StudentsServer {
         try {
             datastore.find(Student.class, "index", indexNumber).get();
         } catch (Exception e) {
-            return Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
+            return Response.status(404).build();
         }
 
         datastore.delete(datastore.find(Student.class, "index", indexNumber));
-        return Response.status(200).type(Constants.PLAIN_TEXT).entity(Constants.DELETED_SUCCESSFULY).build();
+        return Response.status(204).build();
     }
 
     @DELETE
@@ -137,9 +137,9 @@ public class StudentsServer {
             student.setGradesList(newGrades, indexNumber);
             datastore.save(student);
 
-            return Response.status(200).type(Constants.PLAIN_TEXT).entity(Constants.DELETED_SUCCESSFULY).build();
+            return Response.status(204).build();
         }
-        return Response.status(404).type(Constants.PLAIN_TEXT).entity(Constants.RESULT_NOT_FOUND).build();
+        return Response.status(404).build();
     }
 
     @POST
@@ -175,10 +175,10 @@ public class StudentsServer {
         Student student = datastore.find(Student.class, "index", indexNumber).get();
 
         if (grade == null) {
-            return Response.status(404).type(Constants.PLAIN_TEXT).entity("You cannot add empty grade").build();
+            return Response.status(404).build();
         } else {
             if (student == null) {
-                return Response.status(404).type(Constants.PLAIN_TEXT).entity("Student with given index doesnt exists").build();
+                return Response.status(404).build();
             } else {
                 Course course = grade.getCourse();
 
@@ -188,7 +188,7 @@ public class StudentsServer {
                     grade.setStudentId(student.getIndex());
                 }
                 else {
-                    return Response.status(404).type(Constants.PLAIN_TEXT).entity("You should give course number").build();
+                    return Response.status(404).build();
                 }
                 Grade[] oldGrades = student.getGradesList();
                 Grade[] newGrades;
@@ -222,7 +222,7 @@ public class StudentsServer {
 
                 UriBuilder builder = uriInfo.getAbsolutePathBuilder();
                 builder.path(Integer.toString(grade.getId()));
-                return Response.created(builder.build()).status(201).type(Constants.PLAIN_TEXT).entity(Constants.ADDED_SUCCESSFULY).build();
+                return Response.created(builder.build()).status(201).entity(grade).build();
             }
         }
     }
