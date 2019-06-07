@@ -52,6 +52,7 @@
                    optionsValue: function(item) {
                        return item.dateValue
                    },
+                   optionsCaption: '- Wybierz -',
                    value: studentFilters.type"></select>
 				</td>
 				<td></td>
@@ -90,8 +91,18 @@
 				<th></th>
 			</tr>
 			<tr> <!--do filtrowanie -->
-				<td><input type="number" name="value" min="2.0" max="5.0" step="0.5" id="gradeValueFiltringplaceholder="></td>
-				<td><input type="date" min="1950-01-01" max="2010-01-01" id="gradeDateFiltring"></td>
+				<td><input type="number" data-bind="textInput: gradesFilters.value" name="value" min="2.0" max="5.0" step="0.5" id="gradeValueFiltringplaceholder=">
+					<select data-bind="options: filtreValueTypes,
+                   optionsText: function(item) {
+                       return item.valueName
+                   },
+                   optionsValue: function(item) {
+                       return item.valueValue
+                   },
+                   optionsCaption: '- Wybierz -',
+                   value: gradesFilters.type"></select>
+				</td>
+				<td></td>
 				<td>
 					<select data-bind="options: coursesList,
                       optionsText: function(item) {
@@ -101,7 +112,7 @@
                         return item.id;
                       },
                       optionsCaption: '- Wybierz -',
-					value: newGrade.course.id">
+					value: gradesFilters.courseId">
 					</select>
 				</td>
 				<td></td>

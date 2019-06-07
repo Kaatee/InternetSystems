@@ -1,10 +1,13 @@
 'use strict';
 
 var URL = 'http://localhost:8000/'
+var modified = false;
+
 var viewModel = function () {
     var self = this;
+    console.log("Robię modified na true")
 
-    var dataPossibleType = function(name, value) {
+    var dataPossibleType = function (name, value) {
         this.dateName = name;
         this.dateValue = value;
     };
@@ -15,9 +18,21 @@ var viewModel = function () {
         new dataPossibleType("Od", "dateFrom")
     ]);
 
+    var valuePossibleType = function (name, value) {
+        this.valueName = name;
+        this.valueValue = value;
+    };
+
+    self.filtreValueTypes = ko.observableArray([
+        new valuePossibleType("Wieksze niz", "greater"),
+        new valuePossibleType("Mniejsze niz", "less"),
+        new valuePossibleType("Dokladnie", "equal")
+    ]);
+
 
     self.studentSubscription = null;
     self.courseSubscription = null;
+    self.gradeSubscription = null;
 
     self.studentFilters = {
         index: ko.observable(),
@@ -37,16 +52,16 @@ var viewModel = function () {
     };
 
     self.gradesFilters = {
-        value: ko.observable(), //< == > od podanej -  type : equal, greater,  less
-        courseName: ko.observable()
+        value: ko.observable(),
+        courseId: ko.observable(),
+        type: ko.observable()
     };
-
-    self.currentIdx = 0;
 
     self.gradesList = ko.observableArray();
     self.studentsList = ko.observableArray();
     self.coursesList = ko.observableArray();
 
+    console.log("download students");
     function downloadStudents() {
         var jsonData = ko.toJS(self.studentFilters);
 
@@ -66,8 +81,8 @@ var viewModel = function () {
         if (jsonData.type === "") {
             delete jsonData.birthdate;
         }
-        else{
-            if(jsonData.type == "dateTo" ){
+        else {
+            if (jsonData.type == "dateTo") {
                 jsonData.dateTo = jsonData.birthdate;
                 delete jsonData.birthdate;
                 delete jsonData.dateExacly;
@@ -75,26 +90,23 @@ var viewModel = function () {
                 delete jsonData.type;
             }
 
-                if(jsonData.type == "dateExacly" ){
-                    jsonData.dateExacly = jsonData.birthdate;
-                    delete jsonData.birthdate;
-                    delete jsonData.dateTo;
-                    delete jsonData.dateFrom;
-                    delete jsonData.type;
-                }
-             if (jsonData.type == "dateFrom") {
-                        jsonData.dateFrom = jsonData.birthdate;
-                        delete jsonData.birthdate;
-                        delete jsonData.dateTo;
-                        delete jsonData.dateExacly;
-                        delete jsonData.type;
-                    }
-
+            if (jsonData.type == "dateExacly") {
+                jsonData.dateExacly = jsonData.birthdate;
+                delete jsonData.birthdate;
+                delete jsonData.dateTo;
+                delete jsonData.dateFrom;
+                delete jsonData.type;
+            }
+            if (jsonData.type == "dateFrom") {
+                jsonData.dateFrom = jsonData.birthdate;
+                delete jsonData.birthdate;
+                delete jsonData.dateTo;
+                delete jsonData.dateExacly;
+                delete jsonData.type;
             }
 
+        }
 
-        console.log("Dane do szukania: ");
-        console.log(jsonData);
         $.ajax({
             type: 'GET',
             url: URL + 'students',
@@ -105,6 +117,8 @@ var viewModel = function () {
                 self.studentsList.removeAll();
                 data.forEach(function (record) {
                     self.studentsList.push(new ObservableObject(record));
+                    self.currentStudentIdx = record["index"]
+
                 });
                 self.studentSubscription = self.studentsList.subscribe(removedObjectCallback, null, 'arrayChange');
             },
@@ -116,7 +130,8 @@ var viewModel = function () {
     }
     downloadStudents();
 
-    function downloadCourses(){
+    console.log("download courses");
+    function downloadCourses() {
         var jsonData = ko.toJS(self.coursesFilters);
         if (jsonData.name === "") {
             delete jsonData.name;
@@ -131,14 +146,14 @@ var viewModel = function () {
             contentType: "application/json",
             data: jsonData,
             dataType: "json",
-            success: function(data) {
+            success: function (data) {
                 self.coursesList.removeAll();
                 data.forEach(function (record) {
                     self.coursesList.push(new ObservableObject(record));
                 });
-                self.studentSubscription = self.coursesList.subscribe(removedObjectCallback, null, 'arrayChange');
+                self.courseSubscription = self.coursesList.subscribe(removedObjectCallback, null, 'arrayChange');
             },
-            error:function(jq, st, error){
+            error: function (jq, st, error) {
                 console.log("error")
                 alert(error);
             }
@@ -147,28 +162,59 @@ var viewModel = function () {
     downloadCourses();
 
 
-    self.getStudentsGrades = function(student) {
-            var jsonStudent = ko.toJS(student);
-            var index = jsonStudent["index"];
-            self.currentIdx = index;
-            $.ajax({
-                type: 'GET',
-                url: URL + 'students/' + index + '/grades',
-                contentType: "application/json",
-                dataType: "json",
-                success: function (data) {
-                    self.gradesList.removeAll();
+    self.getStudentsGrades = function(student){
+        console.log("Wchodze do guzika")
+        var jsonStudent = ko.toJS(student);
+        var index = jsonStudent["index"];
+        self.modified = true;
+        console.log("Robie modified na false")
+        self.currentStudentIdx = index;
+        downloadGrades();
+    }
 
-                    data.forEach(function (record) {
-                        self.gradesList.push(new ObservableObject(record));
-                    });
-                },
-                error: function (jq, st, error) {
-                    alert(error);
-                }
-            });
-            window.location.href = '#grades';
+
+    function downloadGrades() {
+        console.log("funkcja download grades");
+        var jsonData = ko.toJS(self.gradesFilters);
+        if (jsonData.value === "") {
+            delete jsonData.value;
+            delete jsonData.type;
         }
+        if (jsonData.courseId === "") {
+            delete jsonData.courseId;
+        }
+        if (jsonData.type === "") {
+            delete jsonData.type;
+            delete jsonData.value;
+        }
+        console.log("Do filtrowania ocen: ");
+        console.log(jsonData);
+
+        //var index = self.currentStudent;
+        //self.currentIdx = index;
+        console.log("Sciezka: " + URL + 'students/' +self.currentStudentIdx + '/grades');
+        $.ajax({
+            type: 'GET',
+            url: URL + 'students/' +self.currentStudentIdx + '/grades',
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                self.gradesList.removeAll();
+
+                data.forEach(function (record) {
+                    self.gradesList.push(new ObservableObject(record));
+                });
+                console.log("Wchodze do grades");
+                self.gradeSubscription = self.gradesList.subscribe(removedObjectCallback, null, 'arrayChange');
+
+            },
+            error: function (jq, st, error) {
+                alert(error);
+            }
+        });
+        window.location.href = '#grades';
+
+    }
 
     self.newStudent = {
         name: ko.observable(),
@@ -189,9 +235,9 @@ var viewModel = function () {
         }
     };
 
-    self.studentSubscription = null;
 
     self.addNewStudent = function() {
+        console.log("Nowy student: ");
         console.log(self.newStudent);
         console.log(URL+'students');
         $.ajax({
@@ -201,6 +247,7 @@ var viewModel = function () {
             contentType: "application/json",
             data: ko.mapping.toJSON(self.newStudent)
         }).done(function(data) {
+            console.log("Nowy student: ");
             console.log(data);
             self.studentsList.push(new ObservableObject(data));
 
@@ -218,6 +265,7 @@ var viewModel = function () {
             contentType: "application/json",
             data: ko.mapping.toJSON(self.newCourse)
         }).done(function(data) {
+            console.log("Nowy kurs: ");
             console.log(data);
             self.coursesList.push(new ObservableObject(data));
             self.newCourse.name("");
@@ -234,7 +282,7 @@ var viewModel = function () {
             dataType : "json",
             contentType: "application/json",
         }).done(function(data) {
-            console.log("abc")
+            console.log("usuwam studenta")
             self.studentsList.remove(student);
         });
     };
@@ -257,6 +305,7 @@ var viewModel = function () {
         var id = jsonGrade["id"];
         var urlTmp = resourceUrl(grade);
         var url = urlTmp.substring(1);
+        console.log("Url w usuwaniu oceny ");
         console.log(url)
         $.ajax({
             url: URL + url,
@@ -269,9 +318,10 @@ var viewModel = function () {
     };
 
     self.addNewGrade = function() {
+        console.log("Nowa ocena: ");
         console.log(self.newGrade);
         $.ajax({
-            url: URL + 'students/' + self.currentIdx + '/grades',
+            url: URL + 'students/' + self.currentStudentIdx + '/grades',
             type: 'POST',
             dataType : "json",
             contentType: "application/json",
@@ -290,6 +340,7 @@ var viewModel = function () {
                 self.studentSubscription.dispose();
             }
             self.studentsList.removeAll();
+            console.log("Download students from object");
             downloadStudents();
         });
     });
@@ -300,16 +351,30 @@ var viewModel = function () {
                 self.courseSubscription.dispose();
             }
             self.coursesList.removeAll();
+            console.log("Download courses from object");
             downloadCourses();
         });
+    });
+
+    Object.keys(self.gradesFilters).forEach(function (key) {
+        console.log("Jestem na zewnątrz object keys od grades");
+
+           self.gradesFilters[key].subscribe(function (val) {
+               if (self.gradeSubscription) {
+                   self.gradeSubscription.dispose();
+               }
+               self.gradesList.removeAll();
+               console.log("Download grades from object keys");
+               downloadGrades();
+           });
     });
 
 }
 
 
 $(document).ready(function(){
-    ko.applyBindings(new viewModel());
-
+    var model = new viewModel()
+    ko.applyBindings(model);
 });
 
 
@@ -331,8 +396,6 @@ function ObservableObject(data) {
         return ko.mapping.toJSON(self);
     }).subscribe(function(res) {
         var resource = ko.mapping.fromJSON(res);
-        console.log(resourceUrl(resource).substring(1));
-        console.log(data);
         $.ajax({
             url: URL + resourceUrl(resource).substring(1),
             type: 'PUT',
@@ -346,6 +409,8 @@ function ObservableObject(data) {
 }
 
 function removedObjectCallback(changes) {
+    console.log("Remove oject callable - changes: ");
+    console.log(changes);
     changes.forEach(function(change) {
         // Student / Course deleted from database
         if (change.status === 'deleted') {
