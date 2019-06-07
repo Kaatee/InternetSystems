@@ -89,9 +89,10 @@
                         return item.name;
                       },
                       optionsValue: function(item) {
-                        return item.value;
+                        return item.id;
                       },
-                      optionsCaption: '- Wybierz -'">
+                      optionsCaption: '- Wybierz -',
+					value: newGrade.course.id">
 					</select>
 				</td>
 				<td></td>
@@ -107,7 +108,8 @@
                       },
                       optionsValue: function(item) {
                         return item.id;
-                      }">
+                      },
+						value: course.id">
 					</select>
 				</td>
 				<td><button type="button" data-bind="click: $parent.deleteGrade">Usuń</button></td>

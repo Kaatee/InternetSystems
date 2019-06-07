@@ -128,15 +128,6 @@ var viewModel = function () {
         });
     };
 
-/*
-  <grade>
-        <id>3</id>
-        <value>3.0</value>
-        <date>1996-11-01T00:00:00+01:00</date>
-        <course id="5cf7f917c20940463203c438"></course>
-    </grade>
- */
-
     self.addNewGrade = function() {
         console.log(self.newGrade);
         $.ajax({
@@ -231,10 +222,11 @@ function coursesViewModel(){
     });
 }
 
-//'-Wybierz-' w selekcie niewybranych i dobre w selekcie dodanych
-//subskrybowanie
+//subskrybowanie - https://knockoutjs.com/documentation/observables.html#explicitly-subscribing-to-observables
 
 //edycja studenciaka
     //edycja zeby przy dodawaniu bylo ObservableObject
 //edycja przedmiotu
     //edycja zeby przy dodawaniu bylo ObservableObject
+
+//filtrowanie - ignorowanie wielkosci liter
