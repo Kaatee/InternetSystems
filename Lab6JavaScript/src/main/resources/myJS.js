@@ -4,18 +4,101 @@ var URL = 'http://localhost:8000/'
 var viewModel = function () {
     var self = this;
 
+    self.studentSubscription = null;
+    self.courseSubscription = null;
+
     self.studentFilters = {
         index: ko.observable(),
         name: ko.observable(),
         surname: ko.observable(),
         birthdate: ko.observable()
+    }; //dodac filtr do daty cos typu type
+
+    self.coursesFilters = {
+        name: ko.observable(),
+        teacherName: ko.observable()
+    };
+
+    self.gradesFilters = {
+        value: ko.observable(), //< == > od podanej
+        courseName: ko.observable()
     };
 
     self.currentIdx = 0;
+
     self.gradesList = ko.observableArray();
-    self.students = new studentsViewModel(self.studentFilters),
-        self.courses = new coursesViewModel(),
-        self.getStudentsGrades = function(student) {
+    self.studentsList = ko.observableArray();
+    self.coursesList = ko.observableArray();
+
+
+    function downloadStudents() {
+        var jsonData = ko.toJS(self.studentFilters);
+        if (jsonData.birthdate === "") {
+            delete jsonData.birthdate;
+        }
+        if (jsonData.name === "") {
+            delete jsonData.name;
+        }
+        if (jsonData.surname === "") {
+            delete jsonData.surname;
+        }
+        if (jsonData.index === "") {
+            delete jsonData.index;
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: URL + 'students',
+            contentType: "application/json",
+            data: jsonData,
+            dataType: "json",
+            success: function (data) {
+                self.studentsList.removeAll();
+                data.forEach(function (record) {
+                    self.studentsList.push(new ObservableObject(record));
+                });
+                self.studentSubscription = self.studentsList.subscribe(removedObjectCallback, null, 'arrayChange');
+            },
+            error: function (jq, st, error) {
+                console.log("error");
+                alert(error);
+            }
+        });
+    }
+    downloadStudents();
+
+    function downloadCourses(){
+        var jsonData = ko.toJS(self.coursesFilters);
+        if (jsonData.name === "") {
+            delete jsonData.name;
+        }
+        if (jsonData.teacherName === "") {
+            delete jsonData.teacherName;
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: URL + 'courses',
+            contentType: "application/json",
+            data: jsonData,
+            dataType: "json",
+            success: function(data) {
+                self.coursesList.removeAll();
+                data.forEach(function (record) {
+                    self.coursesList.push(new ObservableObject(record));
+                });
+                self.studentSubscription = self.coursesList.subscribe(removedObjectCallback, null, 'arrayChange');
+            },
+            error:function(jq, st, error){
+                console.log("error")
+                alert(error);
+            }
+        });
+    }
+    downloadCourses();
+
+
+    self.getStudentsGrades = function(student) {
             var jsonStudent = ko.toJS(student);
             var index = jsonStudent["index"];
             self.currentIdx = index;
@@ -25,9 +108,6 @@ var viewModel = function () {
                 contentType: "application/json",
                 dataType: "json",
                 success: function (data) {
-                    // var observableData = ko.mapping.fromJS(data);
-                    // var array = observableData();
-                    // self.gradesList(array);
                     self.gradesList.removeAll();
 
                     data.forEach(function (record) {
@@ -60,7 +140,7 @@ var viewModel = function () {
         }
     };
 
-
+    self.studentSubscription = null;
 
     self.addNewStudent = function() {
         console.log(self.newStudent);
@@ -73,7 +153,8 @@ var viewModel = function () {
             data: ko.mapping.toJSON(self.newStudent)
         }).done(function(data) {
             console.log(data);
-            self.students.studentsList.push(new ObservableObject(data));
+            self.studentsList.push(new ObservableObject(data));
+
             self.newStudent.name("");
             self.newStudent.surname("");
             self.newStudent.birthdate("");
@@ -89,7 +170,7 @@ var viewModel = function () {
             data: ko.mapping.toJSON(self.newCourse)
         }).done(function(data) {
             console.log(data);
-            self.courses.coursesList.push(new ObservableObject(data));
+            self.coursesList.push(new ObservableObject(data));
             self.newCourse.name("");
             self.newCourse.teacherName("");
         });
@@ -105,7 +186,7 @@ var viewModel = function () {
             contentType: "application/json",
         }).done(function(data) {
             console.log("abc")
-            self.students.studentsList.remove(student);
+            self.studentsList.remove(student);
         });
     };
 
@@ -118,15 +199,10 @@ var viewModel = function () {
             dataType : "json",
             contentType: "application/json",
         }).done(function(data) {
-            self.courses.coursesList.remove(course);
+            self.coursesList.remove(course);
         });
     };
 
-    /*
-     var resource = ko.mapping.fromJSON(res);
-        $.ajax({
-            url: resourceUrl(resource),
-     */
     self.deleteGrade = function(grade) {
         var jsonGrade = ko.toJS(grade);
         var id = jsonGrade["id"];
@@ -164,16 +240,22 @@ var viewModel = function () {
             if (self.studentSubscription) {
                 self.studentSubscription.dispose();
             }
-
-            // Clear list of students
-            self.students.removeAll();
-
-            // Load new data
-            loadStudents(self);
+            self.studentsList.removeAll();
+            downloadStudents();
         });
     });
-}
 
+    Object.keys(self.coursesFilters).forEach(function (key) {
+        self.coursesFilters[key].subscribe(function (val) {
+            if (self.courseSubscription) {
+                self.courseSubscription.dispose();
+            }
+            self.coursesList.removeAll();
+            downloadCourses();
+        });
+    });
+
+}
 
 
 $(document).ready(function(){
@@ -182,32 +264,7 @@ $(document).ready(function(){
 });
 
 
-function studentsViewModel(filters) {
-    var self = this;
-    var jsonData = ko.toJS(filters);
-    console.log("Filtry:");
-    console.log(jsonData);
-    if (jsonData.birthdate === "") {
-        delete jsonData.birthdate;
-    }
 
-    self.studentsList = ko.observableArray();
-    $.ajax({
-        type: 'GET',
-        url: URL + 'students',
-        contentType: "application/json",
-        data: jsonData,
-        dataType: "json",
-        success: function (data) {
-            data.forEach(function (record) {
-                self.studentsList.push(new ObservableObject(record));
-            });
-        },
-        error: function (jq, st, error) {
-            alert(error);
-        }
-    });
-}
 
 function resourceUrl(record) {
     var links = record.link();
@@ -226,7 +283,6 @@ function ObservableObject(data) {
     }).subscribe(function(res) {
         var resource = ko.mapping.fromJSON(res);
         console.log(resourceUrl(resource).substring(1));
-        console.log("Data to edit: ");
         console.log(data);
         $.ajax({
             url: URL + resourceUrl(resource).substring(1),
@@ -240,33 +296,18 @@ function ObservableObject(data) {
     });
 }
 
-//$root - zawsze z VM
-
-function coursesViewModel(){
-    var self = this;
-    self.coursesList = ko.observableArray();
-    $.ajax({
-        type: 'GET',
-        url: URL + 'courses',
-        contentType: "application/json",
-        dataType: "json",
-        success: function(data) {
-            //var observableData = ko.mapping.fromJS(data);
-            //var array = observableData();
-            //self.coursesList(array);
-
-            data.forEach(function (record) {
-                self.coursesList.push(new ObservableObject(record));
+function removedObjectCallback(changes) {
+    changes.forEach(function(change) {
+        // Student / Course deleted from database
+        if (change.status === 'deleted') {
+            $.ajax({
+                url: resourceUrl(change.value),
+                type: 'DELETE',
+                dataType : "json",
+                contentType: "application/json"
+            }).done(function() {
+                console.log('Object removed from eStudent service');
             });
-        },
-        error:function(jq, st, error){
-            alert(error);
         }
-    });
+    })
 }
-
-//subskrybowanie - https://knockoutjs.com/documentation/observables.html#explicitly-subscribing-to-observables
-
-//edycja oceny - tylko kursu w ocenie
-
-//filtrowanie - ignorowanie wielkosci liter
