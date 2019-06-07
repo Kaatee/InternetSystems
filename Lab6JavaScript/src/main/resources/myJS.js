@@ -4,6 +4,18 @@ var URL = 'http://localhost:8000/'
 var viewModel = function () {
     var self = this;
 
+    var dataPossibleType = function(name, value) {
+        this.dateName = name;
+        this.dateValue = value;
+    };
+
+    self.filtreDataTypes = ko.observableArray([
+        new dataPossibleType("Do", "dateTo"),
+        new dataPossibleType("Dokładnie", "dateExacly"),
+        new dataPossibleType("Od", "dateFrom")
+    ]);
+
+
     self.studentSubscription = null;
     self.courseSubscription = null;
 
@@ -11,8 +23,13 @@ var viewModel = function () {
         index: ko.observable(),
         name: ko.observable(),
         surname: ko.observable(),
-        birthdate: ko.observable()
-    }; //dodac filtr do daty cos typu type
+        birthdate: ko.observable(),
+        type: ko.observable(),
+        dateTo: ko.observable(),
+        dateExacly: ko.observable(),
+        dateFrom: ko.observable()
+
+    };
 
     self.coursesFilters = {
         name: ko.observable(),
@@ -20,7 +37,7 @@ var viewModel = function () {
     };
 
     self.gradesFilters = {
-        value: ko.observable(), //< == > od podanej
+        value: ko.observable(), //< == > od podanej -  type : equal, greater,  less
         courseName: ko.observable()
     };
 
@@ -30,11 +47,12 @@ var viewModel = function () {
     self.studentsList = ko.observableArray();
     self.coursesList = ko.observableArray();
 
-
     function downloadStudents() {
         var jsonData = ko.toJS(self.studentFilters);
+
         if (jsonData.birthdate === "") {
             delete jsonData.birthdate;
+            delete jsonData.type;
         }
         if (jsonData.name === "") {
             delete jsonData.name;
@@ -45,7 +63,38 @@ var viewModel = function () {
         if (jsonData.index === "") {
             delete jsonData.index;
         }
+        if (jsonData.type === "") {
+            delete jsonData.birthdate;
+        }
+        else{
+            if(jsonData.type == "dateTo" ){
+                jsonData.dateTo = jsonData.birthdate;
+                delete jsonData.birthdate;
+                delete jsonData.dateExacly;
+                delete jsonData.dateFrom;
+                delete jsonData.type;
+            }
 
+                if(jsonData.type == "dateExacly" ){
+                    jsonData.dateExacly = jsonData.birthdate;
+                    delete jsonData.birthdate;
+                    delete jsonData.dateTo;
+                    delete jsonData.dateFrom;
+                    delete jsonData.type;
+                }
+             if (jsonData.type == "dateFrom") {
+                        jsonData.dateFrom = jsonData.birthdate;
+                        delete jsonData.birthdate;
+                        delete jsonData.dateTo;
+                        delete jsonData.dateExacly;
+                        delete jsonData.type;
+                    }
+
+            }
+
+
+        console.log("Dane do szukania: ");
+        console.log(jsonData);
         $.ajax({
             type: 'GET',
             url: URL + 'students',

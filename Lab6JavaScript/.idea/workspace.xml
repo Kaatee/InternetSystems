@@ -21,8 +21,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="111">
-              <caret line="148" column="17" lean-forward="true" selection-start-line="148" selection-start-column="17" selection-end-line="148" selection-end-column="17" />
+            <state relative-caret-position="187">
+              <caret line="47" column="39" lean-forward="true" selection-start-line="47" selection-start-column="39" selection-end-line="47" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -30,15 +30,16 @@
       <file leaf-file-name="myJS.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/myJS.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="19" column="6" lean-forward="true" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
+            <state relative-caret-position="180">
+              <caret line="55" column="9" lean-forward="true" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
               <folding>
-                <element signature="e#132#271#0" />
                 <element signature="e#341#480#0" />
-                <element signature="e#609#651#0" />
-                <element signature="e#682#719#0" />
-                <element signature="e#753#793#0" />
-                <element signature="e#825#863#0" />
+                <element signature="e#1373#1423#0" />
+                <element signature="e#1458#1503#0" />
+                <element signature="e#1541#1589#0" />
+                <element signature="e#1625#1671#0" />
+                <element signature="e#1707#1753#0" />
+                <element signature="e#1788#2761#0" />
                 <element signature="e#1731#1781#0" />
                 <element signature="e#1816#1861#0" />
                 <element signature="e#313#1034#0" />
@@ -58,11 +59,20 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="StudentDAO.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Mongo/StudentDAO.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="80" column="54" selection-start-line="80" selection-start-column="50" selection-end-line="80" selection-end-column="54" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="StudentsServer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/server/StudentsServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="278" lean-forward="true" selection-start-line="278" selection-end-line="278" />
+            <state relative-caret-position="1139">
+              <caret line="86" column="54" selection-start-line="86" selection-start-column="50" selection-end-line="86" selection-end-column="54" />
             </state>
           </provider>
         </entry>
@@ -77,6 +87,7 @@
       <find>reso</find>
       <find>DELETE</find>
       <find>removeAll</find>
+      <find>findStudents</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -150,6 +161,14 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Lab6JavaScript" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Lab6JavaScript" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="Mongo" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Lab6JavaScript" type="b2602c69:ProjectViewProjectNode" />
@@ -291,12 +310,12 @@
       <workItem from="1559805333526" duration="6663000" />
       <workItem from="1559818415036" duration="1131000" />
       <workItem from="1559827959643" duration="1347000" />
-      <workItem from="1559890092214" duration="24821000" />
+      <workItem from="1559890092214" duration="27703000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="95998000" />
+    <option name="totallyTimeSpent" value="98880000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
@@ -313,11 +332,11 @@
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.23151125" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.23151125" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2700454" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2700454" />
       <window_info anchor="right" id="Bean Validation" order="3" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -346,13 +365,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/server/CoursesServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2006">
-          <caret line="118" column="40" selection-start-line="118" selection-start-column="40" selection-end-line="118" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/server/StudentsServer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2550">
@@ -386,12 +398,13 @@
         <state relative-caret-position="816">
           <caret line="48" column="31" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
           <folding>
-            <element signature="e#132#271#0" />
             <element signature="e#341#480#0" />
-            <element signature="e#609#651#0" />
-            <element signature="e#682#719#0" />
-            <element signature="e#753#793#0" />
-            <element signature="e#825#863#0" />
+            <element signature="e#1373#1423#0" />
+            <element signature="e#1458#1503#0" />
+            <element signature="e#1541#1589#0" />
+            <element signature="e#1625#1671#0" />
+            <element signature="e#1707#1753#0" />
+            <element signature="e#1788#2761#0" />
             <element signature="e#1731#1781#0" />
             <element signature="e#1816#1861#0" />
             <element signature="e#313#1034#0" />
@@ -436,12 +449,13 @@
         <state relative-caret-position="816">
           <caret line="48" column="31" lean-forward="true" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
           <folding>
-            <element signature="e#132#271#0" />
             <element signature="e#341#480#0" />
-            <element signature="e#609#651#0" />
-            <element signature="e#682#719#0" />
-            <element signature="e#753#793#0" />
-            <element signature="e#825#863#0" />
+            <element signature="e#1373#1423#0" />
+            <element signature="e#1458#1503#0" />
+            <element signature="e#1541#1589#0" />
+            <element signature="e#1625#1671#0" />
+            <element signature="e#1707#1753#0" />
+            <element signature="e#1788#2761#0" />
             <element signature="e#1731#1781#0" />
             <element signature="e#1816#1861#0" />
             <element signature="e#313#1034#0" />
@@ -472,12 +486,13 @@
         <state relative-caret-position="323">
           <caret line="19" column="42" lean-forward="true" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
           <folding>
-            <element signature="e#132#271#0" />
             <element signature="e#341#480#0" />
-            <element signature="e#609#651#0" />
-            <element signature="e#682#719#0" />
-            <element signature="e#753#793#0" />
-            <element signature="e#825#863#0" />
+            <element signature="e#1373#1423#0" />
+            <element signature="e#1458#1503#0" />
+            <element signature="e#1541#1589#0" />
+            <element signature="e#1625#1671#0" />
+            <element signature="e#1707#1753#0" />
+            <element signature="e#1788#2761#0" />
             <element signature="e#1731#1781#0" />
             <element signature="e#1816#1861#0" />
             <element signature="e#313#1034#0" />
@@ -742,29 +757,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/server/StudentsServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="278" lean-forward="true" selection-start-line="278" selection-end-line="278" />
+        <state relative-caret-position="1139">
+          <caret line="86" column="54" selection-start-line="86" selection-start-column="50" selection-end-line="86" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Mongo/StudentDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="80" column="54" selection-start-line="80" selection-start-column="50" selection-end-line="80" selection-end-column="54" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="148" column="17" lean-forward="true" selection-start-line="148" selection-start-column="17" selection-end-line="148" selection-end-column="17" />
+        <state relative-caret-position="187">
+          <caret line="47" column="39" lean-forward="true" selection-start-line="47" selection-start-column="39" selection-end-line="47" selection-end-column="39" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/myJS.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="19" column="6" lean-forward="true" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
+        <state relative-caret-position="180">
+          <caret line="55" column="9" lean-forward="true" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
           <folding>
-            <element signature="e#132#271#0" />
             <element signature="e#341#480#0" />
-            <element signature="e#609#651#0" />
-            <element signature="e#682#719#0" />
-            <element signature="e#753#793#0" />
-            <element signature="e#825#863#0" />
+            <element signature="e#1373#1423#0" />
+            <element signature="e#1458#1503#0" />
+            <element signature="e#1541#1589#0" />
+            <element signature="e#1625#1671#0" />
+            <element signature="e#1707#1753#0" />
+            <element signature="e#1788#2761#0" />
             <element signature="e#1731#1781#0" />
             <element signature="e#1816#1861#0" />
             <element signature="e#313#1034#0" />
