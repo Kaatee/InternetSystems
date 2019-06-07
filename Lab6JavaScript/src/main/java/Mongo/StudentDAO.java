@@ -72,6 +72,7 @@ public class StudentDAO {
                         }
 
                     } else if (type.get().equals("greater")) {
+                        System.out.println("greater");
                         for(Grade g: gradesTmp){
                             if(g.getValue() > valueF){
                                 gradesNew.add(g);

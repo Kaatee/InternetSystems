@@ -5,7 +5,6 @@ var modified = false;
 
 var viewModel = function () {
     var self = this;
-    console.log("Robię modified na true")
 
     var dataPossibleType = function (name, value) {
         this.dateName = name;
@@ -163,18 +162,16 @@ var viewModel = function () {
 
 
     self.getStudentsGrades = function(student){
-        console.log("Wchodze do guzika")
         var jsonStudent = ko.toJS(student);
         var index = jsonStudent["index"];
         self.modified = true;
-        console.log("Robie modified na false")
         self.currentStudentIdx = index;
         downloadGrades();
     }
 
 
     function downloadGrades() {
-        console.log("funkcja download grades");
+        console.log("download grades");
         var jsonData = ko.toJS(self.gradesFilters);
         if (jsonData.value === "") {
             delete jsonData.value;
@@ -197,12 +194,14 @@ var viewModel = function () {
             type: 'GET',
             url: URL + 'students/' +self.currentStudentIdx + '/grades',
             contentType: "application/json",
+            data: jsonData,
             dataType: "json",
             success: function (data) {
                 self.gradesList.removeAll();
 
                 data.forEach(function (record) {
                     self.gradesList.push(new ObservableObject(record));
+                    console.log(record);
                 });
                 console.log("Wchodze do grades");
                 self.gradeSubscription = self.gradesList.subscribe(removedObjectCallback, null, 'arrayChange');

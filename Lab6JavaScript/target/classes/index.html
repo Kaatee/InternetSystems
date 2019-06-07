@@ -44,11 +44,21 @@
 				<td><input type="search" data-bind="textInput: studentFilters.name" id="studentsName" placeholder="Name"></td>
 				<td><input type="search" data-bind="textInput: studentFilters.surname" id="studentsSurname" placeholder="Surname"></td>
 				<td><input type="date" data-bind="textInput: studentFilters.birthdate" min="1950-01-01" max="2020-01-01" id="studentsBrithdate"></td>
-				<td></td>
+				<td>
+					<select data-bind="options: filtreDataTypes,
+                   optionsText: function(item) {
+                       return item.dateName
+                   },
+                   optionsValue: function(item) {
+                       return item.dateValue
+                   },
+                   optionsCaption: '- Wybierz -',
+                   value: studentFilters.type"></select>
+				</td>
 				<td></td>
 			</tr>
 			<!--<tbody data-bind="foreach: student">-->
-			<tbody data-bind="foreach: students.studentsList">
+			<tbody data-bind="foreach: studentsList">
 			<tr >
 				<td> <input type="number" data-bind="value: index" name="index" readonly>  </td>
 				<td> <input type="text" data-bind="value: name" name="name"required> </td>
@@ -81,10 +91,20 @@
 				<th></th>
 			</tr>
 			<tr> <!--do filtrowanie -->
-				<td><input type="number" name="value" min="2.0" max="5.0" step="0.5" id="gradeValueFiltringplaceholder="></td>
-				<td><input type="date" min="1950-01-01" max="2010-01-01" id="gradeDateFiltring"></td>
+				<td><input type="number" data-bind="textInput: gradesFilters.value" name="value" min="2.0" max="5.0" step="0.5" id="gradeValueFiltringplaceholder=">
+					<select data-bind="options: filtreValueTypes,
+                   optionsText: function(item) {
+                       return item.valueName
+                   },
+                   optionsValue: function(item) {
+                       return item.valueValue
+                   },
+                   optionsCaption: '- Wybierz -',
+                   value: gradesFilters.type"></select>
+				</td>
+				<td></td>
 				<td>
-					<select data-bind="options: courses.coursesList,
+					<select data-bind="options: coursesList,
                       optionsText: function(item) {
                         return item.name;
                       },
@@ -92,7 +112,7 @@
                         return item.id;
                       },
                       optionsCaption: '- Wybierz -',
-					value: newGrade.course.id">
+					value: gradesFilters.courseId">
 					</select>
 				</td>
 				<td></td>
@@ -102,7 +122,7 @@
 				<td><input type="number" id="gradeValue" data-bind="value: value" name="valuee" min="2.0" max="5.0" step="0.5"></td>
 				<td> <input type="date" id="gradeDate" data-bind="value: date" name="date" min="1950-01-01" max="2020-01-01" required> </td>
 				<td>
-					<select data-bind="options: $parent.courses.coursesList,
+					<select data-bind="options: $parent.coursesList,
                       optionsText: function(item) {
                         return item.name;
                       },
@@ -119,7 +139,7 @@
 				<td><input type="number" data-bind="value: newGrade.value" name="value" min="2.0" max="5.0" step="0.5" placeholder="value"></td>
 				<td><input type="date" data-bind="value: newGrade.date" id="gradeDateToAdd" required></td>
 				<td>
-					<select data-bind="options: courses.coursesList,
+					<select data-bind="options: coursesList,
                       optionsText: function(item) {
                         return item.name;
                       },
@@ -148,11 +168,11 @@
 				<th></th>
 			</tr>
 			<tr> <!--do filtrowanie -->
-				<td><input type="text" id="courseName" placeholder="Name"></td>
-				<td><input type="text" id="teacherName" placeholder="TeacherName"></td>
+				<td><input type="search" data-bind="textInput: coursesFilters.name" id="courseName" placeholder="Name"></td>
+				<td><input type="search" data-bind="textInput: coursesFilters.teacherName" id="teacherName" placeholder="TeacherName"></td>
 				<td></td>
 			</tr>
-			<tbody data-bind="foreach: courses.coursesList">
+			<tbody data-bind="foreach: coursesList">
 			<tr>
 				<td> <input type="text" data-bind="value: name" name="name" required> </td>
 				<td> <input type="text" data-bind="value: teacherName" name="teacherName" required>  </td>
