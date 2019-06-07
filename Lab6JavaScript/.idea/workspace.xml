@@ -18,25 +18,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="128" column="52" lean-forward="true" selection-start-line="128" selection-start-column="52" selection-end-line="128" selection-end-column="52" />
+            <state relative-caret-position="306">
+              <caret line="111" column="40" selection-start-line="111" selection-start-column="40" selection-end-line="111" selection-end-column="40" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="myJS.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="myJS.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/myJS.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="233">
-              <caret line="202" column="24" lean-forward="true" selection-start-line="202" selection-start-column="24" selection-end-line="202" selection-end-column="24" />
+            <state relative-caret-position="181">
+              <caret line="220" column="20" lean-forward="true" selection-start-line="220" selection-start-column="20" selection-end-line="220" selection-end-column="20" />
               <folding>
-                <element signature="e#1456#2016#0" />
-                <element signature="e#2540#2925#0" />
                 <element signature="e#2969#3311#0" />
-                <element signature="n#!!block;n#resourceUrl#0" />
               </folding>
             </state>
           </provider>
@@ -45,8 +42,8 @@
       <file leaf-file-name="StudentsServer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/server/StudentsServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="271" column="30" lean-forward="true" selection-start-line="271" selection-start-column="30" selection-end-line="271" selection-end-column="30" />
+            <state relative-caret-position="234">
+              <caret line="278" lean-forward="true" selection-start-line="278" selection-end-line="278" />
             </state>
           </provider>
         </entry>
@@ -59,6 +56,7 @@
       <find>findGr</find>
       <find>getStudentsGrades</find>
       <find>reso</find>
+      <find>DELETE</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -71,8 +69,8 @@
         <option value="$PROJECT_DIR$/src/main/resources/komapping.js" />
         <option value="$PROJECT_DIR$/src/main/java/model/Student.java" />
         <option value="$PROJECT_DIR$/src/main/resources/styles.css" />
-        <option value="$PROJECT_DIR$/src/main/resources/index.html" />
         <option value="$PROJECT_DIR$/src/main/java/server/CoursesServer.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/index.html" />
         <option value="$PROJECT_DIR$/src/main/java/server/StudentsServer.java" />
         <option value="$PROJECT_DIR$/src/main/resources/myJS.js" />
       </list>
@@ -273,12 +271,12 @@
       <workItem from="1559805333526" duration="6663000" />
       <workItem from="1559818415036" duration="1131000" />
       <workItem from="1559827959643" duration="1347000" />
-      <workItem from="1559890092214" duration="7328000" />
+      <workItem from="1559890092214" duration="16192000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="78505000" />
+    <option name="totallyTimeSpent" value="87369000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
@@ -363,10 +361,7 @@
         <state relative-caret-position="816">
           <caret line="48" column="31" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
           <folding>
-            <element signature="e#1456#2016#0" />
-            <element signature="e#2540#2925#0" />
             <element signature="e#2969#3311#0" />
-            <element signature="n#!!block;n#resourceUrl#0" />
           </folding>
         </state>
       </provider>
@@ -397,10 +392,7 @@
         <state relative-caret-position="816">
           <caret line="48" column="31" lean-forward="true" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
           <folding>
-            <element signature="e#1456#2016#0" />
-            <element signature="e#2540#2925#0" />
             <element signature="e#2969#3311#0" />
-            <element signature="n#!!block;n#resourceUrl#0" />
           </folding>
         </state>
       </provider>
@@ -417,10 +409,7 @@
         <state relative-caret-position="323">
           <caret line="19" column="42" lean-forward="true" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
           <folding>
-            <element signature="e#1456#2016#0" />
-            <element signature="e#2540#2925#0" />
             <element signature="e#2969#3311#0" />
-            <element signature="n#!!block;n#resourceUrl#0" />
           </folding>
         </state>
       </provider>
@@ -669,30 +658,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="111" column="40" selection-start-line="111" selection-start-column="40" selection-end-line="111" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/server/StudentsServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="271" column="30" lean-forward="true" selection-start-line="271" selection-start-column="30" selection-end-line="271" selection-end-column="30" />
+        <state relative-caret-position="234">
+          <caret line="278" lean-forward="true" selection-start-line="278" selection-end-line="278" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/myJS.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="202" column="24" lean-forward="true" selection-start-line="202" selection-start-column="24" selection-end-line="202" selection-end-column="24" />
+        <state relative-caret-position="181">
+          <caret line="220" column="20" lean-forward="true" selection-start-line="220" selection-start-column="20" selection-end-line="220" selection-end-column="20" />
           <folding>
-            <element signature="e#1456#2016#0" />
-            <element signature="e#2540#2925#0" />
             <element signature="e#2969#3311#0" />
-            <element signature="n#!!block;n#resourceUrl#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="128" column="52" lean-forward="true" selection-start-line="128" selection-start-column="52" selection-end-line="128" selection-end-column="52" />
         </state>
       </provider>
     </entry>

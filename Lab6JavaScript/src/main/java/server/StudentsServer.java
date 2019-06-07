@@ -279,6 +279,10 @@ public class StudentsServer {
 
                     if (grade.getDate()!=null)
                         student.getGradesList()[i].setDate(grade.getDate());
+                    if(grade.getCourse().getId()!=null){
+                        Course newCourse = datastore.find(Course.class, "id", grade.getCourse().getId()).get();
+                        student.getGradesList()[i].setCourse(newCourse);
+                    }
                     datastore.save(student);
                     return Response.status(201).entity(student.getGradesList()[i]).build();
                 }

@@ -40,10 +40,10 @@
 
 			</tr>
 			<tr> <!--do filtrowanie -->
-				<td><input type="number" id="studentsIndex" placeholder="Index"></td>
-				<td><input type="text" id="studentsName" placeholder="Name"></td>
-				<td><input type="text" id="studentsSurname" placeholder="Surname"></td>
-				<td><input type="date" min="1950-01-01" max="2010-01-01" id="studentsBrithdate"></td>
+				<td><input type="number" data-bind="textInput: studentFilters.index" id="studentsIndex" placeholder="Index"></td>
+				<td><input type="search" data-bind="textInput: studentFilters.name" id="studentsName" placeholder="Name"></td>
+				<td><input type="search" data-bind="textInput: studentFilters.surname" id="studentsSurname" placeholder="Surname"></td>
+				<td><input type="date" data-bind="textInput: studentFilters.birthdate" min="1950-01-01" max="2020-01-01" id="studentsBrithdate"></td>
 				<td></td>
 				<td></td>
 			</tr>

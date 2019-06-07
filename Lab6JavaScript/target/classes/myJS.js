@@ -3,9 +3,17 @@
 var URL = 'http://localhost:8000/'
 var viewModel = function () {
     var self = this;
+
+    self.studentFilters = {
+        index: ko.observable(),
+        name: ko.observable(),
+        surname: ko.observable(),
+        birthdate: ko.observable()
+    };
+
     self.currentIdx = 0;
     self.gradesList = ko.observableArray();
-    self.students = new studentsViewModel(),
+    self.students = new studentsViewModel(self.studentFilters),
         self.courses = new coursesViewModel(),
         self.getStudentsGrades = function(student) {
             var jsonStudent = ko.toJS(student);
@@ -17,9 +25,14 @@ var viewModel = function () {
                 contentType: "application/json",
                 dataType: "json",
                 success: function (data) {
-                    var observableData = ko.mapping.fromJS(data);
-                    var array = observableData();
-                    self.gradesList(array);
+                    // var observableData = ko.mapping.fromJS(data);
+                    // var array = observableData();
+                    // self.gradesList(array);
+                    self.gradesList.removeAll();
+
+                    data.forEach(function (record) {
+                        self.gradesList.push(new ObservableObject(record));
+                    });
                 },
                 error: function (jq, st, error) {
                     alert(error);
@@ -46,6 +59,8 @@ var viewModel = function () {
             id: ko.observable()
         }
     };
+
+
 
     self.addNewStudent = function() {
         console.log(self.newStudent);
@@ -142,6 +157,21 @@ var viewModel = function () {
             self.newGrade.date("");
         });
     };
+
+    Object.keys(self.studentFilters).forEach(function (key) {
+        self.studentFilters[key].subscribe(function (val) {
+            // Disable auto delete from database
+            if (self.studentSubscription) {
+                self.studentSubscription.dispose();
+            }
+
+            // Clear list of students
+            self.students.removeAll();
+
+            // Load new data
+            loadStudents(self);
+        });
+    });
 }
 
 
@@ -152,19 +182,23 @@ $(document).ready(function(){
 });
 
 
-function studentsViewModel() {
+function studentsViewModel(filters) {
     var self = this;
+    var jsonData = ko.toJS(filters);
+    console.log("Filtry:");
+    console.log(jsonData);
+    if (jsonData.birthdate === "") {
+        delete jsonData.birthdate;
+    }
+
     self.studentsList = ko.observableArray();
     $.ajax({
         type: 'GET',
         url: URL + 'students',
         contentType: "application/json",
+        data: jsonData,
         dataType: "json",
         success: function (data) {
-            // var observableData = ko.mapping.fromJS(data);
-            // var array = observableData();
-            // self.studentsList(array);
-
             data.forEach(function (record) {
                 self.studentsList.push(new ObservableObject(record));
             });
@@ -192,6 +226,8 @@ function ObservableObject(data) {
     }).subscribe(function(res) {
         var resource = ko.mapping.fromJSON(res);
         console.log(resourceUrl(resource).substring(1));
+        console.log("Data to edit: ");
+        console.log(data);
         $.ajax({
             url: URL + resourceUrl(resource).substring(1),
             type: 'PUT',
@@ -231,7 +267,6 @@ function coursesViewModel(){
 
 //subskrybowanie - https://knockoutjs.com/documentation/observables.html#explicitly-subscribing-to-observables
 
-//edycja oceny
-    //edycja zeby przy dodawaniu bylo ObservableObject
+//edycja oceny - tylko kursu w ocenie
 
 //filtrowanie - ignorowanie wielkosci liter
