@@ -161,11 +161,13 @@ function studentsViewModel() {
         contentType: "application/json",
         dataType: "json",
         success: function (data) {
-            //console.log(data)
-            var observableData = ko.mapping.fromJS(data);
-            var array = observableData();
-            //console.log(array)
-            self.studentsList(array);
+            // var observableData = ko.mapping.fromJS(data);
+            // var array = observableData();
+            // self.studentsList(array);
+
+            data.forEach(function (record) {
+                self.studentsList.push(new ObservableObject(record));
+            });
         },
         error: function (jq, st, error) {
             alert(error);
@@ -189,8 +191,9 @@ function ObservableObject(data) {
         return ko.mapping.toJSON(self);
     }).subscribe(function(res) {
         var resource = ko.mapping.fromJSON(res);
+        console.log(resourceUrl(resource).substring(1));
         $.ajax({
-            url: resourceUrl(resource),
+            url: URL + resourceUrl(resource).substring(1),
             type: 'PUT',
             dataType : "json",
             contentType: "application/json",
@@ -228,10 +231,6 @@ function coursesViewModel(){
 
 //subskrybowanie - https://knockoutjs.com/documentation/observables.html#explicitly-subscribing-to-observables
 
-//edycja studenciaka
-    //edycja zeby przy dodawaniu bylo ObservableObject
-//edycja przedmiotu
-    //edycja zeby przy dodawaniu bylo ObservableObject
 //edycja oceny
     //edycja zeby przy dodawaniu bylo ObservableObject
 

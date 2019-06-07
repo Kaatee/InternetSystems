@@ -17,9 +17,14 @@ var viewModel = function () {
                 contentType: "application/json",
                 dataType: "json",
                 success: function (data) {
-                    var observableData = ko.mapping.fromJS(data);
-                    var array = observableData();
-                    self.gradesList(array);
+                    // var observableData = ko.mapping.fromJS(data);
+                    // var array = observableData();
+                    // self.gradesList(array);
+                    self.gradesList.removeAll();
+
+                    data.forEach(function (record) {
+                        self.gradesList.push(new ObservableObject(record));
+                    });
                 },
                 error: function (jq, st, error) {
                     alert(error);
@@ -192,6 +197,7 @@ function ObservableObject(data) {
     }).subscribe(function(res) {
         var resource = ko.mapping.fromJSON(res);
         console.log(resourceUrl(resource).substring(1));
+        console.log(data);
         $.ajax({
             url: URL + resourceUrl(resource).substring(1),
             type: 'PUT',
@@ -231,7 +237,6 @@ function coursesViewModel(){
 
 //subskrybowanie - https://knockoutjs.com/documentation/observables.html#explicitly-subscribing-to-observables
 
-//edycja oceny
-    //edycja zeby przy dodawaniu bylo ObservableObject
+//edycja oceny - tylko kursu w ocenie
 
 //filtrowanie - ignorowanie wielkosci liter

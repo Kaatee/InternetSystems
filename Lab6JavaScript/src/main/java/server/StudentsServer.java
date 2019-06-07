@@ -236,7 +236,7 @@ public class StudentsServer {
         Student studentFromDB = datastore.find(Student.class, "index", indexNumber).get();
 
         if (studentFromDB == null) {
-            return Response.status(404).type(Constants.PLAIN_TEXT).entity("Student with given index doesn't esists").build();
+            return Response.status(404).build();
         } else {
             try {
                 if (!student.getName().isEmpty())
@@ -257,7 +257,7 @@ public class StudentsServer {
             }
 
             datastore.save(studentFromDB);
-            return Response.status(201).type(Constants.PLAIN_TEXT).entity(Constants.EDITED_SUCCESSFULY).build();
+            return Response.status(201).build();
         }
     }
 
@@ -270,7 +270,7 @@ public class StudentsServer {
         Student student = datastore.find(Student.class, "index", indexNumber).get();
 
         if (student == null) {
-            return Response.status(404).type(Constants.PLAIN_TEXT).entity("Student with given index doesn't esists").build();
+            return Response.status(404).build();
         } else {
             for (int i=0; i< student.getGradesList().length; i++) {
                 if (student.getGradesList()[i].getId() == gradeID) {
@@ -280,10 +280,10 @@ public class StudentsServer {
                     if (grade.getDate()!=null)
                         student.getGradesList()[i].setDate(grade.getDate());
                     datastore.save(student);
-                    return Response.status(201).type(Constants.PLAIN_TEXT).entity(Constants.EDITED_SUCCESSFULY).build();
+                    return Response.status(201).entity(student.getGradesList()[i]).build();
                 }
             }
-            return Response.status(404).type(Constants.PLAIN_TEXT).entity("Student hasn't got grade with given index").build();
+            return Response.status(404).build();
         }
     }
 
